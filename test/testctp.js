@@ -3,14 +3,14 @@ const CTP = require('../lib/ctp');
 let ctp = new CTP(
     {
         frontend: {
-           	BrokerID: '4040',// 银河期货
-           	MdURL: 'tcp://180.166.103.21:55213',
-           	TdURL: 'tcp://180.166.103.21:55205'
+           	brokerId: '4040',// 银河期货
+           	mdUrl: 'tcp://180.166.103.21:55213',
+           	tdUrl: 'tcp://180.166.103.21:55205'
         }
     },
     {
-        InvestorID: '369868',
-        Password: 'iguzhi'
+        investorId: '369868',
+        password: 'iguzhi'
     }
 );
 
@@ -27,15 +27,15 @@ ctp.createMdApi();
 //     console.log(i)
 // };
 
-ctp.md.On('OnFrontConnected', function() {
-
+ctp.md.on('onFrontConnected', function() {
+    console.log('onFrontConnected')
     let { md, investor } = ctp;
-    console.log('ReqUserLogin : %s', md.ReqUserLogin(investor, ctp.nRequestID()));
+    console.log('ReqUserLogin : %s', md.reqUserLogin(investor, ctp.nRequestID()));
     console.log('OnFrontConnected');
-    console.log(ctp.md.SubscribeMarketData(['au1912'], 1));
+    console.log(ctp.md.subscribeMarketData(['T2012'], 1));
 });
 
-ctp.md.On('OnRtnDepthMarketData', function(data) {
+ctp.md.on('onRtnDepthMarketData', function(data) {
     console.log(data);
 })
 

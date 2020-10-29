@@ -1,10 +1,10 @@
 ﻿//*******************************************************************************
-//  *Copyright(C),2018, invesmart.cn                                             
-//  *FileName:  WrapTd.h                                                       
-//  *Author: 	dreamyzhang                                                      
-//  *Version:   v2.1                                                             
-//  *Date:  	2018-05-30                                                       
-//  *Description:  invoked by js                                                 
+//  *Copyright(C),2018, invesmart.cn
+//  *FileName:  WrapTd.h
+//  *Author: 	dreamyzhang
+//  *Version:   v2.1
+//  *Date:  	2018-05-30
+//  *Description:  invoked by js
 //*******************************************************************************
 
 #ifndef __WRAPTD_H__
@@ -495,7 +495,7 @@ namespace td
 
             ///银行发起变更银行账号通知
             virtual void MainOnRtnChangeAccountByBank(CThostFtdcChangeAccountField *pChangeAccount);
-            
+
             // TODO 穿透式监控新增响应接口
 
             /// 查询用户当前支持的认证模式的回复
@@ -509,7 +509,7 @@ namespace td
 
             /// 请求查询二级代理商信息响应
             virtual void MainOnRspQrySecAgentTradeInfo(CThostFtdcSecAgentTradeInfoField *pSecAgentTradeInfo, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
-            
+
             ///请求查询资金账户响应
             virtual void MainOnRspQrySecAgentTradingAccount(CThostFtdcTradingAccountField *pTradingAccount, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
@@ -529,28 +529,28 @@ namespace td
         private:
             typedef std::map<string, v8::Persistent<v8::Function> > __callback_type;
             typedef std::map<string, v8::Persistent<v8::Function> >::iterator  __callback_iter_type;
-        
+
             __callback_type callback_map; //回调js name映射回调处理函数
 
             static set<string>         m_event;                //可以注册的回调事件
             static v8::Persistent<v8::Function> constructor;           //主动请求函数映射js name
 
             static void New(const v8::FunctionCallbackInfo<v8::Value>& args);
-            v8::Local<v8::Value> PkgRspInfo(CThostFtdcRspInfoField *pRspInfo) 
+            v8::Local<v8::Value> PkgRspInfo(CThostFtdcRspInfoField *pRspInfo)
             {
                 v8::Isolate* isolate = v8::Isolate::GetCurrent();
-                if (pRspInfo != NULL) 
-                { 
+                if (pRspInfo != NULL)
+                {
                     //printf("-----%d %s--------\n", pRspInfo->ErrorID, pRspInfo->ErrorMsg);
-                    v8::Local<v8::Object> jsonInfo = v8::Object::New(isolate);                                       
-                    jsonInfo->Set(v8::String::NewFromUtf8(isolate, "ErrorID"), v8::Int32::New(isolate, pRspInfo->ErrorID));   
-                    jsonInfo->Set(v8::String::NewFromUtf8(isolate, "ErrorMsg"), v8::String::NewFromUtf8(isolate, CSFunction::GBK2UTF8(pRspInfo->ErrorMsg).c_str()));
-                    return jsonInfo; 
-                } 
+                    v8::Local<v8::Object> jsonInfo = v8::Object::New(isolate);
+                    jsonInfo->Set(v8::String::NewFromUtf8(isolate, "errorId"), v8::Int32::New(isolate, pRspInfo->ErrorID));
+                    jsonInfo->Set(v8::String::NewFromUtf8(isolate, "errorMsg"), v8::String::NewFromUtf8(isolate, CSFunction::GBK2UTF8(pRspInfo->ErrorMsg).c_str()));
+                    return jsonInfo;
+                }
                 else
                 {
-                    return  v8::Local<v8::Value>::New(isolate, v8::Undefined(isolate));                                       
-                }     
+                    return  v8::Local<v8::Value>::New(isolate, v8::Undefined(isolate));
+                }
             }
 
     };

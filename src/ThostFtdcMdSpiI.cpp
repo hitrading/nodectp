@@ -3,7 +3,7 @@
 ///@company 慧网基金
 ///@file ThostFtdcMdApiSpiI.cpp
 ///@brief 定义了ctp线程及回调
-///@history 
+///@history
 ///20160326	dreamyzhang		创建该文件
 /////////////////////////////////////////////////////////////////////////
 
@@ -25,7 +25,7 @@ CThostFtdcMdSpiI::CThostFtdcMdSpiI()
     }
 
     //m_pApi = CThostFtdcMdApi::CreateFtdcMdApi();
-    //m_pApi->RegisterSpi(this);         
+    //m_pApi->RegisterSpi(this);
 }
 
 CThostFtdcMdSpiI::~CThostFtdcMdSpiI()
@@ -35,13 +35,13 @@ CThostFtdcMdSpiI::~CThostFtdcMdSpiI()
         uv_close((uv_handle_t*) & ptask[i]->handle, on_uv_close_cb);
     }
     delete ptask;
-    
+
     m_pApi->RegisterSpi(NULL);
     m_pApi->Release();
     m_pApi = NULL;
 }
 
-void CThostFtdcMdSpiI::on_uv_close_cb(uv_handle_t* handle) 
+void CThostFtdcMdSpiI::on_uv_close_cb(uv_handle_t* handle)
 {
     delete (taskdata*)(((uv_async_t*)handle)->data);
 }
@@ -51,19 +51,19 @@ void CThostFtdcMdSpiI::on_async_cb(uv_async_t* handle)
     taskdata* task = (taskdata*)handle->data;
     //printf("on_async_cb api=%s\n", task->api.c_str());
     do{
-    if(task->api == "OnRtnDepthMarketData") { task->pmd->MainOnRtnDepthMarketData(&task->data.DepthMarketData); continue;}
-    else if(task->api == "OnRspQryMulticastInstrument") { task->pmd->MainOnRspQryMulticastInstrument(&task->data.MulticastInstrument, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
-    else if(task->api == "OnRtnForQuoteRsp") { task->pmd->MainOnRtnForQuoteRsp(&task->data.ForQuoteRsp); continue;}
-    else if(task->api == "OnFrontConnected") { task->pmd->MainOnFrontConnected(); continue;}
-    else if(task->api == "OnFrontDisconnected") { task->pmd->MainOnFrontDisconnected(task->data.nReason); continue;}
-    else if(task->api == "OnHeartBeatWarning") { task->pmd->MainOnHeartBeatWarning(task->data.nTimeLapse); continue;}
-    else if(task->api == "OnRspUserLogin") { task->pmd->MainOnRspUserLogin(&task->data.RspUserLogin, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
-    else if(task->api == "OnRspUserLogout") { task->pmd->MainOnRspUserLogout(&task->data.UserLogout, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
-    else if(task->api == "OnRspError") { task->pmd->MainOnRspError(&task->RspInfo, task->nRequestID, task->bIsLast); continue;}
-    else if(task->api == "OnRspSubMarketData") { task->pmd->MainOnRspSubMarketData(&task->data.SpecificInstrument, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
-    else if(task->api == "OnRspUnSubMarketData") { task->pmd->MainOnRspUnSubMarketData(&task->data.SpecificInstrument,&task->RspInfo, task->nRequestID, task->bIsLast); continue;}
-    else if(task->api == "OnRspSubForQuoteRsp") { task->pmd->MainOnRspSubForQuoteRsp(&task->data.SpecificInstrument, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
-    else if(task->api == "OnRspUnSubForQuoteRsp") { task->pmd->MainOnRspUnSubForQuoteRsp(&task->data.SpecificInstrument, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
+    if(task->api == "onRtnDepthMarketData") { task->pmd->MainOnRtnDepthMarketData(&task->data.DepthMarketData); continue;}
+    else if(task->api == "onRspQryMulticastInstrument") { task->pmd->MainOnRspQryMulticastInstrument(&task->data.MulticastInstrument, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
+    else if(task->api == "onRtnForQuoteRsp") { task->pmd->MainOnRtnForQuoteRsp(&task->data.ForQuoteRsp); continue;}
+    else if(task->api == "onFrontConnected") { task->pmd->MainOnFrontConnected(); continue;}
+    else if(task->api == "onFrontDisconnected") { task->pmd->MainOnFrontDisconnected(task->data.nReason); continue;}
+    else if(task->api == "onHeartBeatWarning") { task->pmd->MainOnHeartBeatWarning(task->data.nTimeLapse); continue;}
+    else if(task->api == "onRspUserLogin") { task->pmd->MainOnRspUserLogin(&task->data.RspUserLogin, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
+    else if(task->api == "onRspUserLogout") { task->pmd->MainOnRspUserLogout(&task->data.UserLogout, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
+    else if(task->api == "onRspError") { task->pmd->MainOnRspError(&task->RspInfo, task->nRequestID, task->bIsLast); continue;}
+    else if(task->api == "onRspSubMarketData") { task->pmd->MainOnRspSubMarketData(&task->data.SpecificInstrument, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
+    else if(task->api == "onRspUnSubMarketData") { task->pmd->MainOnRspUnSubMarketData(&task->data.SpecificInstrument,&task->RspInfo, task->nRequestID, task->bIsLast); continue;}
+    else if(task->api == "onRspSubForQuoteRsp") { task->pmd->MainOnRspSubForQuoteRsp(&task->data.SpecificInstrument, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
+    else if(task->api == "onRspUnSubForQuoteRsp") { task->pmd->MainOnRspUnSubForQuoteRsp(&task->data.SpecificInstrument, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
     else {printf("ERROR:%s _on_completed\n", task->api.c_str());}
     }while(0);
     //uv_close((uv_handle_t*)handle, on_uv_close_cb);
@@ -102,7 +102,7 @@ void CThostFtdcMdSpiI::OnHeartBeatWarning(int nTimeLapse)
     uv_async_send_s(&t->handle);
 }
 
-void CThostFtdcMdSpiI::OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) 
+void CThostFtdcMdSpiI::OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
     //taskdata* t = new taskdata(this);
     GET_TASK(_FUNCTION_);
@@ -114,7 +114,7 @@ void CThostFtdcMdSpiI::OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin
     uv_async_send_s(&t->handle);
 }
 
-void CThostFtdcMdSpiI::OnRspUserLogout(CThostFtdcUserLogoutField *pUserLogout, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) 
+void CThostFtdcMdSpiI::OnRspUserLogout(CThostFtdcUserLogoutField *pUserLogout, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
     //taskdata* t = new taskdata(this);
     GET_TASK(_FUNCTION_);
@@ -138,7 +138,7 @@ void CThostFtdcMdSpiI::OnRspQryMulticastInstrument(CThostFtdcMulticastInstrument
     uv_async_send_s(&t->handle);
 }
 
-void CThostFtdcMdSpiI::OnRspError(CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) 
+void CThostFtdcMdSpiI::OnRspError(CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
     //taskdata* t = new taskdata(this);
     GET_TASK(_FUNCTION_);
@@ -149,7 +149,7 @@ void CThostFtdcMdSpiI::OnRspError(CThostFtdcRspInfoField *pRspInfo, int nRequest
     uv_async_send_s(&t->handle);
 }
 
-void CThostFtdcMdSpiI::OnRspSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) 
+void CThostFtdcMdSpiI::OnRspSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
     //taskdata* t = new taskdata(this);
     GET_TASK(_FUNCTION_);
@@ -161,7 +161,7 @@ void CThostFtdcMdSpiI::OnRspSubMarketData(CThostFtdcSpecificInstrumentField *pSp
     uv_async_send_s(&t->handle);
 }
 
-void CThostFtdcMdSpiI::OnRspUnSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) 
+void CThostFtdcMdSpiI::OnRspUnSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
     //taskdata* t = new taskdata(this);
     GET_TASK(_FUNCTION_);
@@ -173,7 +173,7 @@ void CThostFtdcMdSpiI::OnRspUnSubMarketData(CThostFtdcSpecificInstrumentField *p
     uv_async_send_s(&t->handle);
 }
 
-void CThostFtdcMdSpiI::OnRspSubForQuoteRsp(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) 
+void CThostFtdcMdSpiI::OnRspSubForQuoteRsp(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
     //taskdata* t = new taskdata(this);
     GET_TASK(_FUNCTION_);
@@ -185,7 +185,7 @@ void CThostFtdcMdSpiI::OnRspSubForQuoteRsp(CThostFtdcSpecificInstrumentField *pS
     uv_async_send_s(&t->handle);
 }
 
-void CThostFtdcMdSpiI::OnRspUnSubForQuoteRsp(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) 
+void CThostFtdcMdSpiI::OnRspUnSubForQuoteRsp(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
     //taskdata* t = new taskdata(this);
     GET_TASK(_FUNCTION_);
@@ -195,9 +195,9 @@ void CThostFtdcMdSpiI::OnRspUnSubForQuoteRsp(CThostFtdcSpecificInstrumentField *
     t->bIsLast = bIsLast;
     //uv_queue_work(uv_default_loop(), &t->work, _on_async_queue, _on_completed);
     uv_async_send_s(&t->handle);
-}   
+}
 
-void CThostFtdcMdSpiI::OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMarketData) 
+void CThostFtdcMdSpiI::OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMarketData)
 {
     //taskdata* t = new taskdata(this);
     GET_TASK(_FUNCTION_);
@@ -206,7 +206,7 @@ void CThostFtdcMdSpiI::OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDep
     uv_async_send_s(&t->handle);
 }
 
-void CThostFtdcMdSpiI::OnRtnForQuoteRsp(CThostFtdcForQuoteRspField *pForQuoteRsp) 
+void CThostFtdcMdSpiI::OnRtnForQuoteRsp(CThostFtdcForQuoteRspField *pForQuoteRsp)
 {
     //taskdata* t = new taskdata(this);
     GET_TASK(_FUNCTION_);

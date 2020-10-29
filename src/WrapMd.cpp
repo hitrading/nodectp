@@ -3,7 +3,7 @@
 ///@company 慧网基金
 ///@file WrapMd.cpp
 ///@brief js回调接口
-///@history 
+///@history
 ///20160326	dreamyzhang		创建该文件
 /////////////////////////////////////////////////////////////////////////
 
@@ -45,7 +45,7 @@ WrapMd::~WrapMd()
 }
 
 
-void WrapMd::Init(Isolate* isolate) 
+void WrapMd::Init(Isolate* isolate)
 {
     //主动请求函数的映射
     // Prepare constructor template
@@ -54,39 +54,39 @@ void WrapMd::Init(Isolate* isolate)
     tpl->InstanceTemplate()->SetInternalFieldCount(1);
 
     // Prototype
-    NODE_SET_PROTOTYPE_METHOD(tpl, "Init", Init);
-    NODE_SET_PROTOTYPE_METHOD(tpl, "Release", Release);
-    NODE_SET_PROTOTYPE_METHOD(tpl, "Dispose", Dispose);
-    NODE_SET_PROTOTYPE_METHOD(tpl, "CreateFtdcMdApi", CreateFtdcMdApi);
-    NODE_SET_PROTOTYPE_METHOD(tpl, "GetApiVersion", GetApiVersion);
-    NODE_SET_PROTOTYPE_METHOD(tpl, "GetTradingDay", GetTradingDay);
-    NODE_SET_PROTOTYPE_METHOD(tpl, "RegisterFront"       , RegisterFront       );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "RegisterNameServer"  , RegisterNameServer  );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "RegisterFensUserInfo", RegisterFensUserInfo);
-    NODE_SET_PROTOTYPE_METHOD(tpl, "ReqUserLogin", ReqUserLogin);
-    NODE_SET_PROTOTYPE_METHOD(tpl, "ReqUserLogout", ReqUserLogout);
-    NODE_SET_PROTOTYPE_METHOD(tpl, "SubscribeMarketData", SubscribeMarketData);
-    NODE_SET_PROTOTYPE_METHOD(tpl, "UnSubscribeMarketData", UnSubscribeMarketData);
-    NODE_SET_PROTOTYPE_METHOD(tpl, "SubscribeForQuoteRsp", SubscribeForQuoteRsp);
-    NODE_SET_PROTOTYPE_METHOD(tpl, "UnSubscribeForQuoteRsp", UnSubscribeForQuoteRsp);
-    NODE_SET_PROTOTYPE_METHOD(tpl, "ReqQryMulticastInstrument", ReqQryMulticastInstrument);
-    NODE_SET_PROTOTYPE_METHOD(tpl, "On", On);
+    NODE_SET_PROTOTYPE_METHOD(tpl, "init", Init);
+    NODE_SET_PROTOTYPE_METHOD(tpl, "release", Release);
+    NODE_SET_PROTOTYPE_METHOD(tpl, "dispose", Dispose);
+    NODE_SET_PROTOTYPE_METHOD(tpl, "createFtdcMdApi", CreateFtdcMdApi);
+    NODE_SET_PROTOTYPE_METHOD(tpl, "getApiVersion", GetApiVersion);
+    NODE_SET_PROTOTYPE_METHOD(tpl, "getTradingDay", GetTradingDay);
+    NODE_SET_PROTOTYPE_METHOD(tpl, "registerFront"       , RegisterFront       );
+    NODE_SET_PROTOTYPE_METHOD(tpl, "registerNameServer"  , RegisterNameServer  );
+    NODE_SET_PROTOTYPE_METHOD(tpl, "registerFensUserInfo", RegisterFensUserInfo);
+    NODE_SET_PROTOTYPE_METHOD(tpl, "reqUserLogin", ReqUserLogin);
+    NODE_SET_PROTOTYPE_METHOD(tpl, "reqUserLogout", ReqUserLogout);
+    NODE_SET_PROTOTYPE_METHOD(tpl, "subscribeMarketData", SubscribeMarketData);
+    NODE_SET_PROTOTYPE_METHOD(tpl, "unSubscribeMarketData", UnSubscribeMarketData);
+    NODE_SET_PROTOTYPE_METHOD(tpl, "subscribeForQuoteRsp", SubscribeForQuoteRsp);
+    NODE_SET_PROTOTYPE_METHOD(tpl, "unSubscribeForQuoteRsp", UnSubscribeForQuoteRsp);
+    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryMulticastInstrument", ReqQryMulticastInstrument);
+    NODE_SET_PROTOTYPE_METHOD(tpl, "on", On);
     constructor.Reset(isolate, tpl->GetFunction());
 
     //注册回调函数的映射更新
-    m_event.insert("OnFrontConnected");
-    m_event.insert("OnFrontDisconnected");
-    m_event.insert("OnHeartBeatWarning");
-    m_event.insert("OnRspUserLogin");
-    m_event.insert("OnRspUserLogout");
-    m_event.insert("OnRspQryMulticastInstrument");
-    m_event.insert("OnRspError");
-    m_event.insert("OnRspSubMarketData");
-    m_event.insert("OnRspUnSubMarketData");
-    m_event.insert("OnRspSubForQuoteRsp");
-    m_event.insert("OnRspUnSubForQuoteRsp");
-    m_event.insert("OnRtnDepthMarketData");
-    m_event.insert("OnRtnForQuoteRsp");
+    m_event.insert("onFrontConnected");
+    m_event.insert("onFrontDisconnected");
+    m_event.insert("onHeartBeatWarning");
+    m_event.insert("onRspUserLogin");
+    m_event.insert("onRspUserLogout");
+    m_event.insert("onRspQryMulticastInstrument");
+    m_event.insert("onRspError");
+    m_event.insert("onRspSubMarketData");
+    m_event.insert("onRspUnSubMarketData");
+    m_event.insert("onRspSubForQuoteRsp");
+    m_event.insert("onRspUnSubForQuoteRsp");
+    m_event.insert("onRtnDepthMarketData");
+    m_event.insert("onRtnForQuoteRsp");
 
 }
 
@@ -124,7 +124,7 @@ void WrapMd::On(const FunctionCallbackInfo<Value>& args)
     Isolate* isolate = args.GetIsolate();
     WrapMd* obj = node::ObjectWrap::Unwrap<WrapMd>(args.Holder());
 
-    if (args[0]->IsUndefined() || args[1]->IsUndefined()) 
+    if (args[0]->IsUndefined() || args[1]->IsUndefined())
     {
         isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments->event name or function")));
         return;
@@ -137,7 +137,7 @@ void WrapMd::On(const FunctionCallbackInfo<Value>& args)
 
     String::Utf8Value eNameUtf8(eventName);
     std::set<string>::iterator eit = m_event.find(*eNameUtf8);
-    if (eit == m_event.end()) 
+    if (eit == m_event.end())
     {
         isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "System has no register this event")));
         return;
@@ -150,11 +150,11 @@ void WrapMd::On(const FunctionCallbackInfo<Value>& args)
     }
 
     obj->SetCallback(*eNameUtf8, cb, isolate);
-    
+
     args.GetReturnValue().Set(Number::New(isolate, 0));
 }
 
-void WrapMd::Init(const v8::FunctionCallbackInfo<v8::Value>& args)                     
+void WrapMd::Init(const v8::FunctionCallbackInfo<v8::Value>& args)
 {
     WrapMd* obj = node::ObjectWrap::Unwrap<WrapMd>(args.Holder());
     Isolate* isolate = args.GetIsolate();
@@ -162,7 +162,7 @@ void WrapMd::Init(const v8::FunctionCallbackInfo<v8::Value>& args)
     args.GetReturnValue().Set(Undefined(isolate));
 }
 
-void WrapMd::Release(const v8::FunctionCallbackInfo<v8::Value>& args)                     
+void WrapMd::Release(const v8::FunctionCallbackInfo<v8::Value>& args)
 {
     WrapMd* obj = node::ObjectWrap::Unwrap<WrapMd>(args.Holder());
     Isolate* isolate = args.GetIsolate();
@@ -170,7 +170,7 @@ void WrapMd::Release(const v8::FunctionCallbackInfo<v8::Value>& args)
     args.GetReturnValue().Set(Undefined(isolate));
 }
 
-void WrapMd::Dispose(const v8::FunctionCallbackInfo<v8::Value>& args)                     
+void WrapMd::Dispose(const v8::FunctionCallbackInfo<v8::Value>& args)
 {
     WrapMd* obj = node::ObjectWrap::Unwrap<WrapMd>(args.Holder());
     Isolate* isolate = args.GetIsolate();
@@ -178,7 +178,7 @@ void WrapMd::Dispose(const v8::FunctionCallbackInfo<v8::Value>& args)
     args.GetReturnValue().Set(Undefined(isolate));
 }
 
-void WrapMd::CreateFtdcMdApi(const v8::FunctionCallbackInfo<v8::Value>& args)                     
+void WrapMd::CreateFtdcMdApi(const v8::FunctionCallbackInfo<v8::Value>& args)
 {
     WrapMd* obj = node::ObjectWrap::Unwrap<WrapMd>(args.Holder());
     Isolate* isolate = args.GetIsolate();
@@ -191,7 +191,7 @@ void WrapMd::CreateFtdcMdApi(const v8::FunctionCallbackInfo<v8::Value>& args)
 
 
     CThostFtdcMdApi* m_pApi = CThostFtdcMdApi::CreateFtdcMdApi((char*)*p);
-    
+
     obj->setMdApi(m_pApi);
     obj->RegisterSpi();
     args.GetReturnValue().Set(Undefined(isolate));
@@ -270,10 +270,10 @@ void WrapMd::RegisterFensUserInfo(const FunctionCallbackInfo<Value>& args)
     Local<Object> objjs = args[0]->ToObject();\
     CSFunction::set_struct(objjs, &req);\
     int reqid = args[1]->Int32Value();
-    
+
 void WrapMd::ReqUserLogin(const FunctionCallbackInfo<Value>& args)
 {
-    CThostFtdcReqUserLoginField req;                          
+    CThostFtdcReqUserLoginField req;
     REQ_WITH_REQID(req);
     int r = obj->GetMdApi()->ReqUserLogin(&req, reqid);
     args.GetReturnValue().Set(Int32::New(isolate, r));
@@ -299,24 +299,24 @@ void WrapMd::SubscribeMarketData(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
     WrapMd* obj = node::ObjectWrap::Unwrap<WrapMd>(args.Holder());
-    if (args[0]->IsUndefined() || !args[0]->IsArray()) 
-    {                                           
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments"))); 
+    if (args[0]->IsUndefined() || !args[0]->IsArray())
+    {
+        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
         return;
-    }                                                                                              
-    Local<v8::Array> instrumentIDs = Local<v8::Array>::Cast(args[0]); 
+    }
+    Local<v8::Array> instrumentIDs = Local<v8::Array>::Cast(args[0]);
     char** idArray = new char*[instrumentIDs->Length()];
-    for (uint32_t i = 0; i < instrumentIDs->Length(); i++) 
-    {                                       
-        Local<String> instrumentId = instrumentIDs->Get(i)->ToString(); 
+    for (uint32_t i = 0; i < instrumentIDs->Length(); i++)
+    {
+        Local<String> instrumentId = instrumentIDs->Get(i)->ToString();
         String::Utf8Value idUtf8(instrumentId);
         idArray[i] = new char[instrumentId->Length() + 1];
         memset(idArray[i], 0, instrumentId->Length()+1);
-        strncpy(idArray[i], (char*)*idUtf8, instrumentId->Length()); 
+        strncpy(idArray[i], (char*)*idUtf8, instrumentId->Length());
     }
 
     int r = obj->GetMdApi()->SubscribeMarketData(idArray, instrumentIDs->Length());
-    delete idArray;          
+    delete idArray;
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
@@ -324,25 +324,25 @@ void WrapMd::UnSubscribeMarketData(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
     WrapMd* obj = node::ObjectWrap::Unwrap<WrapMd>(args.Holder());
-    if (args[0]->IsUndefined() || !args[0]->IsArray()) 
-    {                                           
+    if (args[0]->IsUndefined() || !args[0]->IsArray())
+    {
         isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
         return;
-    }                                                                                              
+    }
 
-    Local<v8::Array> instrumentIDs = Local<v8::Array>::Cast(args[0]);                              
-    char** idArray = new char*[instrumentIDs->Length()];                                           
+    Local<v8::Array> instrumentIDs = Local<v8::Array>::Cast(args[0]);
+    char** idArray = new char*[instrumentIDs->Length()];
 
-    for (uint32_t i = 0; i < instrumentIDs->Length(); i++) 
-    {                                       
-        Local<String> instrumentId = instrumentIDs->Get(i)->ToString();                            
-        String::Utf8Value idUtf8(instrumentId);                                                  
-        char* id = new char[instrumentId->Length() + 1];                                           
-        strcpy(id, (char*)*idUtf8);                                                                      
-        idArray[i] = id;                                                                           
-    }                                                                                              
+    for (uint32_t i = 0; i < instrumentIDs->Length(); i++)
+    {
+        Local<String> instrumentId = instrumentIDs->Get(i)->ToString();
+        String::Utf8Value idUtf8(instrumentId);
+        char* id = new char[instrumentId->Length() + 1];
+        strcpy(id, (char*)*idUtf8);
+        idArray[i] = id;
+    }
     int r = obj->GetMdApi()->UnSubscribeMarketData(idArray, instrumentIDs->Length());
-    delete idArray;                                                                                
+    delete idArray;
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
@@ -350,24 +350,24 @@ void WrapMd::SubscribeForQuoteRsp(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
     WrapMd* obj = node::ObjectWrap::Unwrap<WrapMd>(args.Holder());
-    if (args[0]->IsUndefined() || !args[0]->IsArray()) 
-    {                                           
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments"))); 
+    if (args[0]->IsUndefined() || !args[0]->IsArray())
+    {
+        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
         return;
-    }                                                                                              
-    Local<v8::Array> instrumentIDs = Local<v8::Array>::Cast(args[0]); 
+    }
+    Local<v8::Array> instrumentIDs = Local<v8::Array>::Cast(args[0]);
     char** idArray = new char*[instrumentIDs->Length()];
-    for (uint32_t i = 0; i < instrumentIDs->Length(); i++) 
-    {                                       
-        Local<String> instrumentId = instrumentIDs->Get(i)->ToString(); 
+    for (uint32_t i = 0; i < instrumentIDs->Length(); i++)
+    {
+        Local<String> instrumentId = instrumentIDs->Get(i)->ToString();
         String::Utf8Value idUtf8(instrumentId);
         idArray[i] = new char[instrumentId->Length() + 1];
         memset(idArray[i], 0, instrumentId->Length()+1);
-        strncpy(idArray[i], (char*)*idUtf8, instrumentId->Length()); 
+        strncpy(idArray[i], (char*)*idUtf8, instrumentId->Length());
     }
 
     int r = obj->GetMdApi()->SubscribeForQuoteRsp(idArray, instrumentIDs->Length());
-    delete idArray;          
+    delete idArray;
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
@@ -375,25 +375,25 @@ void WrapMd::UnSubscribeForQuoteRsp(const FunctionCallbackInfo<Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
     WrapMd* obj = node::ObjectWrap::Unwrap<WrapMd>(args.Holder());
-    if (args[0]->IsUndefined() || !args[0]->IsArray()) 
-    {                                           
+    if (args[0]->IsUndefined() || !args[0]->IsArray())
+    {
         isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
         return;
-    }                                                                                              
+    }
 
-    Local<v8::Array> instrumentIDs = Local<v8::Array>::Cast(args[0]);                              
-    char** idArray = new char*[instrumentIDs->Length()];                                           
+    Local<v8::Array> instrumentIDs = Local<v8::Array>::Cast(args[0]);
+    char** idArray = new char*[instrumentIDs->Length()];
 
-    for (uint32_t i = 0; i < instrumentIDs->Length(); i++) 
-    {                                       
-        Local<String> instrumentId = instrumentIDs->Get(i)->ToString();                            
-        String::Utf8Value idUtf8(instrumentId);                                                  
-        char* id = new char[instrumentId->Length() + 1];                                           
-        strcpy(id, (char*)*idUtf8);                                                                      
-        idArray[i] = id;                                                                           
-    }                                                                                              
+    for (uint32_t i = 0; i < instrumentIDs->Length(); i++)
+    {
+        Local<String> instrumentId = instrumentIDs->Get(i)->ToString();
+        String::Utf8Value idUtf8(instrumentId);
+        char* id = new char[instrumentId->Length() + 1];
+        strcpy(id, (char*)*idUtf8);
+        idArray[i] = id;
+    }
     int r = obj->GetMdApi()->UnSubscribeForQuoteRsp(idArray, instrumentIDs->Length());
-    delete idArray;                                                                                
+    delete idArray;
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
@@ -404,7 +404,7 @@ void WrapMd::MainOnFrontConnected()
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("OnFrontConnected");            
+    __callback_iter_type it = callback_map.find("onFrontConnected");
     if(it == callback_map.end()) return;
 
     Local<Function> cb = Local<Function>::New(isolate, it->second);
@@ -416,13 +416,13 @@ void WrapMd::MainOnFrontDisconnected(int nReason)
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-   __callback_iter_type it = callback_map.find("OnFrontDisconnected");
+   __callback_iter_type it = callback_map.find("onFrontDisconnected");
     if(it == callback_map.end()) return;
 
-    Local<Value> argv[1] = { Local<Value>::New(isolate, Int32::New(isolate, nReason)) };    
+    Local<Value> argv[1] = { Local<Value>::New(isolate, Int32::New(isolate, nReason)) };
 
     Local<Function> cb = Local<Function>::New(isolate, it->second);
-    cb->Call(Null(isolate), 1, argv);  
+    cb->Call(Null(isolate), 1, argv);
 }
 
 void WrapMd::MainOnHeartBeatWarning(int nTimeLapse)
@@ -430,142 +430,142 @@ void WrapMd::MainOnHeartBeatWarning(int nTimeLapse)
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("OnHeartBeatWarning");
+    __callback_iter_type it = callback_map.find("onHeartBeatWarning");
     if(it == callback_map.end()) return;
 
-    Local<Value> argv[1] = { Local<Value>::New(isolate, Int32::New(isolate, nTimeLapse)) };    
+    Local<Value> argv[1] = { Local<Value>::New(isolate, Int32::New(isolate, nTimeLapse)) };
 
     Local<Function> cb = Local<Function>::New(isolate, it->second);
-    cb->Call(Null(isolate), 1, argv);  
+    cb->Call(Null(isolate), 1, argv);
 }
 
-void WrapMd::MainOnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) 
+void WrapMd::MainOnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("OnRspUserLogin");
+    __callback_iter_type it = callback_map.find("onRspUserLogin");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[4];
     if(pRspUserLogin != NULL)
     {
-        Local<Object> jsonRtn = Object::New(isolate);                                                  
-        jsonRtn->Set(String::NewFromUtf8(isolate, "TradingDay"), String::NewFromUtf8(isolate, pRspUserLogin->TradingDay));  
-        jsonRtn->Set(String::NewFromUtf8(isolate, "LoginTime"), String::NewFromUtf8(isolate, pRspUserLogin->LoginTime));    
-        jsonRtn->Set(String::NewFromUtf8(isolate, "BrokerID"), String::NewFromUtf8(isolate, pRspUserLogin->BrokerID));      
-        jsonRtn->Set(String::NewFromUtf8(isolate, "UserID"), String::NewFromUtf8(isolate, pRspUserLogin->UserID));          
-        jsonRtn->Set(String::NewFromUtf8(isolate, "SystemName"), String::NewFromUtf8(isolate, pRspUserLogin->SystemName));  
-        jsonRtn->Set(String::NewFromUtf8(isolate, "FrontID"), Int32::New(isolate, pRspUserLogin->FrontID));         
-        jsonRtn->Set(String::NewFromUtf8(isolate, "SessionID"), Int32::New(isolate, pRspUserLogin->SessionID));     
-        jsonRtn->Set(String::NewFromUtf8(isolate, "MaxOrderRef"), String::NewFromUtf8(isolate, pRspUserLogin->MaxOrderRef));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "SHFETime"), String::NewFromUtf8(isolate, pRspUserLogin->SHFETime));      
-        jsonRtn->Set(String::NewFromUtf8(isolate, "DCETime"), String::NewFromUtf8(isolate, pRspUserLogin->DCETime));        
-        jsonRtn->Set(String::NewFromUtf8(isolate, "CZCETime"), String::NewFromUtf8(isolate, pRspUserLogin->CZCETime));      
-        jsonRtn->Set(String::NewFromUtf8(isolate, "FFEXTime"), String::NewFromUtf8(isolate, pRspUserLogin->FFEXTime));      
-        jsonRtn->Set(String::NewFromUtf8(isolate, "INETime"), String::NewFromUtf8(isolate, pRspUserLogin->INETime));        
+        Local<Object> jsonRtn = Object::New(isolate);
+        jsonRtn->Set(String::NewFromUtf8(isolate, "tradingDay"), String::NewFromUtf8(isolate, pRspUserLogin->TradingDay));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "loginTime"), String::NewFromUtf8(isolate, pRspUserLogin->LoginTime));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "brokerId"), String::NewFromUtf8(isolate, pRspUserLogin->BrokerID));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "userId"), String::NewFromUtf8(isolate, pRspUserLogin->UserID));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "systemName"), String::NewFromUtf8(isolate, pRspUserLogin->SystemName));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "frontId"), Int32::New(isolate, pRspUserLogin->FrontID));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "sessionId"), Int32::New(isolate, pRspUserLogin->SessionID));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "maxOrderRef"), String::NewFromUtf8(isolate, pRspUserLogin->MaxOrderRef));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "shfeTime"), String::NewFromUtf8(isolate, pRspUserLogin->SHFETime));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "dceTime"), String::NewFromUtf8(isolate, pRspUserLogin->DCETime));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "czceTime"), String::NewFromUtf8(isolate, pRspUserLogin->CZCETime));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "ffexTime"), String::NewFromUtf8(isolate, pRspUserLogin->FFEXTime));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "ineTime"), String::NewFromUtf8(isolate, pRspUserLogin->INETime));
         argv[0] = jsonRtn;
     }
     else
     {
         argv[0] = Local<Value>::New(isolate, Undefined(isolate));
     }
-    argv[1] = PkgRspInfo(pRspInfo); 
+    argv[1] = PkgRspInfo(pRspInfo);
     argv[2] = Local<Value>::New(isolate, Int32::New(isolate, nRequestID));
 
     argv[3] = Boolean::New(isolate, bIsLast)->ToBoolean();
 
     Local<Function> cb = Local<Function>::New(isolate, it->second);
-    cb->Call(Null(isolate), 4, argv);  
+    cb->Call(Null(isolate), 4, argv);
 }
 
-void WrapMd::MainOnRspUserLogout(CThostFtdcUserLogoutField *pUserLogout, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) 
+void WrapMd::MainOnRspUserLogout(CThostFtdcUserLogoutField *pUserLogout, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("OnRspUserLogout");
+    __callback_iter_type it = callback_map.find("onRspUserLogout");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[4];
     if(pUserLogout != NULL)
     {
         Local<Object> jsonRtn = Object::New(isolate);
-        jsonRtn->Set(String::NewFromUtf8(isolate, "BrokerID"), String::NewFromUtf8(isolate, pUserLogout->BrokerID));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "UserID"), String::NewFromUtf8(isolate, pUserLogout->UserID));   
+        jsonRtn->Set(String::NewFromUtf8(isolate, "brokerId"), String::NewFromUtf8(isolate, pUserLogout->BrokerID));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "userId"), String::NewFromUtf8(isolate, pUserLogout->UserID));
         argv[0] = jsonRtn;
     }
     else
     {
         argv[0] = Local<Value>::New(isolate, Undefined(isolate));
     }
-    argv[1] = PkgRspInfo(pRspInfo); 
+    argv[1] = PkgRspInfo(pRspInfo);
     argv[2] = Local<Value>::New(isolate, Int32::New(isolate, nRequestID));
 
     argv[3] = Boolean::New(isolate, bIsLast)->ToBoolean();
 
     Local<Function> cb = Local<Function>::New(isolate, it->second);
-    cb->Call(Null(isolate), 4, argv);  
+    cb->Call(Null(isolate), 4, argv);
 }
 
-void WrapMd::MainOnRspError(CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) 
+void WrapMd::MainOnRspError(CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("OnRspError");
+    __callback_iter_type it = callback_map.find("onRspError");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[3];
-    argv[0] = PkgRspInfo(pRspInfo); 
+    argv[0] = PkgRspInfo(pRspInfo);
     argv[1] = Local<Value>::New(isolate, Int32::New(isolate, nRequestID));
     argv[2] = Boolean::New(isolate, bIsLast)->ToBoolean();
 
     Local<Function> cb = Local<Function>::New(isolate, it->second);
-    cb->Call(Null(isolate), 3, argv);  
+    cb->Call(Null(isolate), 3, argv);
 }
 
-void WrapMd::MainOnRspSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) 
+void WrapMd::MainOnRspSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("OnRspSubMarketData");
+    __callback_iter_type it = callback_map.find("onRspSubMarketData");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[4];
     if(pSpecificInstrument != NULL)
     {
         Local<Object> jsonRtn = Object::New(isolate);
-        jsonRtn->Set(String::NewFromUtf8(isolate, "InstrumentID"), String::NewFromUtf8(isolate, pSpecificInstrument->InstrumentID));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "instrumentId"), String::NewFromUtf8(isolate, pSpecificInstrument->InstrumentID));
         argv[0] = jsonRtn;
     }
     else
     {
         argv[0] = Local<Value>::New(isolate, Undefined(isolate));
     }
-    argv[1] = PkgRspInfo(pRspInfo); 
+    argv[1] = PkgRspInfo(pRspInfo);
     argv[2] = Local<Value>::New(isolate, Int32::New(isolate, nRequestID));
 
     argv[3] = Boolean::New(isolate, bIsLast)->ToBoolean();
 
     Local<Function> cb = Local<Function>::New(isolate, it->second);
-    cb->Call(Null(isolate), 4, argv);  
+    cb->Call(Null(isolate), 4, argv);
 }
 
-void WrapMd::MainOnRspUnSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) 
+void WrapMd::MainOnRspUnSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("OnRspUnSubMarketData");
+    __callback_iter_type it = callback_map.find("onRspUnSubMarketData");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[4];
     if(pSpecificInstrument != NULL)
     {
         Local<Object> jsonRtn = Object::New(isolate);
-        jsonRtn->Set(String::NewFromUtf8(isolate, "InstrumentID"), String::NewFromUtf8(isolate, pSpecificInstrument->InstrumentID));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "instrumentId"), String::NewFromUtf8(isolate, pSpecificInstrument->InstrumentID));
         argv[0] = jsonRtn;
     }
     else
@@ -577,22 +577,22 @@ void WrapMd::MainOnRspUnSubMarketData(CThostFtdcSpecificInstrumentField *pSpecif
     argv[3] = Boolean::New(isolate, bIsLast)->ToBoolean();
 
     Local<Function> cb = Local<Function>::New(isolate, it->second);
-    cb->Call(Null(isolate), 4, argv);  
+    cb->Call(Null(isolate), 4, argv);
 }
 
-void WrapMd::MainOnRspSubForQuoteRsp(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) 
+void WrapMd::MainOnRspSubForQuoteRsp(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("OnRspSubForQuoteRsp");
+    __callback_iter_type it = callback_map.find("onRspSubForQuoteRsp");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[4];
     if(pSpecificInstrument != NULL)
     {
         Local<Object> jsonRtn = Object::New(isolate);
-        jsonRtn->Set(String::NewFromUtf8(isolate, "InstrumentID"), String::NewFromUtf8(isolate, pSpecificInstrument->InstrumentID));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "instrumentId"), String::NewFromUtf8(isolate, pSpecificInstrument->InstrumentID));
         argv[0] = jsonRtn;
     }
     else
@@ -604,22 +604,22 @@ void WrapMd::MainOnRspSubForQuoteRsp(CThostFtdcSpecificInstrumentField *pSpecifi
     argv[3] = Boolean::New(isolate, bIsLast)->ToBoolean();
 
     Local<Function> cb = Local<Function>::New(isolate, it->second);
-    cb->Call(Null(isolate), 4, argv);  
+    cb->Call(Null(isolate), 4, argv);
 }
 
-void WrapMd::MainOnRspUnSubForQuoteRsp(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) 
+void WrapMd::MainOnRspUnSubForQuoteRsp(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("OnRspUnSubForQuoteRsp");
+    __callback_iter_type it = callback_map.find("onRspUnSubForQuoteRsp");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[4];
     if(pSpecificInstrument != NULL)
     {
         Local<Object> jsonRtn = Object::New(isolate);
-        jsonRtn->Set(String::NewFromUtf8(isolate, "InstrumentID"), String::NewFromUtf8(isolate, pSpecificInstrument->InstrumentID));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "instrumentId"), String::NewFromUtf8(isolate, pSpecificInstrument->InstrumentID));
         argv[0] = jsonRtn;
     }
     else
@@ -631,66 +631,66 @@ void WrapMd::MainOnRspUnSubForQuoteRsp(CThostFtdcSpecificInstrumentField *pSpeci
     argv[3] = Boolean::New(isolate, bIsLast)->ToBoolean();
 
     Local<Function> cb = Local<Function>::New(isolate, it->second);
-    cb->Call(Null(isolate), 4, argv);  
+    cb->Call(Null(isolate), 4, argv);
 }
 
 
-void WrapMd::MainOnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMarketData) 
+void WrapMd::MainOnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMarketData)
 {
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("OnRtnDepthMarketData");
+    __callback_iter_type it = callback_map.find("onRtnDepthMarketData");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[1];
     if(pDepthMarketData != NULL)
     {
         Local<Object> jsonRtn = Object::New(isolate);
-        jsonRtn->Set(String::NewFromUtf8(isolate, "TradingDay"), String::NewFromUtf8(isolate, pDepthMarketData->TradingDay));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "InstrumentID"), String::NewFromUtf8(isolate, pDepthMarketData->InstrumentID));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "ExchangeID"), String::NewFromUtf8(isolate, pDepthMarketData->ExchangeID));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "ExchangeInstID"), String::NewFromUtf8(isolate, pDepthMarketData->ExchangeInstID));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "LastPrice"), Number::New(isolate, pDepthMarketData->LastPrice));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "PreSettlementPrice"), Number::New(isolate, pDepthMarketData->PreSettlementPrice));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "PreClosePrice"), Number::New(isolate, pDepthMarketData->PreClosePrice));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "PreOpenInterest"), Number::New(isolate, pDepthMarketData->PreOpenInterest));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "OpenPrice"), Number::New(isolate, pDepthMarketData->OpenPrice));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "HighestPrice"), Number::New(isolate, pDepthMarketData->HighestPrice));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "LowestPrice"), Number::New(isolate, pDepthMarketData->LowestPrice));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "Volume"), Int32::New(isolate, pDepthMarketData->Volume));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "Turnover"), Number::New(isolate, pDepthMarketData->Turnover));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "OpenInterest"), Number::New(isolate, pDepthMarketData->OpenInterest));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "ClosePrice"), Number::New(isolate, pDepthMarketData->ClosePrice));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "SettlementPrice"), Number::New(isolate, pDepthMarketData->SettlementPrice));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "UpperLimitPrice"), Number::New(isolate, pDepthMarketData->UpperLimitPrice));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "LowerLimitPrice"), Number::New(isolate, pDepthMarketData->LowerLimitPrice));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "PreDelta"), Number::New(isolate, pDepthMarketData->PreDelta));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "CurrDelta"), Number::New(isolate, pDepthMarketData->CurrDelta));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "UpdateTime"), String::NewFromUtf8(isolate, pDepthMarketData->UpdateTime));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "UpdateMillisec"), Int32::New(isolate, pDepthMarketData->UpdateMillisec));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "BidPrice1"), Number::New(isolate, pDepthMarketData->BidPrice1));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "BidVolume1"), Number::New(isolate, pDepthMarketData->BidVolume1));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "AskPrice1"), Number::New(isolate, pDepthMarketData->AskPrice1));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "AskVolume1"), Number::New(isolate, pDepthMarketData->AskVolume1));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "BidPrice2"), Number::New(isolate, pDepthMarketData->BidPrice2));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "BidVolume2"), Number::New(isolate, pDepthMarketData->BidVolume2));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "AskPrice2"), Number::New(isolate, pDepthMarketData->AskPrice2));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "AskVolume2"), Number::New(isolate, pDepthMarketData->AskVolume2));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "BidPrice3"), Number::New(isolate, pDepthMarketData->BidPrice3));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "BidVolume3"), Number::New(isolate, pDepthMarketData->BidVolume3));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "AskPrice3"), Number::New(isolate, pDepthMarketData->AskPrice3));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "AskVolume3"), Number::New(isolate, pDepthMarketData->AskVolume3));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "BidPrice4"), Number::New(isolate, pDepthMarketData->BidPrice4));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "BidVolume4"), Number::New(isolate, pDepthMarketData->BidVolume4));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "AskPrice4"), Number::New(isolate, pDepthMarketData->AskPrice4));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "AskVolume4"), Number::New(isolate, pDepthMarketData->AskVolume4));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "BidPrice5"), Number::New(isolate, pDepthMarketData->BidPrice5));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "BidVolume5"), Number::New(isolate, pDepthMarketData->BidVolume5));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "AskPrice5"), Number::New(isolate, pDepthMarketData->AskPrice5));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "AskVolume5"), Number::New(isolate, pDepthMarketData->AskVolume5));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "AveragePrice"), Number::New(isolate, pDepthMarketData->AveragePrice));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "ActionDay"), String::NewFromUtf8(isolate, pDepthMarketData->ActionDay));	   	
+        jsonRtn->Set(String::NewFromUtf8(isolate, "tradingDay"), String::NewFromUtf8(isolate, pDepthMarketData->TradingDay));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "instrumentId"), String::NewFromUtf8(isolate, pDepthMarketData->InstrumentID));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "exchangeId"), String::NewFromUtf8(isolate, pDepthMarketData->ExchangeID));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "exchangeInstId"), String::NewFromUtf8(isolate, pDepthMarketData->ExchangeInstID));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "lastPrice"), Number::New(isolate, pDepthMarketData->LastPrice));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "preSettlementPrice"), Number::New(isolate, pDepthMarketData->PreSettlementPrice));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "preClosePrice"), Number::New(isolate, pDepthMarketData->PreClosePrice));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "preOpenInterest"), Number::New(isolate, pDepthMarketData->PreOpenInterest));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "openPrice"), Number::New(isolate, pDepthMarketData->OpenPrice));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "highestPrice"), Number::New(isolate, pDepthMarketData->HighestPrice));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "lowestPrice"), Number::New(isolate, pDepthMarketData->LowestPrice));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "volume"), Int32::New(isolate, pDepthMarketData->Volume));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "turnover"), Number::New(isolate, pDepthMarketData->Turnover));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "openInterest"), Number::New(isolate, pDepthMarketData->OpenInterest));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "closePrice"), Number::New(isolate, pDepthMarketData->ClosePrice));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "settlementPrice"), Number::New(isolate, pDepthMarketData->SettlementPrice));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "upperLimitPrice"), Number::New(isolate, pDepthMarketData->UpperLimitPrice));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "lowerLimitPrice"), Number::New(isolate, pDepthMarketData->LowerLimitPrice));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "preDelta"), Number::New(isolate, pDepthMarketData->PreDelta));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "currDelta"), Number::New(isolate, pDepthMarketData->CurrDelta));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "updateTime"), String::NewFromUtf8(isolate, pDepthMarketData->UpdateTime));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "updateMillisec"), Int32::New(isolate, pDepthMarketData->UpdateMillisec));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "bidPrice1"), Number::New(isolate, pDepthMarketData->BidPrice1));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "bidVolume1"), Number::New(isolate, pDepthMarketData->BidVolume1));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "askPrice1"), Number::New(isolate, pDepthMarketData->AskPrice1));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "askVolume1"), Number::New(isolate, pDepthMarketData->AskVolume1));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "bidPrice2"), Number::New(isolate, pDepthMarketData->BidPrice2));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "bidVolume2"), Number::New(isolate, pDepthMarketData->BidVolume2));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "askPrice2"), Number::New(isolate, pDepthMarketData->AskPrice2));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "askVolume2"), Number::New(isolate, pDepthMarketData->AskVolume2));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "bidPrice3"), Number::New(isolate, pDepthMarketData->BidPrice3));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "bidVolume3"), Number::New(isolate, pDepthMarketData->BidVolume3));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "askPrice3"), Number::New(isolate, pDepthMarketData->AskPrice3));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "askVolume3"), Number::New(isolate, pDepthMarketData->AskVolume3));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "bidPrice4"), Number::New(isolate, pDepthMarketData->BidPrice4));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "bidVolume4"), Number::New(isolate, pDepthMarketData->BidVolume4));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "askPrice4"), Number::New(isolate, pDepthMarketData->AskPrice4));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "askVolume4"), Number::New(isolate, pDepthMarketData->AskVolume4));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "bidPrice5"), Number::New(isolate, pDepthMarketData->BidPrice5));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "bidVolume5"), Number::New(isolate, pDepthMarketData->BidVolume5));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "askPrice5"), Number::New(isolate, pDepthMarketData->AskPrice5));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "askVolume5"), Number::New(isolate, pDepthMarketData->AskVolume5));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "averagePrice"), Number::New(isolate, pDepthMarketData->AveragePrice));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "actionDay"), String::NewFromUtf8(isolate, pDepthMarketData->ActionDay));
         argv[0] = jsonRtn;
     }
     else
@@ -699,27 +699,27 @@ void WrapMd::MainOnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMark
     }
 
     Local<Function> cb = Local<Function>::New(isolate, it->second);
-    cb->Call(Null(isolate), 1, argv);  
+    cb->Call(Null(isolate), 1, argv);
 }
 
-void WrapMd::MainOnRtnForQuoteRsp(CThostFtdcForQuoteRspField *pForQuoteRsp) 
+void WrapMd::MainOnRtnForQuoteRsp(CThostFtdcForQuoteRspField *pForQuoteRsp)
 {
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("OnRtnForQuoteRsp");
+    __callback_iter_type it = callback_map.find("onRtnForQuoteRsp");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[1];
     if(pForQuoteRsp != NULL)
     {
         Local<Object> jsonRtn = Object::New(isolate);
-        jsonRtn->Set(String::NewFromUtf8(isolate, "TradingDay"), String::NewFromUtf8(isolate, pForQuoteRsp->TradingDay));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "InstrumentID"), String::NewFromUtf8(isolate, pForQuoteRsp->InstrumentID));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "ForQuoteSysID"), String::NewFromUtf8(isolate, pForQuoteRsp->ForQuoteSysID));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "ForQuoteTime"), String::NewFromUtf8(isolate, pForQuoteRsp->ForQuoteTime));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "ActionDay"), String::NewFromUtf8(isolate, pForQuoteRsp->ActionDay));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "ExchangeID"), String::NewFromUtf8(isolate, pForQuoteRsp->ExchangeID));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "tradingDay"), String::NewFromUtf8(isolate, pForQuoteRsp->TradingDay));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "instrumentId"), String::NewFromUtf8(isolate, pForQuoteRsp->InstrumentID));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "forQuoteSysId"), String::NewFromUtf8(isolate, pForQuoteRsp->ForQuoteSysID));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "forQuoteTime"), String::NewFromUtf8(isolate, pForQuoteRsp->ForQuoteTime));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "actionDay"), String::NewFromUtf8(isolate, pForQuoteRsp->ActionDay));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "exchangeId"), String::NewFromUtf8(isolate, pForQuoteRsp->ExchangeID));
         argv[0] = jsonRtn;
     }
     else
@@ -728,34 +728,34 @@ void WrapMd::MainOnRtnForQuoteRsp(CThostFtdcForQuoteRspField *pForQuoteRsp)
     }
 
     Local<Function> cb = Local<Function>::New(isolate, it->second);
-    cb->Call(Null(isolate), 1, argv);  
+    cb->Call(Null(isolate), 1, argv);
 }
 
-void WrapMd::MainOnRspQryMulticastInstrument(CThostFtdcMulticastInstrumentField *pMulticastInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) 
+void WrapMd::MainOnRspQryMulticastInstrument(CThostFtdcMulticastInstrumentField *pMulticastInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("OnRspQryMulticastInstrument");
+    __callback_iter_type it = callback_map.find("onRspQryMulticastInstrument");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[4];
     if(pMulticastInstrument != NULL)
     {
         Local<Object> jsonRtn = Object::New(isolate);
-        jsonRtn->Set(String::NewFromUtf8(isolate, "TopicID"), Int32::New(isolate, pMulticastInstrument->TopicID));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "InstrumentID"), String::NewFromUtf8(isolate, pMulticastInstrument->InstrumentID));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "InstrumentNo"), Int32::New(isolate, pMulticastInstrument->InstrumentNo));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "CodePrice"), Number::New(isolate, pMulticastInstrument->CodePrice));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "VolumeMultiple"), Int32::New(isolate, pMulticastInstrument->VolumeMultiple));
-        jsonRtn->Set(String::NewFromUtf8(isolate, "PriceTick"), Number::New(isolate, pMulticastInstrument->PriceTick));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "topicId"), Int32::New(isolate, pMulticastInstrument->TopicID));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "instrumentId"), String::NewFromUtf8(isolate, pMulticastInstrument->InstrumentID));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "instrumentNo"), Int32::New(isolate, pMulticastInstrument->InstrumentNo));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "codePrice"), Number::New(isolate, pMulticastInstrument->CodePrice));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "volumeMultiple"), Int32::New(isolate, pMulticastInstrument->VolumeMultiple));
+        jsonRtn->Set(String::NewFromUtf8(isolate, "priceTick"), Number::New(isolate, pMulticastInstrument->PriceTick));
         argv[0] = jsonRtn;
     }
     else
     {
         argv[0] = Local<Value>::New(isolate, Undefined(isolate));
     }
-    argv[1] = PkgRspInfo(pRspInfo); 
+    argv[1] = PkgRspInfo(pRspInfo);
     argv[2] = Local<Value>::New(isolate, Int32::New(isolate, nRequestID));
 
     argv[3] = Boolean::New(isolate, bIsLast)->ToBoolean();

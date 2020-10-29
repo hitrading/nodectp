@@ -3,7 +3,7 @@
 ///@company 慧网基金
 ///@file WrapMd.h
 ///@brief js回调接口
-///@history 
+///@history
 ///20160326	dreamyzhang		创建该文件
 /////////////////////////////////////////////////////////////////////////
 #ifndef __WRAPMD_H__
@@ -29,7 +29,7 @@ using namespace std;
 
 namespace md
 {
-class WrapMd : public CThostFtdcMdSpiI, public node::ObjectWrap 
+class WrapMd : public CThostFtdcMdSpiI, public node::ObjectWrap
 {
     public:
         WrapMd();
@@ -39,16 +39,16 @@ class WrapMd : public CThostFtdcMdSpiI, public node::ObjectWrap
         static void On(const v8::FunctionCallbackInfo<v8::Value>& args);
         static void NewInstance(const v8::FunctionCallbackInfo<v8::Value>& args);
         static void Init(v8::Isolate* isolate);
-    
+
         static void Init(const v8::FunctionCallbackInfo<v8::Value>& args);
         static void Release(const v8::FunctionCallbackInfo<v8::Value>& args);
         static void Dispose(const v8::FunctionCallbackInfo<v8::Value>& args);
-        static void CreateFtdcMdApi(const v8::FunctionCallbackInfo<v8::Value>& args);                      
-        static void GetApiVersion(const v8::FunctionCallbackInfo<v8::Value>& args);                      
-        static void GetTradingDay(const v8::FunctionCallbackInfo<v8::Value>& args);                      
-        static void RegisterFront(const v8::FunctionCallbackInfo<v8::Value>& args);                      
-        static void RegisterNameServer(const v8::FunctionCallbackInfo<v8::Value>& args);                      
-        static void RegisterFensUserInfo(const v8::FunctionCallbackInfo<v8::Value>& args); 
+        static void CreateFtdcMdApi(const v8::FunctionCallbackInfo<v8::Value>& args);
+        static void GetApiVersion(const v8::FunctionCallbackInfo<v8::Value>& args);
+        static void GetTradingDay(const v8::FunctionCallbackInfo<v8::Value>& args);
+        static void RegisterFront(const v8::FunctionCallbackInfo<v8::Value>& args);
+        static void RegisterNameServer(const v8::FunctionCallbackInfo<v8::Value>& args);
+        static void RegisterFensUserInfo(const v8::FunctionCallbackInfo<v8::Value>& args);
         static void ReqUserLogin(const v8::FunctionCallbackInfo<v8::Value>& args);
         static void ReqUserLogout(const v8::FunctionCallbackInfo<v8::Value>& args);
         static void SubscribeMarketData(const v8::FunctionCallbackInfo<v8::Value>& args);
@@ -56,7 +56,7 @@ class WrapMd : public CThostFtdcMdSpiI, public node::ObjectWrap
         static void SubscribeForQuoteRsp(const v8::FunctionCallbackInfo<v8::Value>& args);
         static void UnSubscribeForQuoteRsp(const v8::FunctionCallbackInfo<v8::Value>& args);
         static void ReqQryMulticastInstrument(const v8::FunctionCallbackInfo<v8::Value>& args);
-        
+
         //回调js部分
         virtual void MainOnFrontConnected();
         virtual void MainOnFrontDisconnected(int nReason);
@@ -85,25 +85,25 @@ class WrapMd : public CThostFtdcMdSpiI, public node::ObjectWrap
         typedef std::map<string, v8::Persistent<v8::Function> > __callback_type;
         typedef std::map<string, v8::Persistent<v8::Function> >::iterator  __callback_iter_type;
         __callback_type callback_map; //回调js name映射回调处理函数
-        
+
         static set<string>         m_event;                //可以注册的回调事件
         static v8::Persistent<v8::Function> constructor;           //主动请求函数映射js name
 
         static void New(const v8::FunctionCallbackInfo<v8::Value>& args);
-        v8::Local<v8::Value> PkgRspInfo(CThostFtdcRspInfoField *pRspInfo) 
+        v8::Local<v8::Value> PkgRspInfo(CThostFtdcRspInfoField *pRspInfo)
         {
             v8::Isolate* isolate = v8::Isolate::GetCurrent();
-            if (pRspInfo != NULL) 
-            { 
-                v8::Local<v8::Object> jsonInfo = v8::Object::New(isolate);                                       
-                jsonInfo->Set(v8::String::NewFromUtf8(isolate, "ErrorID"), v8::Int32::New(isolate, pRspInfo->ErrorID));   
-                jsonInfo->Set(v8::String::NewFromUtf8(isolate, "ErrorMsg"), v8::String::NewFromUtf8(isolate, CSFunction::GBK2UTF8(pRspInfo->ErrorMsg).c_str()));
-                return jsonInfo; 
-            } 
+            if (pRspInfo != NULL)
+            {
+                v8::Local<v8::Object> jsonInfo = v8::Object::New(isolate);
+                jsonInfo->Set(v8::String::NewFromUtf8(isolate, "errorId"), v8::Int32::New(isolate, pRspInfo->ErrorID));
+                jsonInfo->Set(v8::String::NewFromUtf8(isolate, "errorMsg"), v8::String::NewFromUtf8(isolate, CSFunction::GBK2UTF8(pRspInfo->ErrorMsg).c_str()));
+                return jsonInfo;
+            }
             else
             {
-                return  v8::Local<v8::Value>::New(isolate, v8::Undefined(isolate));                                       
-            }     
+                return  v8::Local<v8::Value>::New(isolate, v8::Undefined(isolate));
+            }
         }
 };
 }
