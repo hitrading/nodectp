@@ -39,18 +39,19 @@ ctp.td.on('FrontConnected', function() {
     console.log('td OnFrontConnected');
 });
 
-// ctp.md.on('onFrontConnected', function() {
-//     console.log('md onFrontConnected')
-//     let { md, investor } = ctp;
-//     console.log('md ReqUserLogin : %s', md.reqUserLogin(investor, ctp.nRequestID()));
-//     console.log('md OnFrontConnected');
-//     console.log(ctp.md.subscribeMarketData(['T2012'], 1));
-// });
+ctp.md.on('FrontConnected', function() {
+    console.log('md onFrontConnected')
+    let { md, investor } = ctp;
+    console.log('md ReqUserLogin : %s', md.reqUserLogin(investor, ctp.nRequestID()));
+    console.log('md OnFrontConnected');
+    console.log(ctp.md.subscribeMarketData(['ag2012'], 1));
+});
 
-// ctp.md.on('onRtnDepthMarketData', function(data) {
-//     console.log(data);
-// })
+ctp.md.on('RtnDepthMarketData', function(data) {
+    console.clear()
+    console.log(data);
+})
 
 
-// ctp.registerMdFront();
+ctp.registerMdFront();
 ctp.registerTdFront();
