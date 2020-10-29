@@ -9,8 +9,8 @@ let ctp = new CTP(
         }
     },
     {
-        investorId: '369868',
-        password: 'iguzhi'
+        investorId: '369863',
+        password: 'iguzhi-1288'
     }
 );
 
@@ -19,25 +19,30 @@ ctp.injectLogger();
 ctp.createTdApi();
 ctp.createMdApi();
 
-// let td = ctp.td;
-// let md = ctp.md;
+let td = ctp.td;
+let md = ctp.md;
 
-// console.log(td)
-// for(let i in td) {
-//     console.log(i)
-// };
+console.log(td)
+for(let i in td) {
+    console.log(i)
+};
 
-ctp.md.on('onFrontConnected', function() {
-    console.log('onFrontConnected')
-    let { md, investor } = ctp;
-    console.log('ReqUserLogin : %s', md.reqUserLogin(investor, ctp.nRequestID()));
-    console.log('OnFrontConnected');
-    console.log(ctp.md.subscribeMarketData(['T2012'], 1));
-});
+console.log(md)
+for(let j in md) {
+    console.log(j)
+};
 
-ctp.md.on('onRtnDepthMarketData', function(data) {
-    console.log(data);
-})
+// ctp.md.on('onFrontConnected', function() {
+//     console.log('onFrontConnected')
+//     let { md, investor } = ctp;
+//     console.log('ReqUserLogin : %s', md.reqUserLogin(investor, ctp.nRequestID()));
+//     console.log('OnFrontConnected');
+//     console.log(ctp.md.subscribeMarketData(['T2012'], 1));
+// });
+
+// ctp.md.on('onRtnDepthMarketData', function(data) {
+//     console.log(data);
+// })
 
 
 ctp.registerMdFront();
