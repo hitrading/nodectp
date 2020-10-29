@@ -32,25 +32,25 @@ ctp.createMdApi();
 //     console.log(j)
 // };
 
-// ctp.td.on('onFrontConnected', function() {
-//     console.log('td onFrontConnected')
-//     let { td, investor } = ctp;
-//     console.log('td ReqUserLogin : %s', td.reqUserLogin(investor, ctp.nRequestID()));
-//     console.log('td OnFrontConnected');
-// });
-
-ctp.md.on('onFrontConnected', function() {
-    console.log('md onFrontConnected')
-    let { md, investor } = ctp;
-    console.log('md ReqUserLogin : %s', md.reqUserLogin(investor, ctp.nRequestID()));
-    console.log('md OnFrontConnected');
-    console.log(ctp.md.subscribeMarketData(['T2012'], 1));
+ctp.td.on('onFrontConnected', function() {
+    console.log('td onFrontConnected')
+    let { td, investor } = ctp;
+    console.log('td ReqUserLogin : %s', td.reqUserLogin(investor, ctp.nRequestID()));
+    console.log('td OnFrontConnected');
 });
 
-ctp.md.on('onRtnDepthMarketData', function(data) {
-    console.log(data);
-})
+// ctp.md.on('onFrontConnected', function() {
+//     console.log('md onFrontConnected')
+//     let { md, investor } = ctp;
+//     console.log('md ReqUserLogin : %s', md.reqUserLogin(investor, ctp.nRequestID()));
+//     console.log('md OnFrontConnected');
+//     console.log(ctp.md.subscribeMarketData(['T2012'], 1));
+// });
+
+// ctp.md.on('onRtnDepthMarketData', function(data) {
+//     console.log(data);
+// })
 
 
-ctp.registerMdFront();
-// ctp.registerTdFront();
+// ctp.registerMdFront();
+ctp.registerTdFront();

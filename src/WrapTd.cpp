@@ -1136,6 +1136,7 @@ void WrapTd::ReqQrySecAgentCheckMode(const FunctionCallbackInfo<Value>& args)
 Isolate* isolate = Isolate::GetCurrent();\
 HandleScope scope(isolate);\
 string k = string(_FUNCTION_).substr(4);\
+k[0] = 'o';\
 __callback_iter_type it = callback_map.find(k);\
 if(it == callback_map.end()) return;
 
@@ -1166,6 +1167,7 @@ void WrapTd::MainOnHeartBeatWarning(int nTimeLapse)
 Isolate* isolate = Isolate::GetCurrent();\
 HandleScope scope(isolate);\
 string k = string(_FUNCTION_).substr(4);\
+k[0] = 'o';\
 __callback_iter_type it = callback_map.find(k);\
 if(it == callback_map.end()) return;\
 Local<Value> argv[1];\
@@ -1186,6 +1188,7 @@ cb->Call(Null(isolate), 1, argv);
 Isolate* isolate = Isolate::GetCurrent();\
 HandleScope scope(isolate);\
 string k = string(_FUNCTION_).substr(4);\
+k[0] = 'o';\
 __callback_iter_type it = callback_map.find(k);\
 if(it == callback_map.end()) return;\
 Local<Value> argv[2];\
@@ -1208,6 +1211,7 @@ cb->Call(Null(isolate), 2, argv);
 Isolate* isolate = Isolate::GetCurrent();\
 HandleScope scope(isolate);\
 string k = string(_FUNCTION_).substr(4);\
+k[0] = 'o';\
 __callback_iter_type it = callback_map.find(k);\
 if(it == callback_map.end()) return;\
 Local<Value> argv[4];\
@@ -1232,6 +1236,7 @@ cb->Call(Null(isolate), 4, argv);\
 Isolate* isolate = Isolate::GetCurrent();\
 HandleScope scope(isolate);\
 string k = string(_FUNCTION_).substr(4);\
+k[0] = 'o';\
 __callback_iter_type it = callback_map.find(k);\
 if(it == callback_map.end()) return;\
 Local<Value> argv[3];\
