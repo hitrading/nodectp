@@ -26,13 +26,20 @@ ctp.createMdApi();
 // for(let i in td) {
 //     console.log(i)
 // };
+// TODO: to check why has no any data responsed to this function
+ctp.td.On('OnFrontConnected', function() {
+  console.log('td OnFrontConnected');
+  let { td, investor } = ctp;
+  console.log('td ReqUserLogin : %s', td.ReqUserLogin(investor, ctp.nRequestID()));
+
+});
 
 ctp.md.On('OnFrontConnected', function() {
 
     let { md, investor } = ctp;
-    console.log('ReqUserLogin : %s', md.ReqUserLogin(investor, ctp.nRequestID()));
-    console.log('OnFrontConnected');
-    console.log(ctp.md.SubscribeMarketData(['au1912'], 1));
+    console.log('md ReqUserLogin : %s', md.ReqUserLogin(investor, ctp.nRequestID()));
+    console.log('md OnFrontConnected');
+    console.log(ctp.md.SubscribeMarketData(['ru2101'], 1));
 });
 
 ctp.md.On('OnRtnDepthMarketData', function(data) {
