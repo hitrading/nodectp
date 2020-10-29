@@ -146,125 +146,125 @@ void WrapTd::Init(v8::Isolate* isolate)
     NODE_SET_PROTOTYPE_METHOD(tpl, "on", On);
     constructor.Reset(isolate, tpl->GetFunction());
 
-    m_event.insert("onFrontConnected")                          ;
-    m_event.insert("onFrontDisconnected")                       ;
-    m_event.insert("onHeartBeatWarning")                        ;
-    m_event.insert("onRspAuthenticate")                         ;
-    m_event.insert("onRspUserLogin")                            ;
-    m_event.insert("onRspUserLogout")                           ;
-    m_event.insert("onRspUserPasswordUpdate")                   ;
-    m_event.insert("onRspTradingAccountPasswordUpdate")         ;
-    m_event.insert("onRspOrderInsert")                          ;
-    m_event.insert("onRspParkedOrderInsert")                    ;
-    m_event.insert("onRspParkedOrderAction")                    ;
-    m_event.insert("onRspOrderAction")                          ;
-    m_event.insert("onRspQueryMaxOrderVolume")                  ;
-    m_event.insert("onRspSettlementInfoConfirm")                ;
-    m_event.insert("onRspRemoveParkedOrder")                    ;
-    m_event.insert("onRspRemoveParkedOrderAction")              ;
-    m_event.insert("onRspExecOrderInsert")                      ;
-    m_event.insert("onRspExecOrderAction")                      ;
-    m_event.insert("onRspForQuoteInsert")                       ;
-    m_event.insert("onRspQuoteInsert")                          ;
-    m_event.insert("onRspQuoteAction")                          ;
-    m_event.insert("onRspBatchOrderAction")                     ;
-    m_event.insert("onRspCombActionInsert")                     ;
-    m_event.insert("onRspQryOrder")                             ;
-    m_event.insert("onRspQryTrade")                             ;
-    m_event.insert("onRspQryInvestorPosition")                  ;
-    m_event.insert("onRspQryTradingAccount")                    ;
-    m_event.insert("onRspQryInvestor")                          ;
-    m_event.insert("onRspQryTradingCode")                       ;
-    m_event.insert("onRspQryInstrumentMarginRate")              ;
-    m_event.insert("onRspQryInstrumentCommissionRate")          ;
-    m_event.insert("onRspQryExchange")                          ;
-    m_event.insert("onRspQryProduct")                           ;
-    m_event.insert("onRspQryInstrument")                        ;
-    m_event.insert("onRspQryDepthMarketData")                   ;
-    m_event.insert("onRspQrySettlementInfo")                    ;
-    m_event.insert("onRspQryTransferBank")                      ;
-    m_event.insert("onRspQryInvestorPositionDetail")            ;
-    m_event.insert("onRspQryNotice")                            ;
-    m_event.insert("onRspQrySettlementInfoConfirm")             ;
-    m_event.insert("onRspQryInvestorPositionCombineDetail")     ;
-    m_event.insert("onRspQryCFMMCTradingAccountKey")            ;
-    m_event.insert("onRspQryEWarrantOffset")                    ;
-    m_event.insert("onRspQryInvestorProductGroupMargin")        ;
-    m_event.insert("onRspQryExchangeMarginRate")                ;
-    m_event.insert("onRspQryExchangeMarginRateAdjust")          ;
-    m_event.insert("onRspQryExchangeRate")                      ;
-    m_event.insert("onRspQrySecAgentACIDMap")                   ;
-    m_event.insert("onRspQryProductExchRate")                   ;
-    m_event.insert("onRspQryProductGroup")                      ;
-    m_event.insert("onRspQryMMInstrumentCommissionRate")        ;
-    m_event.insert("onRspQryMMOptionInstrCommRate")             ;
-    m_event.insert("onRspQryInstrumentOrderCommRate")           ;
-    m_event.insert("onRspQryOptionInstrTradeCost")              ;
-    m_event.insert("onRspQryOptionInstrCommRate")               ;
-    m_event.insert("onRspQryExecOrder")                         ;
-    m_event.insert("onRspQryForQuote")                          ;
-    m_event.insert("onRspQryQuote")                             ;
-    m_event.insert("onRspQryCombInstrumentGuard")               ;
-    m_event.insert("onRspQryCombAction")                        ;
-    m_event.insert("onRspQryTransferSerial")                    ;
-    m_event.insert("onRspQryAccountregister")                   ;
-    m_event.insert("onRspError")                                ;
-    m_event.insert("onRtnOrder")                                ;
-    m_event.insert("onRtnTrade")                                ;
-    m_event.insert("onErrRtnOrderInsert")                       ;
-    m_event.insert("onErrRtnOrderAction")                       ;
-    m_event.insert("onRtnInstrumentStatus")                     ;
-    m_event.insert("onRtnBulletin")                             ;
-    m_event.insert("onRtnTradingNotice")                        ;
-    m_event.insert("onRtnErrorConditionalOrder")                ;
-    m_event.insert("onRtnExecOrder")                            ;
-    m_event.insert("onErrRtnExecOrderInsert")                   ;
-    m_event.insert("onErrRtnExecOrderAction")                   ;
-    m_event.insert("onErrRtnForQuoteInsert")                    ;
-    m_event.insert("onRtnQuote")                                ;
-    m_event.insert("onErrRtnQuoteInsert")                       ;
-    m_event.insert("onErrRtnQuoteAction")                       ;
-    m_event.insert("onRtnForQuoteRsp")                          ;
-    m_event.insert("onRtnCFMMCTradingAccountToken")             ;
-    m_event.insert("onErrRtnBatchOrderAction")                  ;
-    m_event.insert("onRtnCombAction")                           ;
-    m_event.insert("onErrRtnCombActionInsert")                  ;
-    m_event.insert("onRspQryContractBank")                      ;
-    m_event.insert("onRspQryParkedOrder")                       ;
-    m_event.insert("onRspQryParkedOrderAction")                 ;
-    m_event.insert("onRspQryTradingNotice")                     ;
-    m_event.insert("onRspQryBrokerTradingParams")               ;
-    m_event.insert("onRspQryBrokerTradingAlgos")                ;
-    m_event.insert("onRspQueryCFMMCTradingAccountToken")        ;
-    m_event.insert("onRtnFromBankToFutureByBank")               ;
-    m_event.insert("onRtnFromFutureToBankByBank")               ;
-    m_event.insert("onRtnRepealFromBankToFutureByBank")         ;
-    m_event.insert("onRtnRepealFromFutureToBankByBank")         ;
-    m_event.insert("onRtnFromBankToFutureByFuture")             ;
-    m_event.insert("onRtnFromFutureToBankByFuture")             ;
-    m_event.insert("onRtnRepealFromBankToFutureByFutureManual") ;
-    m_event.insert("onRtnRepealFromFutureToBankByFutureManual") ;
-    m_event.insert("onRtnQueryBankBalanceByFuture")             ;
-    m_event.insert("onErrRtnBankToFutureByFuture")              ;
-    m_event.insert("onErrRtnFutureToBankByFuture")              ;
-    m_event.insert("onErrRtnRepealBankToFutureByFutureManual")  ;
-    m_event.insert("onErrRtnRepealFutureToBankByFutureManual")  ;
-    m_event.insert("onErrRtnQueryBankBalanceByFuture")          ;
-    m_event.insert("onRtnRepealFromBankToFutureByFuture")       ;
-    m_event.insert("onRtnRepealFromFutureToBankByFuture")       ;
-    m_event.insert("onRspFromBankToFutureByFuture")             ;
-    m_event.insert("onRspFromFutureToBankByFuture")             ;
-    m_event.insert("onRspQueryBankAccountMoneyByFuture")        ;
-    m_event.insert("onRtnOpenAccountByBank")                    ;
-    m_event.insert("onRtnCancelAccountByBank")                  ;
-    m_event.insert("onRtnChangeAccountByBank")                  ;
+    m_event.insert("FrontConnected")                          ;
+    m_event.insert("FrontDisconnected")                       ;
+    m_event.insert("HeartBeatWarning")                        ;
+    m_event.insert("RspAuthenticate")                         ;
+    m_event.insert("RspUserLogin")                            ;
+    m_event.insert("RspUserLogout")                           ;
+    m_event.insert("RspUserPasswordUpdate")                   ;
+    m_event.insert("RspTradingAccountPasswordUpdate")         ;
+    m_event.insert("RspOrderInsert")                          ;
+    m_event.insert("RspParkedOrderInsert")                    ;
+    m_event.insert("RspParkedOrderAction")                    ;
+    m_event.insert("RspOrderAction")                          ;
+    m_event.insert("RspQueryMaxOrderVolume")                  ;
+    m_event.insert("RspSettlementInfoConfirm")                ;
+    m_event.insert("RspRemoveParkedOrder")                    ;
+    m_event.insert("RspRemoveParkedOrderAction")              ;
+    m_event.insert("RspExecOrderInsert")                      ;
+    m_event.insert("RspExecOrderAction")                      ;
+    m_event.insert("RspForQuoteInsert")                       ;
+    m_event.insert("RspQuoteInsert")                          ;
+    m_event.insert("RspQuoteAction")                          ;
+    m_event.insert("RspBatchOrderAction")                     ;
+    m_event.insert("RspCombActionInsert")                     ;
+    m_event.insert("RspQryOrder")                             ;
+    m_event.insert("RspQryTrade")                             ;
+    m_event.insert("RspQryInvestorPosition")                  ;
+    m_event.insert("RspQryTradingAccount")                    ;
+    m_event.insert("RspQryInvestor")                          ;
+    m_event.insert("RspQryTradingCode")                       ;
+    m_event.insert("RspQryInstrumentMarginRate")              ;
+    m_event.insert("RspQryInstrumentCommissionRate")          ;
+    m_event.insert("RspQryExchange")                          ;
+    m_event.insert("RspQryProduct")                           ;
+    m_event.insert("RspQryInstrument")                        ;
+    m_event.insert("RspQryDepthMarketData")                   ;
+    m_event.insert("RspQrySettlementInfo")                    ;
+    m_event.insert("RspQryTransferBank")                      ;
+    m_event.insert("RspQryInvestorPositionDetail")            ;
+    m_event.insert("RspQryNotice")                            ;
+    m_event.insert("RspQrySettlementInfoConfirm")             ;
+    m_event.insert("RspQryInvestorPositionCombineDetail")     ;
+    m_event.insert("RspQryCFMMCTradingAccountKey")            ;
+    m_event.insert("RspQryEWarrantOffset")                    ;
+    m_event.insert("RspQryInvestorProductGroupMargin")        ;
+    m_event.insert("RspQryExchangeMarginRate")                ;
+    m_event.insert("RspQryExchangeMarginRateAdjust")          ;
+    m_event.insert("RspQryExchangeRate")                      ;
+    m_event.insert("RspQrySecAgentACIDMap")                   ;
+    m_event.insert("RspQryProductExchRate")                   ;
+    m_event.insert("RspQryProductGroup")                      ;
+    m_event.insert("RspQryMMInstrumentCommissionRate")        ;
+    m_event.insert("RspQryMMOptionInstrCommRate")             ;
+    m_event.insert("RspQryInstrumentOrderCommRate")           ;
+    m_event.insert("RspQryOptionInstrTradeCost")              ;
+    m_event.insert("RspQryOptionInstrCommRate")               ;
+    m_event.insert("RspQryExecOrder")                         ;
+    m_event.insert("RspQryForQuote")                          ;
+    m_event.insert("RspQryQuote")                             ;
+    m_event.insert("RspQryCombInstrumentGuard")               ;
+    m_event.insert("RspQryCombAction")                        ;
+    m_event.insert("RspQryTransferSerial")                    ;
+    m_event.insert("RspQryAccountregister")                   ;
+    m_event.insert("RspError")                                ;
+    m_event.insert("RtnOrder")                                ;
+    m_event.insert("RtnTrade")                                ;
+    m_event.insert("ErrRtnOrderInsert")                       ;
+    m_event.insert("ErrRtnOrderAction")                       ;
+    m_event.insert("RtnInstrumentStatus")                     ;
+    m_event.insert("RtnBulletin")                             ;
+    m_event.insert("RtnTradingNotice")                        ;
+    m_event.insert("RtnErrorConditionalOrder")                ;
+    m_event.insert("RtnExecOrder")                            ;
+    m_event.insert("ErrRtnExecOrderInsert")                   ;
+    m_event.insert("ErrRtnExecOrderAction")                   ;
+    m_event.insert("ErrRtnForQuoteInsert")                    ;
+    m_event.insert("RtnQuote")                                ;
+    m_event.insert("ErrRtnQuoteInsert")                       ;
+    m_event.insert("ErrRtnQuoteAction")                       ;
+    m_event.insert("RtnForQuoteRsp")                          ;
+    m_event.insert("RtnCFMMCTradingAccountToken")             ;
+    m_event.insert("ErrRtnBatchOrderAction")                  ;
+    m_event.insert("RtnCombAction")                           ;
+    m_event.insert("ErrRtnCombActionInsert")                  ;
+    m_event.insert("RspQryContractBank")                      ;
+    m_event.insert("RspQryParkedOrder")                       ;
+    m_event.insert("RspQryParkedOrderAction")                 ;
+    m_event.insert("RspQryTradingNotice")                     ;
+    m_event.insert("RspQryBrokerTradingParams")               ;
+    m_event.insert("RspQryBrokerTradingAlgos")                ;
+    m_event.insert("RspQueryCFMMCTradingAccountToken")        ;
+    m_event.insert("RtnFromBankToFutureByBank")               ;
+    m_event.insert("RtnFromFutureToBankByBank")               ;
+    m_event.insert("RtnRepealFromBankToFutureByBank")         ;
+    m_event.insert("RtnRepealFromFutureToBankByBank")         ;
+    m_event.insert("RtnFromBankToFutureByFuture")             ;
+    m_event.insert("RtnFromFutureToBankByFuture")             ;
+    m_event.insert("RtnRepealFromBankToFutureByFutureManual") ;
+    m_event.insert("RtnRepealFromFutureToBankByFutureManual") ;
+    m_event.insert("RtnQueryBankBalanceByFuture")             ;
+    m_event.insert("ErrRtnBankToFutureByFuture")              ;
+    m_event.insert("ErrRtnFutureToBankByFuture")              ;
+    m_event.insert("ErrRtnRepealBankToFutureByFutureManual")  ;
+    m_event.insert("ErrRtnRepealFutureToBankByFutureManual")  ;
+    m_event.insert("ErrRtnQueryBankBalanceByFuture")          ;
+    m_event.insert("RtnRepealFromBankToFutureByFuture")       ;
+    m_event.insert("RtnRepealFromFutureToBankByFuture")       ;
+    m_event.insert("RspFromBankToFutureByFuture")             ;
+    m_event.insert("RspFromFutureToBankByFuture")             ;
+    m_event.insert("RspQueryBankAccountMoneyByFuture")        ;
+    m_event.insert("RtnOpenAccountByBank")                    ;
+    m_event.insert("RtnCancelAccountByBank")                  ;
+    m_event.insert("RtnChangeAccountByBank")                  ;
     // TODO 穿透式监管新增响应接口
-    m_event.insert("onRspUserAuthMethod")                       ;
-    m_event.insert("onRspGenUserCaptcha")                       ;
-    m_event.insert("onRspGenUserText")                          ;
-    m_event.insert("onRspQrySecAgentTradeInfo")                 ;
-    m_event.insert("onRspQrySecAgentTradingAccount")            ;
-    m_event.insert("onRspQrySecAgentCheckMode")                 ;
+    m_event.insert("RspUserAuthMethod")                       ;
+    m_event.insert("RspGenUserCaptcha")                       ;
+    m_event.insert("RspGenUserText")                          ;
+    m_event.insert("RspQrySecAgentTradeInfo")                 ;
+    m_event.insert("RspQrySecAgentTradingAccount")            ;
+    m_event.insert("RspQrySecAgentCheckMode")                 ;
 }
 
 void WrapTd::New(const FunctionCallbackInfo<Value>& args)
@@ -1135,8 +1135,7 @@ void WrapTd::ReqQrySecAgentCheckMode(const FunctionCallbackInfo<Value>& args)
 #define CONTEXT() \
 Isolate* isolate = Isolate::GetCurrent();\
 HandleScope scope(isolate);\
-string k = string(_FUNCTION_).substr(4);\
-k[0] = 'o';\
+string k = string(_FUNCTION_).substr(6);\
 __callback_iter_type it = callback_map.find(k);\
 if(it == callback_map.end()) return;
 
@@ -1166,8 +1165,7 @@ void WrapTd::MainOnHeartBeatWarning(int nTimeLapse)
 #define CONTEXT_WITH_1(rsp) \
 Isolate* isolate = Isolate::GetCurrent();\
 HandleScope scope(isolate);\
-string k = string(_FUNCTION_).substr(4);\
-k[0] = 'o';\
+string k = string(_FUNCTION_).substr(6);\
 __callback_iter_type it = callback_map.find(k);\
 if(it == callback_map.end()) return;\
 Local<Value> argv[1];\
@@ -1187,8 +1185,7 @@ cb->Call(Null(isolate), 1, argv);
 #define CONTEXT_WITH_2(rsp) \
 Isolate* isolate = Isolate::GetCurrent();\
 HandleScope scope(isolate);\
-string k = string(_FUNCTION_).substr(4);\
-k[0] = 'o';\
+string k = string(_FUNCTION_).substr(6);\
 __callback_iter_type it = callback_map.find(k);\
 if(it == callback_map.end()) return;\
 Local<Value> argv[2];\
@@ -1210,8 +1207,7 @@ cb->Call(Null(isolate), 2, argv);
 #define CONTEXT_WITH_4(rsp) do{\
 Isolate* isolate = Isolate::GetCurrent();\
 HandleScope scope(isolate);\
-string k = string(_FUNCTION_).substr(4);\
-k[0] = 'o';\
+string k = string(_FUNCTION_).substr(6);\
 __callback_iter_type it = callback_map.find(k);\
 if(it == callback_map.end()) return;\
 Local<Value> argv[4];\
@@ -1235,8 +1231,7 @@ cb->Call(Null(isolate), 4, argv);\
 #define CONTEXT_WITH_LAST_3() \
 Isolate* isolate = Isolate::GetCurrent();\
 HandleScope scope(isolate);\
-string k = string(_FUNCTION_).substr(4);\
-k[0] = 'o';\
+string k = string(_FUNCTION_).substr(6);\
 __callback_iter_type it = callback_map.find(k);\
 if(it == callback_map.end()) return;\
 Local<Value> argv[3];\

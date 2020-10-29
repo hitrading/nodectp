@@ -74,19 +74,19 @@ void WrapMd::Init(Isolate* isolate)
     constructor.Reset(isolate, tpl->GetFunction());
 
     //注册回调函数的映射更新
-    m_event.insert("onFrontConnected");
-    m_event.insert("onFrontDisconnected");
-    m_event.insert("onHeartBeatWarning");
-    m_event.insert("onRspUserLogin");
-    m_event.insert("onRspUserLogout");
-    m_event.insert("onRspQryMulticastInstrument");
-    m_event.insert("onRspError");
-    m_event.insert("onRspSubMarketData");
-    m_event.insert("onRspUnSubMarketData");
-    m_event.insert("onRspSubForQuoteRsp");
-    m_event.insert("onRspUnSubForQuoteRsp");
-    m_event.insert("onRtnDepthMarketData");
-    m_event.insert("onRtnForQuoteRsp");
+    m_event.insert("FrontConnected");
+    m_event.insert("FrontDisconnected");
+    m_event.insert("HeartBeatWarning");
+    m_event.insert("RspUserLogin");
+    m_event.insert("RspUserLogout");
+    m_event.insert("RspQryMulticastInstrument");
+    m_event.insert("RspError");
+    m_event.insert("RspSubMarketData");
+    m_event.insert("RspUnSubMarketData");
+    m_event.insert("RspSubForQuoteRsp");
+    m_event.insert("RspUnSubForQuoteRsp");
+    m_event.insert("RtnDepthMarketData");
+    m_event.insert("RtnForQuoteRsp");
 
 }
 
@@ -404,7 +404,7 @@ void WrapMd::MainOnFrontConnected()
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("onFrontConnected");
+    __callback_iter_type it = callback_map.find("FrontConnected");
     if(it == callback_map.end()) return;
 
     Local<Function> cb = Local<Function>::New(isolate, it->second);
@@ -416,7 +416,7 @@ void WrapMd::MainOnFrontDisconnected(int nReason)
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-   __callback_iter_type it = callback_map.find("onFrontDisconnected");
+   __callback_iter_type it = callback_map.find("FrontDisconnected");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[1] = { Local<Value>::New(isolate, Int32::New(isolate, nReason)) };
@@ -430,7 +430,7 @@ void WrapMd::MainOnHeartBeatWarning(int nTimeLapse)
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("onHeartBeatWarning");
+    __callback_iter_type it = callback_map.find("HeartBeatWarning");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[1] = { Local<Value>::New(isolate, Int32::New(isolate, nTimeLapse)) };
@@ -444,7 +444,7 @@ void WrapMd::MainOnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin, CTho
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("onRspUserLogin");
+    __callback_iter_type it = callback_map.find("RspUserLogin");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[4];
@@ -484,7 +484,7 @@ void WrapMd::MainOnRspUserLogout(CThostFtdcUserLogoutField *pUserLogout, CThostF
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("onRspUserLogout");
+    __callback_iter_type it = callback_map.find("RspUserLogout");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[4];
@@ -513,7 +513,7 @@ void WrapMd::MainOnRspError(CThostFtdcRspInfoField *pRspInfo, int nRequestID, bo
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("onRspError");
+    __callback_iter_type it = callback_map.find("RspError");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[3];
@@ -530,7 +530,7 @@ void WrapMd::MainOnRspSubMarketData(CThostFtdcSpecificInstrumentField *pSpecific
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("onRspSubMarketData");
+    __callback_iter_type it = callback_map.find("RspSubMarketData");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[4];
@@ -558,7 +558,7 @@ void WrapMd::MainOnRspUnSubMarketData(CThostFtdcSpecificInstrumentField *pSpecif
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("onRspUnSubMarketData");
+    __callback_iter_type it = callback_map.find("RspUnSubMarketData");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[4];
@@ -585,7 +585,7 @@ void WrapMd::MainOnRspSubForQuoteRsp(CThostFtdcSpecificInstrumentField *pSpecifi
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("onRspSubForQuoteRsp");
+    __callback_iter_type it = callback_map.find("RspSubForQuoteRsp");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[4];
@@ -612,7 +612,7 @@ void WrapMd::MainOnRspUnSubForQuoteRsp(CThostFtdcSpecificInstrumentField *pSpeci
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("onRspUnSubForQuoteRsp");
+    __callback_iter_type it = callback_map.find("RspUnSubForQuoteRsp");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[4];
@@ -640,7 +640,7 @@ void WrapMd::MainOnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMark
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("onRtnDepthMarketData");
+    __callback_iter_type it = callback_map.find("RtnDepthMarketData");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[1];
@@ -707,7 +707,7 @@ void WrapMd::MainOnRtnForQuoteRsp(CThostFtdcForQuoteRspField *pForQuoteRsp)
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("onRtnForQuoteRsp");
+    __callback_iter_type it = callback_map.find("RtnForQuoteRsp");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[1];
@@ -736,7 +736,7 @@ void WrapMd::MainOnRspQryMulticastInstrument(CThostFtdcMulticastInstrumentField 
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    __callback_iter_type it = callback_map.find("onRspQryMulticastInstrument");
+    __callback_iter_type it = callback_map.find("RspQryMulticastInstrument");
     if(it == callback_map.end()) return;
 
     Local<Value> argv[4];

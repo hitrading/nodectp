@@ -32,7 +32,7 @@ ctp.createMdApi();
 //     console.log(j)
 // };
 
-ctp.td.on('onFrontConnected', function() {
+ctp.td.on('FrontConnected', function() {
     console.log('td onFrontConnected')
     let { td, investor } = ctp;
     console.log('td ReqUserLogin : %s', td.reqUserLogin(investor, ctp.nRequestID()));
