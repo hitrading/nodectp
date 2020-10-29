@@ -51,19 +51,19 @@ void CThostFtdcMdSpiI::on_async_cb(uv_async_t* handle)
     taskdata* task = (taskdata*)handle->data;
     //printf("on_async_cb api=%s\n", task->api.c_str());
     do{
-    if(task->api == "onRtnDepthMarketData") { task->pmd->MainOnRtnDepthMarketData(&task->data.DepthMarketData); continue;}
-    else if(task->api == "onRspQryMulticastInstrument") { task->pmd->MainOnRspQryMulticastInstrument(&task->data.MulticastInstrument, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
-    else if(task->api == "onRtnForQuoteRsp") { task->pmd->MainOnRtnForQuoteRsp(&task->data.ForQuoteRsp); continue;}
-    else if(task->api == "onFrontConnected") { task->pmd->MainOnFrontConnected(); continue;}
-    else if(task->api == "onFrontDisconnected") { task->pmd->MainOnFrontDisconnected(task->data.nReason); continue;}
-    else if(task->api == "onHeartBeatWarning") { task->pmd->MainOnHeartBeatWarning(task->data.nTimeLapse); continue;}
-    else if(task->api == "onRspUserLogin") { task->pmd->MainOnRspUserLogin(&task->data.RspUserLogin, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
-    else if(task->api == "onRspUserLogout") { task->pmd->MainOnRspUserLogout(&task->data.UserLogout, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
-    else if(task->api == "onRspError") { task->pmd->MainOnRspError(&task->RspInfo, task->nRequestID, task->bIsLast); continue;}
-    else if(task->api == "onRspSubMarketData") { task->pmd->MainOnRspSubMarketData(&task->data.SpecificInstrument, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
-    else if(task->api == "onRspUnSubMarketData") { task->pmd->MainOnRspUnSubMarketData(&task->data.SpecificInstrument,&task->RspInfo, task->nRequestID, task->bIsLast); continue;}
-    else if(task->api == "onRspSubForQuoteRsp") { task->pmd->MainOnRspSubForQuoteRsp(&task->data.SpecificInstrument, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
-    else if(task->api == "onRspUnSubForQuoteRsp") { task->pmd->MainOnRspUnSubForQuoteRsp(&task->data.SpecificInstrument, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
+    if(task->api == "OnRtnDepthMarketData") { task->pmd->MainOnRtnDepthMarketData(&task->data.DepthMarketData); continue;}
+    else if(task->api == "OnRspQryMulticastInstrument") { task->pmd->MainOnRspQryMulticastInstrument(&task->data.MulticastInstrument, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
+    else if(task->api == "OnRtnForQuoteRsp") { task->pmd->MainOnRtnForQuoteRsp(&task->data.ForQuoteRsp); continue;}
+    else if(task->api == "OnFrontConnected") { task->pmd->MainOnFrontConnected(); continue;}
+    else if(task->api == "OnFrontDisconnected") { task->pmd->MainOnFrontDisconnected(task->data.nReason); continue;}
+    else if(task->api == "OnHeartBeatWarning") { task->pmd->MainOnHeartBeatWarning(task->data.nTimeLapse); continue;}
+    else if(task->api == "OnRspUserLogin") { task->pmd->MainOnRspUserLogin(&task->data.RspUserLogin, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
+    else if(task->api == "OnRspUserLogout") { task->pmd->MainOnRspUserLogout(&task->data.UserLogout, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
+    else if(task->api == "OnRspError") { task->pmd->MainOnRspError(&task->RspInfo, task->nRequestID, task->bIsLast); continue;}
+    else if(task->api == "OnRspSubMarketData") { task->pmd->MainOnRspSubMarketData(&task->data.SpecificInstrument, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
+    else if(task->api == "OnRspUnSubMarketData") { task->pmd->MainOnRspUnSubMarketData(&task->data.SpecificInstrument,&task->RspInfo, task->nRequestID, task->bIsLast); continue;}
+    else if(task->api == "OnRspSubForQuoteRsp") { task->pmd->MainOnRspSubForQuoteRsp(&task->data.SpecificInstrument, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
+    else if(task->api == "OnRspUnSubForQuoteRsp") { task->pmd->MainOnRspUnSubForQuoteRsp(&task->data.SpecificInstrument, &task->RspInfo, task->nRequestID, task->bIsLast); continue;}
     else {printf("ERROR:%s _on_completed\n", task->api.c_str());}
     }while(0);
     //uv_close((uv_handle_t*)handle, on_uv_close_cb);
