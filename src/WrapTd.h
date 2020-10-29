@@ -43,7 +43,7 @@ namespace td
             virtual ~WrapTd();
 
             static void On(const Nan::FunctionCallbackInfo<v8::Value>& args);
-            static v8::Local<v8::Object> NewInstance(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void NewInstance(const Nan::FunctionCallbackInfo<v8::Value>& args);
             static void Init();
 
             ///////////////////////////////主动请求函数start//////////////////////////////////////////////////
@@ -522,9 +522,9 @@ namespace td
                 if(callback_map.find(event) != callback_map.end()) return true;
                 return false;
             }
-            void SetCallback(string event, v8::Local<v8::Function>& cb, v8::Isolate* isolate)
+            void SetCallback(string event, v8::Local<v8::Function>& cb)
             {
-                callback_map[event].Reset(cb, isolate);
+                callback_map[event].Reset(cb);
             }
 
         private:

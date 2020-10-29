@@ -27,7 +27,6 @@ using v8::String;
 using v8::Value;
 using v8::Int32;
 using v8::Boolean;
-using v8::Handle;
 
 
 set<string>         WrapMd::m_event;                //可以注册的回调事件
@@ -56,23 +55,23 @@ void WrapMd::Init()
 
     // Prototype
     // tpl->PrototypeTemplate()->Set(Nan::New("init").ToLocalChecked(), Nan::New<v8::FunctionTemplate>(Init));
-    Nan::SetPrototypeMethod(tpl, "init", Init);
-    Nan::SetPrototypeMethod(tpl, "release", Release);
-    Nan::SetPrototypeMethod(tpl, "dispose", Dispose);
-    Nan::SetPrototypeMethod(tpl, "createFtdcMdApi", CreateFtdcMdApi);
-    Nan::SetPrototypeMethod(tpl, "getApiVersion", GetApiVersion);
-    Nan::SetPrototypeMethod(tpl, "getTradingDay", GetTradingDay);
-    Nan::SetPrototypeMethod(tpl, "registerFront"       , RegisterFront       );
-    Nan::SetPrototypeMethod(tpl, "registerNameServer"  , RegisterNameServer  );
-    Nan::SetPrototypeMethod(tpl, "registerFensUserInfo", RegisterFensUserInfo);
-    Nan::SetPrototypeMethod(tpl, "reqUserLogin", ReqUserLogin);
-    Nan::SetPrototypeMethod(tpl, "reqUserLogout", ReqUserLogout);
-    Nan::SetPrototypeMethod(tpl, "subscribeMarketData", SubscribeMarketData);
-    Nan::SetPrototypeMethod(tpl, "unSubscribeMarketData", UnSubscribeMarketData);
-    Nan::SetPrototypeMethod(tpl, "subscribeForQuoteRsp", SubscribeForQuoteRsp);
-    Nan::SetPrototypeMethod(tpl, "unSubscribeForQuoteRsp", UnSubscribeForQuoteRsp);
-    Nan::SetPrototypeMethod(tpl, "reqQryMulticastInstrument", ReqQryMulticastInstrument);
-    Nan::SetPrototypeMethod(tpl, "on", On);
+    Nan::SetPrototypeMethod(tpl, "init"                          , Init                     );
+    Nan::SetPrototypeMethod(tpl, "release"                       , Release                  );
+    Nan::SetPrototypeMethod(tpl, "dispose"                       , Dispose                  );
+    Nan::SetPrototypeMethod(tpl, "createFtdcMdApi"               , CreateFtdcMdApi          );
+    Nan::SetPrototypeMethod(tpl, "getApiVersion"                 , GetApiVersion            );
+    Nan::SetPrototypeMethod(tpl, "getTradingDay"                 , GetTradingDay            );
+    Nan::SetPrototypeMethod(tpl, "registerFront"                 , RegisterFront            );
+    Nan::SetPrototypeMethod(tpl, "registerNameServer"            , RegisterNameServer       );
+    Nan::SetPrototypeMethod(tpl, "registerFensUserInfo"          , RegisterFensUserInfo     );
+    Nan::SetPrototypeMethod(tpl, "reqUserLogin"                  , ReqUserLogin             );
+    Nan::SetPrototypeMethod(tpl, "reqUserLogout"                 , ReqUserLogout            );
+    Nan::SetPrototypeMethod(tpl, "subscribeMarketData"           , SubscribeMarketData      );
+    Nan::SetPrototypeMethod(tpl, "unSubscribeMarketData"         , UnSubscribeMarketData    );
+    Nan::SetPrototypeMethod(tpl, "subscribeForQuoteRsp"          , SubscribeForQuoteRsp     );
+    Nan::SetPrototypeMethod(tpl, "unSubscribeForQuoteRsp"        , UnSubscribeForQuoteRsp   );
+    Nan::SetPrototypeMethod(tpl, "reqQryMulticastInstrument"     , ReqQryMulticastInstrument);
+    Nan::SetPrototypeMethod(tpl, "on"                            , On                       );
 
     constructor.Reset(tpl->GetFunction(Nan::GetCurrentContext()).ToLocalChecked()); // for nan
 
@@ -111,14 +110,14 @@ void WrapMd::New(const Nan::FunctionCallbackInfo<v8::Value>& args)
     }
 }
 
-v8::Local<v8::Object> WrapMd::NewInstance(const Nan::FunctionCallbackInfo<v8::Value>& args)
+void WrapMd::NewInstance(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     Nan::EscapableHandleScope scope;
     Local<Function> cons = Nan::New<v8::Function>(constructor);
     Local<Context> context = args.GetIsolate()->GetCurrentContext();
     Local<Object> instance  = cons->NewInstance(context, 0, NULL).ToLocalChecked();
-    // args.GetReturnValue().Set(instance);
-    return scope.Escape(instance);
+    args.GetReturnValue().Set(scope.Escape(instance));
+    // return scope.Escape(instance);
 }
 
 void WrapMd::On(const Nan::FunctionCallbackInfo<v8::Value>& args)
@@ -128,7 +127,8 @@ void WrapMd::On(const Nan::FunctionCallbackInfo<v8::Value>& args)
 
     if (args[0]->IsUndefined() || args[1]->IsUndefined())
     {
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments->event name or function")));
+        // isolate->ThrowException(Exception::TypeError(Nan::New("Wrong arguments->event name or function")));
+        Nan::ThrowTypeError("Wrong arguments->event name or function");
         return;
     }
 
@@ -141,17 +141,19 @@ void WrapMd::On(const Nan::FunctionCallbackInfo<v8::Value>& args)
     std::set<string>::iterator eit = m_event.find(*eNameUtf8);
     if (eit == m_event.end())
     {
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "System has no register this event")));
+        // isolate->ThrowException(Exception::TypeError(Nan::New("System has no register this event")));
+        Nan::ThrowTypeError("System has no register this event");
         return;
     }
 
     if(obj->CanCallback(*eit))
     {
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Callback is defined before")));
+        // isolate->ThrowException(Exception::TypeError(Nan::New("Callback is defined before")));
+        Nan::ThrowTypeError("Callback is defined before");
         return;
     }
 
-    obj->SetCallback(*eNameUtf8, cb, isolate);
+    obj->SetCallback(*eNameUtf8, cb);
 
     args.GetReturnValue().Set(Number::New(isolate, 0));
 }
@@ -186,7 +188,7 @@ void WrapMd::CreateFtdcMdApi(const Nan::FunctionCallbackInfo<v8::Value>& args)
     Isolate* isolate = args.GetIsolate();
     if (args[0]->IsUndefined())
     {
-        args[0] = String::NewFromUtf8(isolate, "");
+        args[0] = Nan::New("");// String::NewFromUtf8(isolate, "");
     }
     Local<String> flowpath = args[0]->ToString();
     String::Utf8Value p(flowpath);
@@ -220,7 +222,8 @@ void WrapMd::RegisterFront(const Nan::FunctionCallbackInfo<v8::Value>& args)
     Isolate* isolate = args.GetIsolate();
     if (args[0]->IsUndefined())
     {
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
+        // isolate->ThrowException(Exception::TypeError(Nan::New("Wrong arguments")));
+        Nan::ThrowTypeError("Wrong arguments");
         return;
     }
     Local<String> url = args[0]->ToString();
@@ -236,7 +239,8 @@ void WrapMd::RegisterNameServer(const Nan::FunctionCallbackInfo<v8::Value>& args
     Isolate* isolate = args.GetIsolate();
     if (args[0]->IsUndefined())
     {
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
+        // isolate->ThrowException(Exception::TypeError(Nan::New("Wrong arguments")));
+        Nan::ThrowTypeError("Wrong arguments");
         return;
     }
     Local<String> url = args[0]->ToString();
@@ -251,7 +255,8 @@ void WrapMd::RegisterFensUserInfo(const Nan::FunctionCallbackInfo<v8::Value>& ar
     Isolate* isolate = args.GetIsolate();
     if (args[0]->IsUndefined() || !args[0]->IsObject())
     {
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
+        // isolate->ThrowException(Exception::TypeError(Nan::New("Wrong arguments")));
+        Nan::ThrowTypeError("Wrong arguments");
         return;
     }
     Local<Object> objjs = args[0]->ToObject();
@@ -265,7 +270,7 @@ void WrapMd::RegisterFensUserInfo(const Nan::FunctionCallbackInfo<v8::Value>& ar
     Isolate* isolate = args.GetIsolate();\
     if (args[0]->IsUndefined() || !args[0]->IsObject() || args[1]->IsUndefined())\
     {\
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));\
+        Nan::ThrowTypeError("Wrong arguments");\
         return;\
     }\
     memset(&req, 0, sizeof(req));\
@@ -303,7 +308,8 @@ void WrapMd::SubscribeMarketData(const Nan::FunctionCallbackInfo<v8::Value>& arg
     WrapMd* obj = Nan::ObjectWrap::Unwrap<WrapMd>(args.Holder());
     if (args[0]->IsUndefined() || !args[0]->IsArray())
     {
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
+        // isolate->ThrowException(Exception::TypeError(Nan::New("Wrong arguments")));
+        Nan::ThrowTypeError("Wrong arguments");
         return;
     }
     Local<v8::Array> instrumentIDs = Local<v8::Array>::Cast(args[0]);
@@ -328,7 +334,8 @@ void WrapMd::UnSubscribeMarketData(const Nan::FunctionCallbackInfo<v8::Value>& a
     WrapMd* obj = Nan::ObjectWrap::Unwrap<WrapMd>(args.Holder());
     if (args[0]->IsUndefined() || !args[0]->IsArray())
     {
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
+        // isolate->ThrowException(Exception::TypeError(Nan::New("Wrong arguments")));
+        Nan::ThrowTypeError("Wrong arguments");
         return;
     }
 
@@ -354,7 +361,8 @@ void WrapMd::SubscribeForQuoteRsp(const Nan::FunctionCallbackInfo<v8::Value>& ar
     WrapMd* obj = Nan::ObjectWrap::Unwrap<WrapMd>(args.Holder());
     if (args[0]->IsUndefined() || !args[0]->IsArray())
     {
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
+        // isolate->ThrowException(Exception::TypeError(Nan::New("Wrong arguments")));
+        Nan::ThrowTypeError("Wrong arguments");
         return;
     }
     Local<v8::Array> instrumentIDs = Local<v8::Array>::Cast(args[0]);
@@ -379,7 +387,8 @@ void WrapMd::UnSubscribeForQuoteRsp(const Nan::FunctionCallbackInfo<v8::Value>& 
     WrapMd* obj = Nan::ObjectWrap::Unwrap<WrapMd>(args.Holder());
     if (args[0]->IsUndefined() || !args[0]->IsArray())
     {
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
+        // isolate->ThrowException(Exception::TypeError(Nan::New("Wrong arguments")));
+        Nan::ThrowTypeError("Wrong arguments");
         return;
     }
 

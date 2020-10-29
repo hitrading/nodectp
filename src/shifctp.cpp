@@ -21,11 +21,13 @@ void signal_segv(int sig)
 
 void CreateMd(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
+    // args.GetReturnValue().Set(md::WrapMd::NewInstance(args));
     md::WrapMd::NewInstance(args);
 }
 
 void CreateTd(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
+    // args.GetReturnValue().Set(td::WrapTd::NewInstance(args));
     td::WrapTd::NewInstance(args);
 }
 

@@ -65,7 +65,7 @@ static string GBK2UTF8(string src)
 static void set_struct(Local<Object>& obj, const char* key, void* dest, int len)
 {
     v8::Isolate* isolate  = v8::Isolate::GetCurrent();
-    Local<Value> v = obj->Get(v8::String::NewFromUtf8(isolate, key));
+    Local<Value> v = Nan::Get(obj, Nan::New<String>(key).ToLocalChecked());// obj->Get(v8::String::NewFromUtf8(isolate, key));
     if (v->IsUndefined())
     {
         memset(dest, 0, len);
@@ -80,7 +80,7 @@ static void set_struct(Local<Object>& obj, const char* key, void* dest, int len)
 static void set_struct(Local<Object>& obj, const char* key, char* dest, int len)
 {
     v8::Isolate* isolate  = v8::Isolate::GetCurrent();
-    Local<Value> v = obj->Get(v8::String::NewFromUtf8(isolate, key));
+    Local<Value> v = Nan::Get(obj, Nan::New<String>(key).ToLocalChecked());// obj->Get(v8::String::NewFromUtf8(isolate, key));
     if (v->IsUndefined())
     {
         memset(dest, 0, len);
@@ -95,7 +95,7 @@ static void set_struct(Local<Object>& obj, const char* key, char* dest, int len)
 static void set_struct(Local<Object>& obj, const char* key, int* dest, int len=0)
 {
     v8::Isolate* isolate  = v8::Isolate::GetCurrent();
-    Local<Value> v = obj->Get(v8::String::NewFromUtf8(isolate, key));
+    Local<Value> v = Nan::Get(obj, Nan::New<String>(key).ToLocalChecked());// obj->Get(v8::String::NewFromUtf8(isolate, key));
     if (v->IsUndefined())
     {
         dest = 0;
@@ -108,7 +108,7 @@ static void set_struct(Local<Object>& obj, const char* key, int* dest, int len=0
 static void set_struct(Local<Object>& obj, const char* key, double* dest, int len=0)
 {
     v8::Isolate* isolate  = v8::Isolate::GetCurrent();
-    Local<Value> v = obj->Get(v8::String::NewFromUtf8(isolate, key));
+    Local<Value> v = Nan::Get(obj, Nan::New<String>(key).ToLocalChecked());// obj->Get(v8::String::NewFromUtf8(isolate, key));
     if (v->IsUndefined() || !v->IsNumber())
     {
         dest = 0;
@@ -121,7 +121,7 @@ static void set_struct(Local<Object>& obj, const char* key, double* dest, int le
 static void set_struct(Local<Object>& obj, const char* key, float* dest, int len=0)
 {
     v8::Isolate* isolate  = v8::Isolate::GetCurrent();
-    Local<Value> v = obj->Get(v8::String::NewFromUtf8(isolate, key));
+    Local<Value> v = Nan::Get(obj, Nan::New<String>(key).ToLocalChecked());// obj->Get(v8::String::NewFromUtf8(isolate, key));
     if (v->IsUndefined() || !v->IsNumber())
     {
         dest = 0;
@@ -136,7 +136,8 @@ static void set_struct(Local<Object>& obj, const char* key, float* dest, int len
 static void set_obj(v8::Local<v8::Object>& obj, const char* key, void* v)
 {
     string u = GBK2UTF8((char*)v);
-    obj->Set(v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), key), v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), u.c_str()));
+    // obj->Set(v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), key), v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), u.c_str()));
+    Nan::Set(obj, Nan::New(key), Nan::New<String>(u.c_str()).ToLocalChecked());
 }
 
 
@@ -144,27 +145,32 @@ static void set_obj(v8::Local<v8::Object>& obj, const char* key, char* v)
 {
     char s[2]= {0};
     s[0] = *v;
-    obj->Set(v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), key), v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), s));
+    // obj->Set(v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), key), v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), s));
+    Nan::Set(obj, Nan::New(key), Nan::New<String>(s).ToLocalChecked());
 }
 
 static void set_obj(v8::Local<v8::Object>& obj, const char* key, int* v)
 {
-    obj->Set(v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), key), v8::Int32::New(v8::Isolate::GetCurrent(), *v));
+    // obj->Set(v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), key), v8::Int32::New(v8::Isolate::GetCurrent(), *v));
+    Nan::Set(obj, Nan::New(key), Nan::New<String>(*v).ToLocalChecked());
 }
 
 static void set_obj(v8::Local<v8::Object>& obj, const char* key, short int* v)
 {
-    obj->Set(v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), key), v8::Int32::New(v8::Isolate::GetCurrent(), (int)*v));
+    // obj->Set(v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), key), v8::Int32::New(v8::Isolate::GetCurrent(), (int)*v));
+    Nan::Set(obj, Nan::New(key), Nan::New<String>(*v).ToLocalChecked());
 }
 
 static void set_obj(v8::Local<v8::Object>& obj, const char* key, float* v)
 {
-    obj->Set(v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), key), v8::Number::New(v8::Isolate::GetCurrent(), *v));
+    // obj->Set(v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), key), v8::Number::New(v8::Isolate::GetCurrent(), *v));
+    Nan::Set(obj, Nan::New(key), Nan::New<String>(*v).ToLocalChecked());
 }
 
 static void set_obj(v8::Local<v8::Object>& obj, const char* key, double* v)
 {
-    obj->Set(v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), key), v8::Number::New(v8::Isolate::GetCurrent(), *v));
+    // obj->Set(v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), key), v8::Number::New(v8::Isolate::GetCurrent(), *v));
+    Nan::Set(obj, Nan::New(key), Nan::New<String>(*v).ToLocalChecked());
 }
 static void set_obj(Local<Object>& obj, CThostFtdcDisseminationField *p)
 {

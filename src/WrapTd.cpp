@@ -52,99 +52,99 @@ void WrapTd::Init()
     tpl->InstanceTemplate()->SetInternalFieldCount(1);
 
     // Prototype
-    Nan::SetPrototypeMethod(tpl, "getApiVersion"                   , GetApiVersion                      );
-    Nan::SetPrototypeMethod(tpl, "init"                            , Init                               );
-    Nan::SetPrototypeMethod(tpl, "release"                         , Release                            );
-    Nan::SetPrototypeMethod(tpl, "dispose"                         , Dispose                            );
-    Nan::SetPrototypeMethod(tpl, "createFtdcTraderApi"             , CreateFtdcTraderApi                );
-    Nan::SetPrototypeMethod(tpl, "getTradingDay"                   , GetTradingDay                      );
-    Nan::SetPrototypeMethod(tpl, "registerFront"                   , RegisterFront                      );
-    Nan::SetPrototypeMethod(tpl, "registerNameServer"              , RegisterNameServer                 );
-    Nan::SetPrototypeMethod(tpl, "registerFensUserInfo"            , RegisterFensUserInfo               );
-    Nan::SetPrototypeMethod(tpl, "subscribePrivateTopic"           , SubscribePrivateTopic              );
-    Nan::SetPrototypeMethod(tpl, "subscribePublicTopic"            , SubscribePublicTopic               );
-    Nan::SetPrototypeMethod(tpl, "reqAuthenticate"                 , ReqAuthenticate                    );
-    Nan::SetPrototypeMethod(tpl, "reqUserLogin"                    , ReqUserLogin                       );
-    Nan::SetPrototypeMethod(tpl, "reqUserLogout"                   , ReqUserLogout                      );
-    Nan::SetPrototypeMethod(tpl, "reqUserPasswordUpdate"           , ReqUserPasswordUpdate              );
-    Nan::SetPrototypeMethod(tpl, "reqTradingAccountPasswordUpdate" , ReqTradingAccountPasswordUpdate    );
-    Nan::SetPrototypeMethod(tpl, "reqOrderInsert"                  , ReqOrderInsert                     );
-    Nan::SetPrototypeMethod(tpl, "reqParkedOrderInsert"            , ReqParkedOrderInsert               );
-    Nan::SetPrototypeMethod(tpl, "reqParkedOrderAction"            , ReqParkedOrderAction               );
-    Nan::SetPrototypeMethod(tpl, "reqOrderAction"                  , ReqOrderAction                     );
-    Nan::SetPrototypeMethod(tpl, "reqQueryMaxOrderVolume"          , ReqQueryMaxOrderVolume             );
-    Nan::SetPrototypeMethod(tpl, "reqSettlementInfoConfirm"        , ReqSettlementInfoConfirm           );
-    Nan::SetPrototypeMethod(tpl, "reqRemoveParkedOrder"            , ReqRemoveParkedOrder               );
-    Nan::SetPrototypeMethod(tpl, "reqRemoveParkedOrderAction"      , ReqRemoveParkedOrderAction         );
-    Nan::SetPrototypeMethod(tpl, "reqExecOrderInsert"              , ReqExecOrderInsert                 );
-    Nan::SetPrototypeMethod(tpl, "reqExecOrderAction"              , ReqExecOrderAction                 );
-    Nan::SetPrototypeMethod(tpl, "reqForQuoteInsert"               , ReqForQuoteInsert                  );
-    Nan::SetPrototypeMethod(tpl, "reqQuoteInsert"                  , ReqQuoteInsert                     );
-    Nan::SetPrototypeMethod(tpl, "reqQuoteAction"                  , ReqQuoteAction                     );
-    Nan::SetPrototypeMethod(tpl, "reqBatchOrderAction"             , ReqBatchOrderAction                );
-    Nan::SetPrototypeMethod(tpl, "reqCombActionInsert"             , ReqCombActionInsert                );
-    Nan::SetPrototypeMethod(tpl, "reqQryOrder"                     , ReqQryOrder                        );
-    Nan::SetPrototypeMethod(tpl, "reqQryTrade"                     , ReqQryTrade                        );
-    Nan::SetPrototypeMethod(tpl, "reqQryInvestorPosition"          , ReqQryInvestorPosition             );
-    Nan::SetPrototypeMethod(tpl, "reqQryTradingAccount"            , ReqQryTradingAccount               );
-    Nan::SetPrototypeMethod(tpl, "reqQryInvestor"                  , ReqQryInvestor                     );
-    Nan::SetPrototypeMethod(tpl, "reqQryTradingCode"               , ReqQryTradingCode                  );
-    Nan::SetPrototypeMethod(tpl, "reqQryInstrumentMarginRate"      , ReqQryInstrumentMarginRate         );
-    Nan::SetPrototypeMethod(tpl, "reqQryInstrumentCommissionRate"  , ReqQryInstrumentCommissionRate     );
-    Nan::SetPrototypeMethod(tpl, "reqQryExchange"                  , ReqQryExchange                     );
-    Nan::SetPrototypeMethod(tpl, "reqQryProduct"                   , ReqQryProduct                      );
-    Nan::SetPrototypeMethod(tpl, "reqQryInstrument"                , ReqQryInstrument                   );
-    Nan::SetPrototypeMethod(tpl, "reqQryDepthMarketData"           , ReqQryDepthMarketData              );
-    Nan::SetPrototypeMethod(tpl, "reqQrySettlementInfo"            , ReqQrySettlementInfo               );
-    Nan::SetPrototypeMethod(tpl, "reqQryTransferBank"              , ReqQryTransferBank                 );
-    Nan::SetPrototypeMethod(tpl, "reqQryInvestorPositionDetail"    , ReqQryInvestorPositionDetail       );
-    Nan::SetPrototypeMethod(tpl, "reqQryNotice"                    , ReqQryNotice                       );
-    Nan::SetPrototypeMethod(tpl, "reqQrySettlementInfoConfirm"     , ReqQrySettlementInfoConfirm        );
-    Nan::SetPrototypeMethod(tpl, "reqQryCFMMCTradingAccountKey"    , ReqQryCFMMCTradingAccountKey       );
-    Nan::SetPrototypeMethod(tpl, "reqQryEWarrantOffset"            , ReqQryEWarrantOffset               );
-    Nan::SetPrototypeMethod(tpl, "reqQryInvestorProductGroupMargin", ReqQryInvestorProductGroupMargin   );
-    Nan::SetPrototypeMethod(tpl, "reqQryExchangeMarginRate"        , ReqQryExchangeMarginRate           );
-    Nan::SetPrototypeMethod(tpl, "reqQryExchangeMarginRateAdjust"  , ReqQryExchangeMarginRateAdjust     );
-    Nan::SetPrototypeMethod(tpl, "reqQryExchangeRate"              , ReqQryExchangeRate                 );
-    Nan::SetPrototypeMethod(tpl, "reqQrySecAgentACIDMap"           , ReqQrySecAgentACIDMap              );
-    Nan::SetPrototypeMethod(tpl, "reqQryProductExchRate"           , ReqQryProductExchRate              );
-    Nan::SetPrototypeMethod(tpl, "reqQryProductGroup"              , ReqQryProductGroup                 );
-    Nan::SetPrototypeMethod(tpl, "reqQryMMInstrumentCommissionRate", ReqQryMMInstrumentCommissionRate   );
-    Nan::SetPrototypeMethod(tpl, "reqQryMMOptionInstrCommRate"     , ReqQryMMOptionInstrCommRate        );
-    Nan::SetPrototypeMethod(tpl, "reqQryInstrumentOrderCommRate"   , ReqQryInstrumentOrderCommRate      );
-    Nan::SetPrototypeMethod(tpl, "reqQryOptionInstrTradeCost"      , ReqQryOptionInstrTradeCost         );
-    Nan::SetPrototypeMethod(tpl, "reqQryOptionInstrCommRate"       , ReqQryOptionInstrCommRate          );
-    Nan::SetPrototypeMethod(tpl, "reqQryExecOrder"                 , ReqQryExecOrder                    );
-    Nan::SetPrototypeMethod(tpl, "reqQryForQuote"                  , ReqQryForQuote                     );
-    Nan::SetPrototypeMethod(tpl, "reqQryQuote"                     , ReqQryQuote                        );
-    Nan::SetPrototypeMethod(tpl, "reqQryCombInstrumentGuard"       , ReqQryCombInstrumentGuard          );
-    Nan::SetPrototypeMethod(tpl, "reqQryCombAction"                , ReqQryCombAction                   );
-    Nan::SetPrototypeMethod(tpl, "reqQryTransferSerial"            , ReqQryTransferSerial               );
-    Nan::SetPrototypeMethod(tpl, "reqQryAccountregister"           , ReqQryAccountregister              );
-    Nan::SetPrototypeMethod(tpl, "reqQryContractBank"              , ReqQryContractBank                 );
-    Nan::SetPrototypeMethod(tpl, "reqQryParkedOrder"               , ReqQryParkedOrder                  );
-    Nan::SetPrototypeMethod(tpl, "reqQryParkedOrderAction"         , ReqQryParkedOrderAction            );
-    Nan::SetPrototypeMethod(tpl, "reqQryTradingNotice"             , ReqQryTradingNotice                );
-    Nan::SetPrototypeMethod(tpl, "reqQryBrokerTradingParams"       , ReqQryBrokerTradingParams          );
-    Nan::SetPrototypeMethod(tpl, "reqQryBrokerTradingAlgos"        , ReqQryBrokerTradingAlgos           );
-    Nan::SetPrototypeMethod(tpl, "reqQueryCFMMCTradingAccountToken", ReqQueryCFMMCTradingAccountToken   );
-    Nan::SetPrototypeMethod(tpl, "reqFromBankToFutureByFuture"     , ReqFromBankToFutureByFuture        );
-    Nan::SetPrototypeMethod(tpl, "reqFromFutureToBankByFuture"     , ReqFromFutureToBankByFuture        );
-    Nan::SetPrototypeMethod(tpl, "reqQueryBankAccountMoneyByFuture", ReqQueryBankAccountMoneyByFuture   );
+    Nan::SetPrototypeMethod(tpl, "getApiVersion"                   , GetApiVersion                        );
+    Nan::SetPrototypeMethod(tpl, "init"                            , Init                                 );
+    Nan::SetPrototypeMethod(tpl, "release"                         , Release                              );
+    Nan::SetPrototypeMethod(tpl, "dispose"                         , Dispose                              );
+    Nan::SetPrototypeMethod(tpl, "createFtdcTraderApi"             , CreateFtdcTraderApi                  );
+    Nan::SetPrototypeMethod(tpl, "getTradingDay"                   , GetTradingDay                        );
+    Nan::SetPrototypeMethod(tpl, "registerFront"                   , RegisterFront                        );
+    Nan::SetPrototypeMethod(tpl, "registerNameServer"              , RegisterNameServer                   );
+    Nan::SetPrototypeMethod(tpl, "registerFensUserInfo"            , RegisterFensUserInfo                 );
+    Nan::SetPrototypeMethod(tpl, "subscribePrivateTopic"           , SubscribePrivateTopic                );
+    Nan::SetPrototypeMethod(tpl, "subscribePublicTopic"            , SubscribePublicTopic                 );
+    Nan::SetPrototypeMethod(tpl, "reqAuthenticate"                 , ReqAuthenticate                      );
+    Nan::SetPrototypeMethod(tpl, "reqUserLogin"                    , ReqUserLogin                         );
+    Nan::SetPrototypeMethod(tpl, "reqUserLogout"                   , ReqUserLogout                        );
+    Nan::SetPrototypeMethod(tpl, "reqUserPasswordUpdate"           , ReqUserPasswordUpdate                );
+    Nan::SetPrototypeMethod(tpl, "reqTradingAccountPasswordUpdate" , ReqTradingAccountPasswordUpdate      );
+    Nan::SetPrototypeMethod(tpl, "reqOrderInsert"                  , ReqOrderInsert                       );
+    Nan::SetPrototypeMethod(tpl, "reqParkedOrderInsert"            , ReqParkedOrderInsert                 );
+    Nan::SetPrototypeMethod(tpl, "reqParkedOrderAction"            , ReqParkedOrderAction                 );
+    Nan::SetPrototypeMethod(tpl, "reqOrderAction"                  , ReqOrderAction                       );
+    Nan::SetPrototypeMethod(tpl, "reqQueryMaxOrderVolume"          , ReqQueryMaxOrderVolume               );
+    Nan::SetPrototypeMethod(tpl, "reqSettlementInfoConfirm"        , ReqSettlementInfoConfirm             );
+    Nan::SetPrototypeMethod(tpl, "reqRemoveParkedOrder"            , ReqRemoveParkedOrder                 );
+    Nan::SetPrototypeMethod(tpl, "reqRemoveParkedOrderAction"      , ReqRemoveParkedOrderAction           );
+    Nan::SetPrototypeMethod(tpl, "reqExecOrderInsert"              , ReqExecOrderInsert                   );
+    Nan::SetPrototypeMethod(tpl, "reqExecOrderAction"              , ReqExecOrderAction                   );
+    Nan::SetPrototypeMethod(tpl, "reqForQuoteInsert"               , ReqForQuoteInsert                    );
+    Nan::SetPrototypeMethod(tpl, "reqQuoteInsert"                  , ReqQuoteInsert                       );
+    Nan::SetPrototypeMethod(tpl, "reqQuoteAction"                  , ReqQuoteAction                       );
+    Nan::SetPrototypeMethod(tpl, "reqBatchOrderAction"             , ReqBatchOrderAction                  );
+    Nan::SetPrototypeMethod(tpl, "reqCombActionInsert"             , ReqCombActionInsert                  );
+    Nan::SetPrototypeMethod(tpl, "reqQryOrder"                     , ReqQryOrder                          );
+    Nan::SetPrototypeMethod(tpl, "reqQryTrade"                     , ReqQryTrade                          );
+    Nan::SetPrototypeMethod(tpl, "reqQryInvestorPosition"          , ReqQryInvestorPosition               );
+    Nan::SetPrototypeMethod(tpl, "reqQryTradingAccount"            , ReqQryTradingAccount                 );
+    Nan::SetPrototypeMethod(tpl, "reqQryInvestor"                  , ReqQryInvestor                       );
+    Nan::SetPrototypeMethod(tpl, "reqQryTradingCode"               , ReqQryTradingCode                    );
+    Nan::SetPrototypeMethod(tpl, "reqQryInstrumentMarginRate"      , ReqQryInstrumentMarginRate           );
+    Nan::SetPrototypeMethod(tpl, "reqQryInstrumentCommissionRate"  , ReqQryInstrumentCommissionRate       );
+    Nan::SetPrototypeMethod(tpl, "reqQryExchange"                  , ReqQryExchange                       );
+    Nan::SetPrototypeMethod(tpl, "reqQryProduct"                   , ReqQryProduct                        );
+    Nan::SetPrototypeMethod(tpl, "reqQryInstrument"                , ReqQryInstrument                     );
+    Nan::SetPrototypeMethod(tpl, "reqQryDepthMarketData"           , ReqQryDepthMarketData                );
+    Nan::SetPrototypeMethod(tpl, "reqQrySettlementInfo"            , ReqQrySettlementInfo                 );
+    Nan::SetPrototypeMethod(tpl, "reqQryTransferBank"              , ReqQryTransferBank                   );
+    Nan::SetPrototypeMethod(tpl, "reqQryInvestorPositionDetail"    , ReqQryInvestorPositionDetail         );
+    Nan::SetPrototypeMethod(tpl, "reqQryNotice"                    , ReqQryNotice                         );
+    Nan::SetPrototypeMethod(tpl, "reqQrySettlementInfoConfirm"     , ReqQrySettlementInfoConfirm          );
+    Nan::SetPrototypeMethod(tpl, "reqQryCFMMCTradingAccountKey"    , ReqQryCFMMCTradingAccountKey         );
+    Nan::SetPrototypeMethod(tpl, "reqQryEWarrantOffset"            , ReqQryEWarrantOffset                 );
+    Nan::SetPrototypeMethod(tpl, "reqQryInvestorProductGroupMargin", ReqQryInvestorProductGroupMargin     );
+    Nan::SetPrototypeMethod(tpl, "reqQryExchangeMarginRate"        , ReqQryExchangeMarginRate             );
+    Nan::SetPrototypeMethod(tpl, "reqQryExchangeMarginRateAdjust"  , ReqQryExchangeMarginRateAdjust       );
+    Nan::SetPrototypeMethod(tpl, "reqQryExchangeRate"              , ReqQryExchangeRate                   );
+    Nan::SetPrototypeMethod(tpl, "reqQrySecAgentACIDMap"           , ReqQrySecAgentACIDMap                );
+    Nan::SetPrototypeMethod(tpl, "reqQryProductExchRate"           , ReqQryProductExchRate                );
+    Nan::SetPrototypeMethod(tpl, "reqQryProductGroup"              , ReqQryProductGroup                   );
+    Nan::SetPrototypeMethod(tpl, "reqQryMMInstrumentCommissionRate", ReqQryMMInstrumentCommissionRate     );
+    Nan::SetPrototypeMethod(tpl, "reqQryMMOptionInstrCommRate"     , ReqQryMMOptionInstrCommRate          );
+    Nan::SetPrototypeMethod(tpl, "reqQryInstrumentOrderCommRate"   , ReqQryInstrumentOrderCommRate        );
+    Nan::SetPrototypeMethod(tpl, "reqQryOptionInstrTradeCost"      , ReqQryOptionInstrTradeCost           );
+    Nan::SetPrototypeMethod(tpl, "reqQryOptionInstrCommRate"       , ReqQryOptionInstrCommRate            );
+    Nan::SetPrototypeMethod(tpl, "reqQryExecOrder"                 , ReqQryExecOrder                      );
+    Nan::SetPrototypeMethod(tpl, "reqQryForQuote"                  , ReqQryForQuote                       );
+    Nan::SetPrototypeMethod(tpl, "reqQryQuote"                     , ReqQryQuote                          );
+    Nan::SetPrototypeMethod(tpl, "reqQryCombInstrumentGuard"       , ReqQryCombInstrumentGuard            );
+    Nan::SetPrototypeMethod(tpl, "reqQryCombAction"                , ReqQryCombAction                     );
+    Nan::SetPrototypeMethod(tpl, "reqQryTransferSerial"            , ReqQryTransferSerial                 );
+    Nan::SetPrototypeMethod(tpl, "reqQryAccountregister"           , ReqQryAccountregister                );
+    Nan::SetPrototypeMethod(tpl, "reqQryContractBank"              , ReqQryContractBank                   );
+    Nan::SetPrototypeMethod(tpl, "reqQryParkedOrder"               , ReqQryParkedOrder                    );
+    Nan::SetPrototypeMethod(tpl, "reqQryParkedOrderAction"         , ReqQryParkedOrderAction              );
+    Nan::SetPrototypeMethod(tpl, "reqQryTradingNotice"             , ReqQryTradingNotice                  );
+    Nan::SetPrototypeMethod(tpl, "reqQryBrokerTradingParams"       , ReqQryBrokerTradingParams            );
+    Nan::SetPrototypeMethod(tpl, "reqQryBrokerTradingAlgos"        , ReqQryBrokerTradingAlgos             );
+    Nan::SetPrototypeMethod(tpl, "reqQueryCFMMCTradingAccountToken", ReqQueryCFMMCTradingAccountToken     );
+    Nan::SetPrototypeMethod(tpl, "reqFromBankToFutureByFuture"     , ReqFromBankToFutureByFuture          );
+    Nan::SetPrototypeMethod(tpl, "reqFromFutureToBankByFuture"     , ReqFromFutureToBankByFuture          );
+    Nan::SetPrototypeMethod(tpl, "reqQueryBankAccountMoneyByFuture", ReqQueryBankAccountMoneyByFuture     );
     Nan::SetPrototypeMethod(tpl, "reqQryInvestorPositionCombineDetail",ReqQryInvestorPositionCombineDetail);
     // TODO 穿透式监管新增主动请求接口
-    Nan::SetPrototypeMethod(tpl, "registerUserSystemInfo"          , RegisterUserSystemInfo             );
-    Nan::SetPrototypeMethod(tpl, "submitUserSystemInfo"            , SubmitUserSystemInfo               );
-    Nan::SetPrototypeMethod(tpl, "reqUserAuthMethod"               , ReqUserAuthMethod                  );
-    Nan::SetPrototypeMethod(tpl, "reqGenUserCaptcha"               , ReqGenUserCaptcha                  );
-    Nan::SetPrototypeMethod(tpl, "reqGenUserText"                  , ReqGenUserText                     );
-    Nan::SetPrototypeMethod(tpl, "reqUserLoginWithCaptcha"         , ReqUserLoginWithCaptcha            );
-    Nan::SetPrototypeMethod(tpl, "reqUserLoginWithText"            , ReqUserLoginWithText               );
-    Nan::SetPrototypeMethod(tpl, "reqUserLoginWithOTP"             , ReqUserLoginWithOTP                );
-    Nan::SetPrototypeMethod(tpl, "reqQrySecAgentTradeInfo"         , ReqQrySecAgentTradeInfo            );
-    Nan::SetPrototypeMethod(tpl, "reqQrySecAgentTradingAccount"    , ReqQrySecAgentTradingAccount       );
-    Nan::SetPrototypeMethod(tpl, "reqQrySecAgentCheckMode"         , ReqQrySecAgentCheckMode            );
-    Nan::SetPrototypeMethod(tpl, "on", On);
+    Nan::SetPrototypeMethod(tpl, "registerUserSystemInfo"          , RegisterUserSystemInfo               );
+    Nan::SetPrototypeMethod(tpl, "submitUserSystemInfo"            , SubmitUserSystemInfo                 );
+    Nan::SetPrototypeMethod(tpl, "reqUserAuthMethod"               , ReqUserAuthMethod                    );
+    Nan::SetPrototypeMethod(tpl, "reqGenUserCaptcha"               , ReqGenUserCaptcha                    );
+    Nan::SetPrototypeMethod(tpl, "reqGenUserText"                  , ReqGenUserText                       );
+    Nan::SetPrototypeMethod(tpl, "reqUserLoginWithCaptcha"         , ReqUserLoginWithCaptcha              );
+    Nan::SetPrototypeMethod(tpl, "reqUserLoginWithText"            , ReqUserLoginWithText                 );
+    Nan::SetPrototypeMethod(tpl, "reqUserLoginWithOTP"             , ReqUserLoginWithOTP                  );
+    Nan::SetPrototypeMethod(tpl, "reqQrySecAgentTradeInfo"         , ReqQrySecAgentTradeInfo              );
+    Nan::SetPrototypeMethod(tpl, "reqQrySecAgentTradingAccount"    , ReqQrySecAgentTradingAccount         );
+    Nan::SetPrototypeMethod(tpl, "reqQrySecAgentCheckMode"         , ReqQrySecAgentCheckMode              );
+    Nan::SetPrototypeMethod(tpl, "on"                              , On                                   );
 
     constructor.Reset(tpl->GetFunction(Nan::GetCurrentContext()).ToLocalChecked()); // for nan
 
@@ -288,14 +288,14 @@ void WrapTd::New(const Nan::FunctionCallbackInfo<v8::Value>& args)
     }
 }
 
-v8::Local<v8::Object> WrapTd::NewInstance(const Nan::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::NewInstance(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     Nan::EscapableHandleScope scope;
     Local<Function> cons = Nan::New<v8::Function>(constructor);
     Local<Context> context = args.GetIsolate()->GetCurrentContext();
     Local<Object> instance  = cons->NewInstance(context, 0, NULL).ToLocalChecked();
-    // args.GetReturnValue().Set(instance);
-    return scope.Escape(instance);
+    args.GetReturnValue().Set(scope.Escape(instance));
+    // return scope.Escape(instance);
 }
 
 void WrapTd::On(const Nan::FunctionCallbackInfo<v8::Value>& args)
@@ -305,7 +305,8 @@ void WrapTd::On(const Nan::FunctionCallbackInfo<v8::Value>& args)
 
     if (args[0]->IsUndefined() || args[1]->IsUndefined())
     {
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments->event name or function")));
+        // isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments->event name or function")));
+        Nan::ThrowTypeError("Wrong arguments->event name or function");
         return;
     }
 
@@ -318,17 +319,19 @@ void WrapTd::On(const Nan::FunctionCallbackInfo<v8::Value>& args)
     std::set<string>::iterator eit = m_event.find(*eNameUtf8);
     if (eit == m_event.end())
     {
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "System has no register this event")));
+        // isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "System has no register this event")));
+        Nan::ThrowTypeError("System has no register this event");
         return;
     }
 
     if(obj->CanCallback(*eit))
     {
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Callback is defined before")));
+        // isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Callback is defined before")));
+        Nan::ThrowTypeError("Callback is defined before");
         return;
     }
 
-    obj->SetCallback(*eNameUtf8, cb, isolate);
+    obj->SetCallback(*eNameUtf8, cb);
 
     args.GetReturnValue().Set(Number::New(isolate, 0));
 }
@@ -397,7 +400,8 @@ void WrapTd::RegisterFront(const Nan::FunctionCallbackInfo<v8::Value>& args)
     Isolate* isolate = args.GetIsolate();
     if (args[0]->IsUndefined())
     {
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
+        // isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
+        Nan::ThrowTypeError("Wrong arguments");
         return;
     }
     Local<String> url = args[0]->ToString();
@@ -413,7 +417,8 @@ void WrapTd::RegisterNameServer(const Nan::FunctionCallbackInfo<v8::Value>& args
     Isolate* isolate = args.GetIsolate();
     if (args[0]->IsUndefined())
     {
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
+        // isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
+        Nan::ThrowTypeError("Wrong arguments");
         return;
     }
     Local<String> url = args[0]->ToString();
@@ -429,7 +434,8 @@ void WrapTd::RegisterFensUserInfo(const Nan::FunctionCallbackInfo<v8::Value>& ar
     Isolate* isolate = args.GetIsolate();
     if (args[0]->IsUndefined() || !args[0]->IsObject())
     {
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
+        // isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
+        Nan::ThrowTypeError("Wrong arguments");
         return;
     }
     Local<Object> objjs = args[0]->ToObject();
@@ -445,7 +451,8 @@ void WrapTd::SubscribePrivateTopic(const Nan::FunctionCallbackInfo<v8::Value>& a
     Isolate* isolate = args.GetIsolate();
     if (args[0]->IsUndefined())
     {
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
+        // isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
+        Nan::ThrowTypeError("Wrong arguments");
         return;
     }
     obj->GetTdApi()->SubscribePrivateTopic((THOST_TE_RESUME_TYPE)args[0]->Int32Value());
@@ -458,7 +465,8 @@ void WrapTd::SubscribePublicTopic(const Nan::FunctionCallbackInfo<v8::Value>& ar
     Isolate* isolate = args.GetIsolate();
     if (args[0]->IsUndefined())
     {
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
+        // isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));
+        Nan::ThrowTypeError("Wrong arguments");
         return;
     }
     obj->GetTdApi()->SubscribePublicTopic((THOST_TE_RESUME_TYPE)args[0]->Int32Value());
@@ -470,7 +478,7 @@ void WrapTd::SubscribePublicTopic(const Nan::FunctionCallbackInfo<v8::Value>& ar
     Isolate* isolate = args.GetIsolate();\
     if (args[0]->IsUndefined() || !args[0]->IsObject() || args[1]->IsUndefined())\
     {\
-        isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(isolate, "Wrong arguments")));\
+        Nan::ThrowTypeError("Wrong arguments");\
         return;\
     }\
     memset(&req, 0, sizeof(req));\

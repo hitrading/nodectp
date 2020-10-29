@@ -38,7 +38,7 @@ class WrapMd : public CThostFtdcMdSpiI, public Nan::ObjectWrap
 
         //wrap主动请求函数
         static void On(const Nan::FunctionCallbackInfo<v8::Value>& args);
-        static v8::Local<v8::Object> NewInstance(const Nan::FunctionCallbackInfo<v8::Value>& args);
+        static void NewInstance(const Nan::FunctionCallbackInfo<v8::Value>& args);
         static void Init();
 
         static void Init(const Nan::FunctionCallbackInfo<v8::Value>& args);
@@ -78,9 +78,9 @@ class WrapMd : public CThostFtdcMdSpiI, public Nan::ObjectWrap
             if(callback_map.find(event) != callback_map.end()) return true;
             return false;
         }
-        void SetCallback(string event, v8::Local<v8::Function>& cb, v8::Isolate* isolate)
+        void SetCallback(string event, v8::Local<v8::Function>& cb)
         {
-            callback_map[event].Reset(isolate, cb);
+            callback_map[event].Reset(cb);
         }
     private:
         typedef std::map<string, Nan::Persistent<v8::Function> > __callback_type;
