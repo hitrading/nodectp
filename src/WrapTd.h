@@ -528,8 +528,8 @@ namespace td
             }
 
         private:
-            typedef std::map<string, v8::Persistent<v8::Function> > __callback_type;
-            typedef std::map<string, v8::Persistent<v8::Function> >::iterator  __callback_iter_type;
+            typedef std::map<string, Nan::Persistent<v8::Function> > __callback_type;
+            typedef std::map<string, Nan::Persistent<v8::Function> >::iterator  __callback_iter_type;
 
             __callback_type callback_map; //回调js name映射回调处理函数
 
