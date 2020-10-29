@@ -18,6 +18,8 @@ let ctp = new CTP(
     }
 );
 
+ctp.injectLogger();
+
 new Market(ctp);
 new Trade(
     ctp,

@@ -14,6 +14,8 @@ let ctp = new CTP(
     }
 );
 
+ctp.injectLogger();
+
 ctp.createTdApi();
 ctp.createMdApi();
 

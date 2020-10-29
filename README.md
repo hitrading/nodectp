@@ -25,3 +25,8 @@ node ./example/ctpapp.js
 
 ### 可能遇到的报错问题
 执行 `yarn build` 命令时可能会遇到node.lib文件损坏的情况, 此时可去官网下载node.lib文件替换, 下载地址：[https://nodejs.org/dist/latest-v8.x/win-x64/node.lib]
+
+
+### 适配Nan
+
+参考 https://github.com/octalmage/robotjs/pull/523/files
