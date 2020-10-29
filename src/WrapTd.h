@@ -21,7 +21,8 @@
 //#include <pthread.h>
 #include <map>
 #include <node.h>
-#include <node_object_wrap.h>
+// #include <node_object_wrap.h>
+#include <nan.h>
 
 #include <set>
 
@@ -35,126 +36,126 @@ using namespace std;
 
 namespace td
 {
-    class WrapTd : public CThostFtdcTraderSpiI, public node::ObjectWrap
+    class WrapTd : public CThostFtdcTraderSpiI, public Nan::ObjectWrap
     {
         public:
             WrapTd();
             virtual ~WrapTd();
 
-            static void On(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void NewInstance(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void Init(v8::Isolate* isolate);
+            static void On(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static v8::Local<v8::Object> NewInstance(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void Init();
 
             ///////////////////////////////主动请求函数start//////////////////////////////////////////////////
             //参数传递以对象的形式
-            static void GetApiVersion(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void Init(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void Release(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void Dispose(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void CreateFtdcTraderApi(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void GetTradingDay(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void RegisterFront(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void RegisterNameServer(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void RegisterFensUserInfo(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void SubscribePrivateTopic(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void SubscribePublicTopic(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqAuthenticate(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqUserLogin(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqUserLogout(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqUserPasswordUpdate(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqTradingAccountPasswordUpdate(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqOrderAction(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqOrderInsert(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqSettlementInfoConfirm(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryProduct(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryInstrument(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryInvestorPositionDetail(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryOrder(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryTrade(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryInvestorPosition(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryTradingAccount(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqParkedOrderInsert(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqParkedOrderAction(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQueryMaxOrderVolume(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqRemoveParkedOrder(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqRemoveParkedOrderAction(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqExecOrderInsert(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqExecOrderAction(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqForQuoteInsert(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQuoteInsert(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQuoteAction(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqBatchOrderAction(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqCombActionInsert(const v8::FunctionCallbackInfo<v8::Value>& args);
+            static void GetApiVersion(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void Init(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void Release(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void Dispose(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void CreateFtdcTraderApi(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void GetTradingDay(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void RegisterFront(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void RegisterNameServer(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void RegisterFensUserInfo(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void SubscribePrivateTopic(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void SubscribePublicTopic(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqAuthenticate(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqUserLogin(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqUserLogout(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqUserPasswordUpdate(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqTradingAccountPasswordUpdate(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqOrderAction(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqOrderInsert(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqSettlementInfoConfirm(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryProduct(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryInstrument(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryInvestorPositionDetail(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryOrder(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryTrade(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryInvestorPosition(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryTradingAccount(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqParkedOrderInsert(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqParkedOrderAction(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQueryMaxOrderVolume(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqRemoveParkedOrder(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqRemoveParkedOrderAction(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqExecOrderInsert(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqExecOrderAction(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqForQuoteInsert(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQuoteInsert(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQuoteAction(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqBatchOrderAction(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqCombActionInsert(const Nan::FunctionCallbackInfo<v8::Value>& args);
 
-            static void ReqQryInvestor(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryTradingCode(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryInstrumentMarginRate(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryInstrumentCommissionRate(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryExchange(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryDepthMarketData(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQrySettlementInfo(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryTransferBank(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryNotice(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQrySettlementInfoConfirm(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryInvestorPositionCombineDetail(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryCFMMCTradingAccountKey(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryEWarrantOffset(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryInvestorProductGroupMargin(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryExchangeMarginRate(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryExchangeMarginRateAdjust(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryExchangeRate(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQrySecAgentACIDMap(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryProductExchRate(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryProductGroup(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryMMInstrumentCommissionRate(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryMMOptionInstrCommRate(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryInstrumentOrderCommRate(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryOptionInstrTradeCost(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryOptionInstrCommRate(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryExecOrder(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryForQuote(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryQuote(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryCombInstrumentGuard(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryCombAction(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryTransferSerial(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryAccountregister(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryContractBank(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryParkedOrder(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryParkedOrderAction(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryTradingNotice(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryBrokerTradingParams(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQryBrokerTradingAlgos(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQueryCFMMCTradingAccountToken(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqFromBankToFutureByFuture(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqFromFutureToBankByFuture(const v8::FunctionCallbackInfo<v8::Value>& args);
-            static void ReqQueryBankAccountMoneyByFuture(const v8::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryInvestor(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryTradingCode(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryInstrumentMarginRate(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryInstrumentCommissionRate(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryExchange(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryDepthMarketData(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQrySettlementInfo(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryTransferBank(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryNotice(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQrySettlementInfoConfirm(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryInvestorPositionCombineDetail(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryCFMMCTradingAccountKey(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryEWarrantOffset(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryInvestorProductGroupMargin(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryExchangeMarginRate(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryExchangeMarginRateAdjust(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryExchangeRate(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQrySecAgentACIDMap(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryProductExchRate(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryProductGroup(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryMMInstrumentCommissionRate(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryMMOptionInstrCommRate(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryInstrumentOrderCommRate(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryOptionInstrTradeCost(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryOptionInstrCommRate(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryExecOrder(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryForQuote(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryQuote(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryCombInstrumentGuard(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryCombAction(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryTransferSerial(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryAccountregister(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryContractBank(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryParkedOrder(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryParkedOrderAction(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryTradingNotice(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryBrokerTradingParams(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQryBrokerTradingAlgos(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQueryCFMMCTradingAccountToken(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqFromBankToFutureByFuture(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqFromFutureToBankByFuture(const Nan::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQueryBankAccountMoneyByFuture(const Nan::FunctionCallbackInfo<v8::Value>& args);
 
             // TODO 穿透式监控新增主动请求接口
 
             // 注册用户终端信息，用于中继服务器多连接模式
             // 需要在终端认证成功后，用户登录前调用该接口
-            static void RegisterUserSystemInfo(const v8::FunctionCallbackInfo<v8::Value>& args);
+            static void RegisterUserSystemInfo(const Nan::FunctionCallbackInfo<v8::Value>& args);
             // 上报用户终端信息，用于中继服务器操作员登录模式
             // 操作员登录后，可以多次调用该接口上报客户信息
-            static void SubmitUserSystemInfo(const v8::FunctionCallbackInfo<v8::Value>& args);
+            static void SubmitUserSystemInfo(const Nan::FunctionCallbackInfo<v8::Value>& args);
             // 查询用户当前支持的认证模式
-            static void ReqUserAuthMethod(const v8::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqUserAuthMethod(const Nan::FunctionCallbackInfo<v8::Value>& args);
             // 用户发出获取图形验证码请求
-            static void ReqGenUserCaptcha(const v8::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqGenUserCaptcha(const Nan::FunctionCallbackInfo<v8::Value>& args);
             // 用户发出获取短信验证码请求
-            static void ReqGenUserText(const v8::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqGenUserText(const Nan::FunctionCallbackInfo<v8::Value>& args);
             // 用户发出带有图片验证码的登陆请求
-            static void ReqUserLoginWithCaptcha(const v8::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqUserLoginWithCaptcha(const Nan::FunctionCallbackInfo<v8::Value>& args);
             // 用户发出带有短信验证码的登陆请求
-            static void ReqUserLoginWithText(const v8::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqUserLoginWithText(const Nan::FunctionCallbackInfo<v8::Value>& args);
             // 用户发出带有动态口令的登陆请求
-            static void ReqUserLoginWithOTP(const v8::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqUserLoginWithOTP(const Nan::FunctionCallbackInfo<v8::Value>& args);
             // 请求查询二级代理商信息
-            static void ReqQrySecAgentTradeInfo(const v8::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQrySecAgentTradeInfo(const Nan::FunctionCallbackInfo<v8::Value>& args);
             // 请求查询二级代理商资金校验模式
-            static void ReqQrySecAgentCheckMode(const v8::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQrySecAgentCheckMode(const Nan::FunctionCallbackInfo<v8::Value>& args);
             // 请求查询资金账户
-            static void ReqQrySecAgentTradingAccount(const v8::FunctionCallbackInfo<v8::Value>& args);
+            static void ReqQrySecAgentTradingAccount(const Nan::FunctionCallbackInfo<v8::Value>& args);
             /////////////////////////////主动请求函数end/////////////////////////////////////////////////////
 
 
@@ -523,7 +524,7 @@ namespace td
             }
             void SetCallback(string event, v8::Local<v8::Function>& cb, v8::Isolate* isolate)
             {
-                callback_map[event].Reset(isolate, cb);
+                callback_map[event].Reset(cb, isolate);
             }
 
         private:
@@ -533,9 +534,9 @@ namespace td
             __callback_type callback_map; //回调js name映射回调处理函数
 
             static set<string>         m_event;                //可以注册的回调事件
-            static v8::Persistent<v8::Function> constructor;           //主动请求函数映射js name
+            static Nan::Persistent<v8::Function> constructor;           //主动请求函数映射js name
 
-            static void New(const v8::FunctionCallbackInfo<v8::Value>& args);
+            static void New(const Nan::FunctionCallbackInfo<v8::Value>& args);
             v8::Local<v8::Value> PkgRspInfo(CThostFtdcRspInfoField *pRspInfo)
             {
                 v8::Isolate* isolate = v8::Isolate::GetCurrent();

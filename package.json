@@ -11,6 +11,7 @@
     "lodash": "^4.17.15",
     "log4js": "^6.1.2",
     "microenum": "^0.0.2",
+    "nan": "^2.14.2",
     "node-gyp": "^6.1.0"
   },
   "scripts": {

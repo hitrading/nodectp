@@ -2,7 +2,7 @@
 #include <node.h>
 #include "WrapMd.h"
 #include "WrapTd.h"
-
+#include <nan.h>
 
 
 namespace ctp
@@ -19,24 +19,36 @@ void signal_segv(int sig)
     printf("catch SIGSEGV\n");
 }
 
-void CreateMd(const FunctionCallbackInfo<Value>& args) 
+void CreateMd(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     md::WrapMd::NewInstance(args);
 }
 
-void CreateTd(const FunctionCallbackInfo<Value>& args) 
+void CreateTd(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     td::WrapTd::NewInstance(args);
 }
 
 
-void Init(Local<Object> exports) 
+void Init(Local<Object> exports)
 {
-    //signal(SIGSEGV, signal_segv);
-    md::WrapMd::Init(exports->GetIsolate());
-    td::WrapTd::Init(exports->GetIsolate());
-    NODE_SET_METHOD(exports, "crmd", CreateMd);
-    NODE_SET_METHOD(exports, "crtd", CreateTd);
+  //signal(SIGSEGV, signal_segv);
+  v8::Local<v8::Context> context = exports->CreationContext();
+
+  md::WrapMd::Init();
+  td::WrapTd::Init();
+
+  exports->Set(
+    context,
+    Nan::New("crmd").ToLocalChecked(),
+    Nan::New<v8::FunctionTemplate>(CreateMd)->GetFunction(context).ToLocalChecked()
+  );
+
+  exports->Set(
+    context,
+    Nan::New("crtd").ToLocalChecked(),
+    Nan::New<v8::FunctionTemplate>(CreateTd)->GetFunction(context).ToLocalChecked()
+  );
 }
 
 NODE_MODULE(shifctp, Init)

@@ -31,7 +31,7 @@ using v8::Handle;
 
 
 set<string>         WrapTd::m_event;                //可以注册的回调事件
-Persistent<Function> WrapTd::constructor;           //主动请求函数映射js name
+Nan::Persistent<Function> WrapTd::constructor;           //主动请求函数映射js name
 
 WrapTd::WrapTd()
 {
@@ -42,109 +42,111 @@ WrapTd::~WrapTd()
 {
 
 }
-void WrapTd::Init(v8::Isolate* isolate)
+void WrapTd::Init()
 {
 	//主动请求函数的映射
+  Nan::HandleScope scope;
     // Prepare constructor template
-    Local<FunctionTemplate> tpl = FunctionTemplate::New(isolate, New);
-    tpl->SetClassName(String::NewFromUtf8(isolate, "WrapTd"));
+    Local<FunctionTemplate> tpl = Nan::New<v8::FunctionTemplate>(New);
+    tpl->SetClassName(Nan::New("WrapTd").ToLocalChecked());
     tpl->InstanceTemplate()->SetInternalFieldCount(1);
 
     // Prototype
-    NODE_SET_PROTOTYPE_METHOD(tpl, "getApiVersion"                   , GetApiVersion                      );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "init"                            , Init                               );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "release"                         , Release                            );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "dispose"                         , Dispose                            );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "createFtdcTraderApi"             , CreateFtdcTraderApi                );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "getTradingDay"                   , GetTradingDay                      );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "registerFront"                   , RegisterFront                      );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "registerNameServer"              , RegisterNameServer                 );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "registerFensUserInfo"            , RegisterFensUserInfo               );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "subscribePrivateTopic"           , SubscribePrivateTopic              );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "subscribePublicTopic"            , SubscribePublicTopic               );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqAuthenticate"                 , ReqAuthenticate                    );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqUserLogin"                    , ReqUserLogin                       );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqUserLogout"                   , ReqUserLogout                      );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqUserPasswordUpdate"           , ReqUserPasswordUpdate              );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqTradingAccountPasswordUpdate" , ReqTradingAccountPasswordUpdate    );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqOrderInsert"                  , ReqOrderInsert                     );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqParkedOrderInsert"            , ReqParkedOrderInsert               );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqParkedOrderAction"            , ReqParkedOrderAction               );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqOrderAction"                  , ReqOrderAction                     );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQueryMaxOrderVolume"          , ReqQueryMaxOrderVolume             );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqSettlementInfoConfirm"        , ReqSettlementInfoConfirm           );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqRemoveParkedOrder"            , ReqRemoveParkedOrder               );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqRemoveParkedOrderAction"      , ReqRemoveParkedOrderAction         );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqExecOrderInsert"              , ReqExecOrderInsert                 );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqExecOrderAction"              , ReqExecOrderAction                 );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqForQuoteInsert"               , ReqForQuoteInsert                  );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQuoteInsert"                  , ReqQuoteInsert                     );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQuoteAction"                  , ReqQuoteAction                     );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqBatchOrderAction"             , ReqBatchOrderAction                );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqCombActionInsert"             , ReqCombActionInsert                );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryOrder"                     , ReqQryOrder                        );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryTrade"                     , ReqQryTrade                        );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryInvestorPosition"          , ReqQryInvestorPosition             );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryTradingAccount"            , ReqQryTradingAccount               );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryInvestor"                  , ReqQryInvestor                     );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryTradingCode"               , ReqQryTradingCode                  );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryInstrumentMarginRate"      , ReqQryInstrumentMarginRate         );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryInstrumentCommissionRate"  , ReqQryInstrumentCommissionRate     );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryExchange"                  , ReqQryExchange                     );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryProduct"                   , ReqQryProduct                      );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryInstrument"                , ReqQryInstrument                   );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryDepthMarketData"           , ReqQryDepthMarketData              );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQrySettlementInfo"            , ReqQrySettlementInfo               );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryTransferBank"              , ReqQryTransferBank                 );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryInvestorPositionDetail"    , ReqQryInvestorPositionDetail       );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryNotice"                    , ReqQryNotice                       );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQrySettlementInfoConfirm"     , ReqQrySettlementInfoConfirm        );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryCFMMCTradingAccountKey"    , ReqQryCFMMCTradingAccountKey       );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryEWarrantOffset"            , ReqQryEWarrantOffset               );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryInvestorProductGroupMargin", ReqQryInvestorProductGroupMargin   );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryExchangeMarginRate"        , ReqQryExchangeMarginRate           );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryExchangeMarginRateAdjust"  , ReqQryExchangeMarginRateAdjust     );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryExchangeRate"              , ReqQryExchangeRate                 );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQrySecAgentACIDMap"           , ReqQrySecAgentACIDMap              );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryProductExchRate"           , ReqQryProductExchRate              );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryProductGroup"              , ReqQryProductGroup                 );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryMMInstrumentCommissionRate", ReqQryMMInstrumentCommissionRate   );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryMMOptionInstrCommRate"     , ReqQryMMOptionInstrCommRate        );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryInstrumentOrderCommRate"   , ReqQryInstrumentOrderCommRate      );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryOptionInstrTradeCost"      , ReqQryOptionInstrTradeCost         );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryOptionInstrCommRate"       , ReqQryOptionInstrCommRate          );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryExecOrder"                 , ReqQryExecOrder                    );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryForQuote"                  , ReqQryForQuote                     );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryQuote"                     , ReqQryQuote                        );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryCombInstrumentGuard"       , ReqQryCombInstrumentGuard          );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryCombAction"                , ReqQryCombAction                   );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryTransferSerial"            , ReqQryTransferSerial               );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryAccountregister"           , ReqQryAccountregister              );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryContractBank"              , ReqQryContractBank                 );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryParkedOrder"               , ReqQryParkedOrder                  );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryParkedOrderAction"         , ReqQryParkedOrderAction            );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryTradingNotice"             , ReqQryTradingNotice                );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryBrokerTradingParams"       , ReqQryBrokerTradingParams          );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryBrokerTradingAlgos"        , ReqQryBrokerTradingAlgos           );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQueryCFMMCTradingAccountToken", ReqQueryCFMMCTradingAccountToken   );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqFromBankToFutureByFuture"     , ReqFromBankToFutureByFuture        );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqFromFutureToBankByFuture"     , ReqFromFutureToBankByFuture        );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQueryBankAccountMoneyByFuture", ReqQueryBankAccountMoneyByFuture   );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQryInvestorPositionCombineDetail",ReqQryInvestorPositionCombineDetail);
+    Nan::SetPrototypeMethod(tpl, "getApiVersion"                   , GetApiVersion                      );
+    Nan::SetPrototypeMethod(tpl, "init"                            , Init                               );
+    Nan::SetPrototypeMethod(tpl, "release"                         , Release                            );
+    Nan::SetPrototypeMethod(tpl, "dispose"                         , Dispose                            );
+    Nan::SetPrototypeMethod(tpl, "createFtdcTraderApi"             , CreateFtdcTraderApi                );
+    Nan::SetPrototypeMethod(tpl, "getTradingDay"                   , GetTradingDay                      );
+    Nan::SetPrototypeMethod(tpl, "registerFront"                   , RegisterFront                      );
+    Nan::SetPrototypeMethod(tpl, "registerNameServer"              , RegisterNameServer                 );
+    Nan::SetPrototypeMethod(tpl, "registerFensUserInfo"            , RegisterFensUserInfo               );
+    Nan::SetPrototypeMethod(tpl, "subscribePrivateTopic"           , SubscribePrivateTopic              );
+    Nan::SetPrototypeMethod(tpl, "subscribePublicTopic"            , SubscribePublicTopic               );
+    Nan::SetPrototypeMethod(tpl, "reqAuthenticate"                 , ReqAuthenticate                    );
+    Nan::SetPrototypeMethod(tpl, "reqUserLogin"                    , ReqUserLogin                       );
+    Nan::SetPrototypeMethod(tpl, "reqUserLogout"                   , ReqUserLogout                      );
+    Nan::SetPrototypeMethod(tpl, "reqUserPasswordUpdate"           , ReqUserPasswordUpdate              );
+    Nan::SetPrototypeMethod(tpl, "reqTradingAccountPasswordUpdate" , ReqTradingAccountPasswordUpdate    );
+    Nan::SetPrototypeMethod(tpl, "reqOrderInsert"                  , ReqOrderInsert                     );
+    Nan::SetPrototypeMethod(tpl, "reqParkedOrderInsert"            , ReqParkedOrderInsert               );
+    Nan::SetPrototypeMethod(tpl, "reqParkedOrderAction"            , ReqParkedOrderAction               );
+    Nan::SetPrototypeMethod(tpl, "reqOrderAction"                  , ReqOrderAction                     );
+    Nan::SetPrototypeMethod(tpl, "reqQueryMaxOrderVolume"          , ReqQueryMaxOrderVolume             );
+    Nan::SetPrototypeMethod(tpl, "reqSettlementInfoConfirm"        , ReqSettlementInfoConfirm           );
+    Nan::SetPrototypeMethod(tpl, "reqRemoveParkedOrder"            , ReqRemoveParkedOrder               );
+    Nan::SetPrototypeMethod(tpl, "reqRemoveParkedOrderAction"      , ReqRemoveParkedOrderAction         );
+    Nan::SetPrototypeMethod(tpl, "reqExecOrderInsert"              , ReqExecOrderInsert                 );
+    Nan::SetPrototypeMethod(tpl, "reqExecOrderAction"              , ReqExecOrderAction                 );
+    Nan::SetPrototypeMethod(tpl, "reqForQuoteInsert"               , ReqForQuoteInsert                  );
+    Nan::SetPrototypeMethod(tpl, "reqQuoteInsert"                  , ReqQuoteInsert                     );
+    Nan::SetPrototypeMethod(tpl, "reqQuoteAction"                  , ReqQuoteAction                     );
+    Nan::SetPrototypeMethod(tpl, "reqBatchOrderAction"             , ReqBatchOrderAction                );
+    Nan::SetPrototypeMethod(tpl, "reqCombActionInsert"             , ReqCombActionInsert                );
+    Nan::SetPrototypeMethod(tpl, "reqQryOrder"                     , ReqQryOrder                        );
+    Nan::SetPrototypeMethod(tpl, "reqQryTrade"                     , ReqQryTrade                        );
+    Nan::SetPrototypeMethod(tpl, "reqQryInvestorPosition"          , ReqQryInvestorPosition             );
+    Nan::SetPrototypeMethod(tpl, "reqQryTradingAccount"            , ReqQryTradingAccount               );
+    Nan::SetPrototypeMethod(tpl, "reqQryInvestor"                  , ReqQryInvestor                     );
+    Nan::SetPrototypeMethod(tpl, "reqQryTradingCode"               , ReqQryTradingCode                  );
+    Nan::SetPrototypeMethod(tpl, "reqQryInstrumentMarginRate"      , ReqQryInstrumentMarginRate         );
+    Nan::SetPrototypeMethod(tpl, "reqQryInstrumentCommissionRate"  , ReqQryInstrumentCommissionRate     );
+    Nan::SetPrototypeMethod(tpl, "reqQryExchange"                  , ReqQryExchange                     );
+    Nan::SetPrototypeMethod(tpl, "reqQryProduct"                   , ReqQryProduct                      );
+    Nan::SetPrototypeMethod(tpl, "reqQryInstrument"                , ReqQryInstrument                   );
+    Nan::SetPrototypeMethod(tpl, "reqQryDepthMarketData"           , ReqQryDepthMarketData              );
+    Nan::SetPrototypeMethod(tpl, "reqQrySettlementInfo"            , ReqQrySettlementInfo               );
+    Nan::SetPrototypeMethod(tpl, "reqQryTransferBank"              , ReqQryTransferBank                 );
+    Nan::SetPrototypeMethod(tpl, "reqQryInvestorPositionDetail"    , ReqQryInvestorPositionDetail       );
+    Nan::SetPrototypeMethod(tpl, "reqQryNotice"                    , ReqQryNotice                       );
+    Nan::SetPrototypeMethod(tpl, "reqQrySettlementInfoConfirm"     , ReqQrySettlementInfoConfirm        );
+    Nan::SetPrototypeMethod(tpl, "reqQryCFMMCTradingAccountKey"    , ReqQryCFMMCTradingAccountKey       );
+    Nan::SetPrototypeMethod(tpl, "reqQryEWarrantOffset"            , ReqQryEWarrantOffset               );
+    Nan::SetPrototypeMethod(tpl, "reqQryInvestorProductGroupMargin", ReqQryInvestorProductGroupMargin   );
+    Nan::SetPrototypeMethod(tpl, "reqQryExchangeMarginRate"        , ReqQryExchangeMarginRate           );
+    Nan::SetPrototypeMethod(tpl, "reqQryExchangeMarginRateAdjust"  , ReqQryExchangeMarginRateAdjust     );
+    Nan::SetPrototypeMethod(tpl, "reqQryExchangeRate"              , ReqQryExchangeRate                 );
+    Nan::SetPrototypeMethod(tpl, "reqQrySecAgentACIDMap"           , ReqQrySecAgentACIDMap              );
+    Nan::SetPrototypeMethod(tpl, "reqQryProductExchRate"           , ReqQryProductExchRate              );
+    Nan::SetPrototypeMethod(tpl, "reqQryProductGroup"              , ReqQryProductGroup                 );
+    Nan::SetPrototypeMethod(tpl, "reqQryMMInstrumentCommissionRate", ReqQryMMInstrumentCommissionRate   );
+    Nan::SetPrototypeMethod(tpl, "reqQryMMOptionInstrCommRate"     , ReqQryMMOptionInstrCommRate        );
+    Nan::SetPrototypeMethod(tpl, "reqQryInstrumentOrderCommRate"   , ReqQryInstrumentOrderCommRate      );
+    Nan::SetPrototypeMethod(tpl, "reqQryOptionInstrTradeCost"      , ReqQryOptionInstrTradeCost         );
+    Nan::SetPrototypeMethod(tpl, "reqQryOptionInstrCommRate"       , ReqQryOptionInstrCommRate          );
+    Nan::SetPrototypeMethod(tpl, "reqQryExecOrder"                 , ReqQryExecOrder                    );
+    Nan::SetPrototypeMethod(tpl, "reqQryForQuote"                  , ReqQryForQuote                     );
+    Nan::SetPrototypeMethod(tpl, "reqQryQuote"                     , ReqQryQuote                        );
+    Nan::SetPrototypeMethod(tpl, "reqQryCombInstrumentGuard"       , ReqQryCombInstrumentGuard          );
+    Nan::SetPrototypeMethod(tpl, "reqQryCombAction"                , ReqQryCombAction                   );
+    Nan::SetPrototypeMethod(tpl, "reqQryTransferSerial"            , ReqQryTransferSerial               );
+    Nan::SetPrototypeMethod(tpl, "reqQryAccountregister"           , ReqQryAccountregister              );
+    Nan::SetPrototypeMethod(tpl, "reqQryContractBank"              , ReqQryContractBank                 );
+    Nan::SetPrototypeMethod(tpl, "reqQryParkedOrder"               , ReqQryParkedOrder                  );
+    Nan::SetPrototypeMethod(tpl, "reqQryParkedOrderAction"         , ReqQryParkedOrderAction            );
+    Nan::SetPrototypeMethod(tpl, "reqQryTradingNotice"             , ReqQryTradingNotice                );
+    Nan::SetPrototypeMethod(tpl, "reqQryBrokerTradingParams"       , ReqQryBrokerTradingParams          );
+    Nan::SetPrototypeMethod(tpl, "reqQryBrokerTradingAlgos"        , ReqQryBrokerTradingAlgos           );
+    Nan::SetPrototypeMethod(tpl, "reqQueryCFMMCTradingAccountToken", ReqQueryCFMMCTradingAccountToken   );
+    Nan::SetPrototypeMethod(tpl, "reqFromBankToFutureByFuture"     , ReqFromBankToFutureByFuture        );
+    Nan::SetPrototypeMethod(tpl, "reqFromFutureToBankByFuture"     , ReqFromFutureToBankByFuture        );
+    Nan::SetPrototypeMethod(tpl, "reqQueryBankAccountMoneyByFuture", ReqQueryBankAccountMoneyByFuture   );
+    Nan::SetPrototypeMethod(tpl, "reqQryInvestorPositionCombineDetail",ReqQryInvestorPositionCombineDetail);
     // TODO 穿透式监管新增主动请求接口
-    NODE_SET_PROTOTYPE_METHOD(tpl, "registerUserSystemInfo"          , RegisterUserSystemInfo             );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "submitUserSystemInfo"            , SubmitUserSystemInfo               );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqUserAuthMethod"               , ReqUserAuthMethod                  );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqGenUserCaptcha"               , ReqGenUserCaptcha                  );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqGenUserText"                  , ReqGenUserText                     );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqUserLoginWithCaptcha"         , ReqUserLoginWithCaptcha            );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqUserLoginWithText"            , ReqUserLoginWithText               );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqUserLoginWithOTP"             , ReqUserLoginWithOTP                );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQrySecAgentTradeInfo"         , ReqQrySecAgentTradeInfo            );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQrySecAgentTradingAccount"    , ReqQrySecAgentTradingAccount       );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "reqQrySecAgentCheckMode"         , ReqQrySecAgentCheckMode            );
-    NODE_SET_PROTOTYPE_METHOD(tpl, "on", On);
-    constructor.Reset(isolate, tpl->GetFunction());
+    Nan::SetPrototypeMethod(tpl, "registerUserSystemInfo"          , RegisterUserSystemInfo             );
+    Nan::SetPrototypeMethod(tpl, "submitUserSystemInfo"            , SubmitUserSystemInfo               );
+    Nan::SetPrototypeMethod(tpl, "reqUserAuthMethod"               , ReqUserAuthMethod                  );
+    Nan::SetPrototypeMethod(tpl, "reqGenUserCaptcha"               , ReqGenUserCaptcha                  );
+    Nan::SetPrototypeMethod(tpl, "reqGenUserText"                  , ReqGenUserText                     );
+    Nan::SetPrototypeMethod(tpl, "reqUserLoginWithCaptcha"         , ReqUserLoginWithCaptcha            );
+    Nan::SetPrototypeMethod(tpl, "reqUserLoginWithText"            , ReqUserLoginWithText               );
+    Nan::SetPrototypeMethod(tpl, "reqUserLoginWithOTP"             , ReqUserLoginWithOTP                );
+    Nan::SetPrototypeMethod(tpl, "reqQrySecAgentTradeInfo"         , ReqQrySecAgentTradeInfo            );
+    Nan::SetPrototypeMethod(tpl, "reqQrySecAgentTradingAccount"    , ReqQrySecAgentTradingAccount       );
+    Nan::SetPrototypeMethod(tpl, "reqQrySecAgentCheckMode"         , ReqQrySecAgentCheckMode            );
+    Nan::SetPrototypeMethod(tpl, "on", On);
+
+    constructor.Reset(tpl->GetFunction(Nan::GetCurrentContext()).ToLocalChecked()); // for nan
 
     m_event.insert("FrontConnected")                          ;
     m_event.insert("FrontDisconnected")                       ;
@@ -267,9 +269,9 @@ void WrapTd::Init(v8::Isolate* isolate)
     m_event.insert("RspQrySecAgentCheckMode")                 ;
 }
 
-void WrapTd::New(const FunctionCallbackInfo<Value>& args)
+void WrapTd::New(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
-    Isolate* isolate = args.GetIsolate();
+    v8::Local<v8::Context> context = args.GetIsolate()->GetCurrentContext();
     if(args.IsConstructCall())
     {
         // Invoked as constructor: `new MyObject(...)`
@@ -280,26 +282,26 @@ void WrapTd::New(const FunctionCallbackInfo<Value>& args)
     else
     {
         // Invoked as plain function `MyObject(...)`, turn into construct call
-        Local<Function> cons = Local<Function>::New(isolate, constructor);
-        Local<Context> context = isolate->GetCurrentContext();
+        Local<Function> cons = Local<Function>::New(args.GetIsolate(), constructor);
         Local<Object> instance = cons->NewInstance(context, 0, NULL).ToLocalChecked();
         args.GetReturnValue().Set(instance);
     }
 }
 
-void WrapTd::NewInstance(const FunctionCallbackInfo<Value>& args)
+v8::Local<v8::Object> WrapTd::NewInstance(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
-    Isolate* isolate = args.GetIsolate();
-    Local<Function> cons = Local<Function>::New(isolate, constructor);
-    Local<Context> context = isolate->GetCurrentContext();
+    Nan::EscapableHandleScope scope;
+    Local<Function> cons = Nan::New<v8::Function>(constructor);
+    Local<Context> context = args.GetIsolate()->GetCurrentContext();
     Local<Object> instance  = cons->NewInstance(context, 0, NULL).ToLocalChecked();
-    args.GetReturnValue().Set(instance);
+    // args.GetReturnValue().Set(instance);
+    return scope.Escape(instance);
 }
 
-void WrapTd::On(const FunctionCallbackInfo<Value>& args)
+void WrapTd::On(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     Isolate* isolate = args.GetIsolate();
-    WrapTd* obj = node::ObjectWrap::Unwrap<WrapTd>(args.Holder());
+    WrapTd* obj = Nan::ObjectWrap::Unwrap<WrapTd>(args.Holder());
 
     if (args[0]->IsUndefined() || args[1]->IsUndefined())
     {
@@ -307,7 +309,7 @@ void WrapTd::On(const FunctionCallbackInfo<Value>& args)
         return;
     }
 
-    //WrapTd* obj = node::ObjectWrap::Unwrap<WrapTd>(args.Holder());
+    //WrapTd* obj = Nan::ObjectWrap::Unwrap<WrapTd>(args.Holder());
 
     Local<String> eventName = args[0]->ToString();
     Local<Function> cb = Local<Function>::Cast(args[1]);
@@ -331,49 +333,49 @@ void WrapTd::On(const FunctionCallbackInfo<Value>& args)
     args.GetReturnValue().Set(Number::New(isolate, 0));
 }
 
-void WrapTd::GetApiVersion(const FunctionCallbackInfo<Value>& args)
+void WrapTd::GetApiVersion(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
-    WrapTd* obj = node::ObjectWrap::Unwrap<WrapTd>(args.Holder());
+    WrapTd* obj = Nan::ObjectWrap::Unwrap<WrapTd>(args.Holder());
     Isolate* isolate = args.GetIsolate();
     const char* v = obj->GetTdApi()->GetApiVersion();
     args.GetReturnValue().Set(String::NewFromUtf8(isolate, v));
 }
 
-void WrapTd::GetTradingDay(const FunctionCallbackInfo<Value>& args)
+void WrapTd::GetTradingDay(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
-    WrapTd* obj = node::ObjectWrap::Unwrap<WrapTd>(args.Holder());
+    WrapTd* obj = Nan::ObjectWrap::Unwrap<WrapTd>(args.Holder());
     Isolate* isolate = args.GetIsolate();
     const char* t = obj->GetTdApi()->GetTradingDay();
     args.GetReturnValue().Set(String::NewFromUtf8(isolate, t));
 }
 
-void WrapTd::Init(const FunctionCallbackInfo<Value>& args)
+void WrapTd::Init(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
-    WrapTd* obj = node::ObjectWrap::Unwrap<WrapTd>(args.Holder());
+    WrapTd* obj = Nan::ObjectWrap::Unwrap<WrapTd>(args.Holder());
     Isolate* isolate = args.GetIsolate();
     obj->GetTdApi()->Init();
     args.GetReturnValue().Set(Undefined(isolate));
 }
 
-void WrapTd::Release(const FunctionCallbackInfo<Value>& args)
+void WrapTd::Release(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
-    WrapTd* obj = node::ObjectWrap::Unwrap<WrapTd>(args.Holder());
+    WrapTd* obj = Nan::ObjectWrap::Unwrap<WrapTd>(args.Holder());
     Isolate* isolate = args.GetIsolate();
     obj->GetTdApi()->Release();
     args.GetReturnValue().Set(Undefined(isolate));
 }
 
-void WrapTd::Dispose(const FunctionCallbackInfo<Value>& args)
+void WrapTd::Dispose(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
-    WrapTd* obj = node::ObjectWrap::Unwrap<WrapTd>(args.Holder());
+    WrapTd* obj = Nan::ObjectWrap::Unwrap<WrapTd>(args.Holder());
     Isolate* isolate = args.GetIsolate();
     obj->dispose();
     args.GetReturnValue().Set(Undefined(isolate));
 }
 
-void WrapTd::CreateFtdcTraderApi(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::CreateFtdcTraderApi(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
-    WrapTd* obj = node::ObjectWrap::Unwrap<WrapTd>(args.Holder());
+    WrapTd* obj = Nan::ObjectWrap::Unwrap<WrapTd>(args.Holder());
     Isolate* isolate = args.GetIsolate();
     if (args[0]->IsUndefined())
     {
@@ -389,9 +391,9 @@ void WrapTd::CreateFtdcTraderApi(const v8::FunctionCallbackInfo<v8::Value>& args
     args.GetReturnValue().Set(Undefined(isolate));
 }
 
-void WrapTd::RegisterFront(const FunctionCallbackInfo<Value>& args)
+void WrapTd::RegisterFront(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
-    WrapTd* obj = node::ObjectWrap::Unwrap<WrapTd>(args.Holder());
+    WrapTd* obj = Nan::ObjectWrap::Unwrap<WrapTd>(args.Holder());
     Isolate* isolate = args.GetIsolate();
     if (args[0]->IsUndefined())
     {
@@ -405,9 +407,9 @@ void WrapTd::RegisterFront(const FunctionCallbackInfo<Value>& args)
     args.GetReturnValue().Set(Undefined(isolate));
 }
 
-void WrapTd::RegisterNameServer(const FunctionCallbackInfo<Value>& args)
+void WrapTd::RegisterNameServer(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
-    WrapTd* obj = node::ObjectWrap::Unwrap<WrapTd>(args.Holder());
+    WrapTd* obj = Nan::ObjectWrap::Unwrap<WrapTd>(args.Holder());
     Isolate* isolate = args.GetIsolate();
     if (args[0]->IsUndefined())
     {
@@ -421,9 +423,9 @@ void WrapTd::RegisterNameServer(const FunctionCallbackInfo<Value>& args)
     args.GetReturnValue().Set(Undefined(isolate));
 }
 
-void WrapTd::RegisterFensUserInfo(const FunctionCallbackInfo<Value>& args)
+void WrapTd::RegisterFensUserInfo(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
-    WrapTd* obj = node::ObjectWrap::Unwrap<WrapTd>(args.Holder());
+    WrapTd* obj = Nan::ObjectWrap::Unwrap<WrapTd>(args.Holder());
     Isolate* isolate = args.GetIsolate();
     if (args[0]->IsUndefined() || !args[0]->IsObject())
     {
@@ -437,9 +439,9 @@ void WrapTd::RegisterFensUserInfo(const FunctionCallbackInfo<Value>& args)
     args.GetReturnValue().Set(Undefined(isolate));
 }
 
-void WrapTd::SubscribePrivateTopic(const FunctionCallbackInfo<Value>& args)
+void WrapTd::SubscribePrivateTopic(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
-    WrapTd* obj = node::ObjectWrap::Unwrap<WrapTd>(args.Holder());
+    WrapTd* obj = Nan::ObjectWrap::Unwrap<WrapTd>(args.Holder());
     Isolate* isolate = args.GetIsolate();
     if (args[0]->IsUndefined())
     {
@@ -450,9 +452,9 @@ void WrapTd::SubscribePrivateTopic(const FunctionCallbackInfo<Value>& args)
     args.GetReturnValue().Set(Undefined(isolate));
 }
 
-void WrapTd::SubscribePublicTopic(const FunctionCallbackInfo<Value>& args)
+void WrapTd::SubscribePublicTopic(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
-    WrapTd* obj = node::ObjectWrap::Unwrap<WrapTd>(args.Holder());
+    WrapTd* obj = Nan::ObjectWrap::Unwrap<WrapTd>(args.Holder());
     Isolate* isolate = args.GetIsolate();
     if (args[0]->IsUndefined())
     {
@@ -464,7 +466,7 @@ void WrapTd::SubscribePublicTopic(const FunctionCallbackInfo<Value>& args)
 }
 
 #define REQ_WITH_REQID(req) \
-    WrapTd* obj = node::ObjectWrap::Unwrap<WrapTd>(args.Holder());\
+    WrapTd* obj = Nan::ObjectWrap::Unwrap<WrapTd>(args.Holder());\
     Isolate* isolate = args.GetIsolate();\
     if (args[0]->IsUndefined() || !args[0]->IsObject() || args[1]->IsUndefined())\
     {\
@@ -476,7 +478,7 @@ void WrapTd::SubscribePublicTopic(const FunctionCallbackInfo<Value>& args)
     CSFunction::set_struct(objjs, &req);\
     int reqid = args[1]->Int32Value();
 
-void WrapTd::ReqAuthenticate(const FunctionCallbackInfo<Value>& args)
+void WrapTd::ReqAuthenticate(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcReqAuthenticateField req;
     REQ_WITH_REQID(req);
@@ -484,7 +486,7 @@ void WrapTd::ReqAuthenticate(const FunctionCallbackInfo<Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqUserLogin(const FunctionCallbackInfo<Value>& args)
+void WrapTd::ReqUserLogin(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcReqUserLoginField req;
     REQ_WITH_REQID(req);
@@ -492,7 +494,7 @@ void WrapTd::ReqUserLogin(const FunctionCallbackInfo<Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqUserLogout(const FunctionCallbackInfo<Value>& args)
+void WrapTd::ReqUserLogout(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcUserLogoutField req;
     REQ_WITH_REQID(req);
@@ -500,7 +502,7 @@ void WrapTd::ReqUserLogout(const FunctionCallbackInfo<Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqUserPasswordUpdate(const FunctionCallbackInfo<Value>& args)
+void WrapTd::ReqUserPasswordUpdate(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcUserPasswordUpdateField req;
     REQ_WITH_REQID(req);
@@ -508,7 +510,7 @@ void WrapTd::ReqUserPasswordUpdate(const FunctionCallbackInfo<Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqTradingAccountPasswordUpdate(const FunctionCallbackInfo<Value>& args)
+void WrapTd::ReqTradingAccountPasswordUpdate(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcTradingAccountPasswordUpdateField req;
     REQ_WITH_REQID(req);
@@ -516,7 +518,7 @@ void WrapTd::ReqTradingAccountPasswordUpdate(const FunctionCallbackInfo<Value>& 
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryTradingAccount(const FunctionCallbackInfo<Value>& args)
+void WrapTd::ReqQryTradingAccount(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryTradingAccountField req;
     REQ_WITH_REQID(req);
@@ -525,7 +527,7 @@ void WrapTd::ReqQryTradingAccount(const FunctionCallbackInfo<Value>& args)
 }
 
 //查询持仓信息
-void WrapTd::ReqQryInvestorPosition(const FunctionCallbackInfo<Value>& args)
+void WrapTd::ReqQryInvestorPosition(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryInvestorPositionField req;
     REQ_WITH_REQID(req);
@@ -534,7 +536,7 @@ void WrapTd::ReqQryInvestorPosition(const FunctionCallbackInfo<Value>& args)
 }
 
 //查询成交流水
-void WrapTd::ReqQryTrade(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryTrade(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryTradeField req;
     REQ_WITH_REQID(req);
@@ -543,7 +545,7 @@ void WrapTd::ReqQryTrade(const v8::FunctionCallbackInfo<v8::Value>& args)
 }
 
 //查询订单流水
-void WrapTd::ReqQryOrder(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryOrder(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryOrderField req;
     REQ_WITH_REQID(req);
@@ -552,7 +554,7 @@ void WrapTd::ReqQryOrder(const v8::FunctionCallbackInfo<v8::Value>& args)
 }
 
 //持仓明细
-void WrapTd::ReqQryInvestorPositionDetail(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryInvestorPositionDetail(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryInvestorPositionDetailField req;
     REQ_WITH_REQID(req);
@@ -561,7 +563,7 @@ void WrapTd::ReqQryInvestorPositionDetail(const v8::FunctionCallbackInfo<v8::Val
 }
 
 //查询合约
-void  WrapTd::ReqQryInstrument(const v8::FunctionCallbackInfo<v8::Value>& args)
+void  WrapTd::ReqQryInstrument(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryInstrumentField req;
     REQ_WITH_REQID(req);
@@ -570,7 +572,7 @@ void  WrapTd::ReqQryInstrument(const v8::FunctionCallbackInfo<v8::Value>& args)
 }
 
 //查询产品
-void  WrapTd::ReqQryProduct(const v8::FunctionCallbackInfo<v8::Value>& args)
+void  WrapTd::ReqQryProduct(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryProductField req;
     REQ_WITH_REQID(req);
@@ -578,7 +580,7 @@ void  WrapTd::ReqQryProduct(const v8::FunctionCallbackInfo<v8::Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void	WrapTd::ReqSettlementInfoConfirm(const v8::FunctionCallbackInfo<v8::Value>& args)
+void	WrapTd::ReqSettlementInfoConfirm(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcSettlementInfoConfirmField req;
     REQ_WITH_REQID(req);
@@ -586,7 +588,7 @@ void	WrapTd::ReqSettlementInfoConfirm(const v8::FunctionCallbackInfo<v8::Value>&
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqOrderInsert(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqOrderInsert(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcInputOrderField req;
     REQ_WITH_REQID(req);
@@ -594,7 +596,7 @@ void WrapTd::ReqOrderInsert(const v8::FunctionCallbackInfo<v8::Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqOrderAction(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqOrderAction(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcInputOrderActionField req;
     REQ_WITH_REQID(req);
@@ -602,7 +604,7 @@ void WrapTd::ReqOrderAction(const v8::FunctionCallbackInfo<v8::Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqParkedOrderInsert(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqParkedOrderInsert(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcParkedOrderField req;
     REQ_WITH_REQID(req);
@@ -610,7 +612,7 @@ void WrapTd::ReqParkedOrderInsert(const v8::FunctionCallbackInfo<v8::Value>& arg
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqParkedOrderAction(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqParkedOrderAction(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcParkedOrderActionField req;
     REQ_WITH_REQID(req);
@@ -618,7 +620,7 @@ void WrapTd::ReqParkedOrderAction(const v8::FunctionCallbackInfo<v8::Value>& arg
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQueryMaxOrderVolume(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQueryMaxOrderVolume(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQueryMaxOrderVolumeField req;
     REQ_WITH_REQID(req);
@@ -626,63 +628,63 @@ void WrapTd::ReqQueryMaxOrderVolume(const v8::FunctionCallbackInfo<v8::Value>& a
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqRemoveParkedOrder(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqRemoveParkedOrder(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcRemoveParkedOrderField req;
     REQ_WITH_REQID(req);
     int r = obj->GetTdApi()->ReqRemoveParkedOrder(&req, reqid);
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
-void WrapTd::ReqRemoveParkedOrderAction(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqRemoveParkedOrderAction(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcRemoveParkedOrderActionField req;
     REQ_WITH_REQID(req);
     int r = obj->GetTdApi()->ReqRemoveParkedOrderAction(&req, reqid);
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
-void WrapTd::ReqExecOrderInsert(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqExecOrderInsert(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcInputExecOrderField req;
     REQ_WITH_REQID(req);
     int r = obj->GetTdApi()->ReqExecOrderInsert(&req, reqid);
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
-void WrapTd::ReqExecOrderAction(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqExecOrderAction(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcInputExecOrderActionField req;
     REQ_WITH_REQID(req);
     int r = obj->GetTdApi()->ReqExecOrderAction(&req, reqid);
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
-void WrapTd::ReqForQuoteInsert(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqForQuoteInsert(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcInputForQuoteField  req;
     REQ_WITH_REQID(req);
     int r = obj->GetTdApi()->ReqForQuoteInsert(&req, reqid);
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
-void WrapTd::ReqQuoteInsert(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQuoteInsert(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcInputQuoteField  req;
     REQ_WITH_REQID(req);
     int r = obj->GetTdApi()->ReqQuoteInsert(&req, reqid);
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
-void WrapTd::ReqQuoteAction(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQuoteAction(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcInputQuoteActionField req;
     REQ_WITH_REQID(req);
     int r = obj->GetTdApi()->ReqQuoteAction(&req, reqid);
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
-void WrapTd::ReqBatchOrderAction(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqBatchOrderAction(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
    CThostFtdcInputBatchOrderActionField req;
    REQ_WITH_REQID(req);
    int r = obj->GetTdApi()->ReqBatchOrderAction(&req, reqid);
    args.GetReturnValue().Set(Int32::New(isolate, r));
 }
-void WrapTd::ReqCombActionInsert(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqCombActionInsert(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcInputCombActionField req;
     REQ_WITH_REQID(req);
@@ -690,7 +692,7 @@ void WrapTd::ReqCombActionInsert(const v8::FunctionCallbackInfo<v8::Value>& args
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryInvestor(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryInvestor(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryInvestorField req;
     REQ_WITH_REQID(req);
@@ -698,7 +700,7 @@ void WrapTd::ReqQryInvestor(const v8::FunctionCallbackInfo<v8::Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryTradingCode(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryTradingCode(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryTradingCodeField req;
     REQ_WITH_REQID(req);
@@ -706,7 +708,7 @@ void WrapTd::ReqQryTradingCode(const v8::FunctionCallbackInfo<v8::Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryInstrumentMarginRate(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryInstrumentMarginRate(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryInstrumentMarginRateField req;
     REQ_WITH_REQID(req);
@@ -714,7 +716,7 @@ void WrapTd::ReqQryInstrumentMarginRate(const v8::FunctionCallbackInfo<v8::Value
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryInstrumentCommissionRate(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryInstrumentCommissionRate(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryInstrumentCommissionRateField req;
     REQ_WITH_REQID(req);
@@ -722,7 +724,7 @@ void WrapTd::ReqQryInstrumentCommissionRate(const v8::FunctionCallbackInfo<v8::V
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryExchange(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryExchange(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryExchangeField req;
     REQ_WITH_REQID(req);
@@ -730,7 +732,7 @@ void WrapTd::ReqQryExchange(const v8::FunctionCallbackInfo<v8::Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryDepthMarketData(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryDepthMarketData(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryDepthMarketDataField req;
     REQ_WITH_REQID(req);
@@ -738,7 +740,7 @@ void WrapTd::ReqQryDepthMarketData(const v8::FunctionCallbackInfo<v8::Value>& ar
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQrySettlementInfo(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQrySettlementInfo(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQrySettlementInfoField req;
     REQ_WITH_REQID(req);
@@ -746,7 +748,7 @@ void WrapTd::ReqQrySettlementInfo(const v8::FunctionCallbackInfo<v8::Value>& arg
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryTransferBank(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryTransferBank(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryTransferBankField req;
     REQ_WITH_REQID(req);
@@ -754,7 +756,7 @@ void WrapTd::ReqQryTransferBank(const v8::FunctionCallbackInfo<v8::Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryNotice(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryNotice(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryNoticeField req;
     REQ_WITH_REQID(req);
@@ -762,7 +764,7 @@ void WrapTd::ReqQryNotice(const v8::FunctionCallbackInfo<v8::Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQrySettlementInfoConfirm(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQrySettlementInfoConfirm(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQrySettlementInfoConfirmField req;
     REQ_WITH_REQID(req);
@@ -770,7 +772,7 @@ void WrapTd::ReqQrySettlementInfoConfirm(const v8::FunctionCallbackInfo<v8::Valu
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryInvestorPositionCombineDetail(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryInvestorPositionCombineDetail(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryInvestorPositionCombineDetailField req;
     REQ_WITH_REQID(req);
@@ -778,7 +780,7 @@ void WrapTd::ReqQryInvestorPositionCombineDetail(const v8::FunctionCallbackInfo<
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryCFMMCTradingAccountKey(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryCFMMCTradingAccountKey(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryCFMMCTradingAccountKeyField req;
     REQ_WITH_REQID(req);
@@ -786,7 +788,7 @@ void WrapTd::ReqQryCFMMCTradingAccountKey(const v8::FunctionCallbackInfo<v8::Val
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryEWarrantOffset(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryEWarrantOffset(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryEWarrantOffsetField req;
     REQ_WITH_REQID(req);
@@ -794,7 +796,7 @@ void WrapTd::ReqQryEWarrantOffset(const v8::FunctionCallbackInfo<v8::Value>& arg
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryInvestorProductGroupMargin(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryInvestorProductGroupMargin(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryInvestorProductGroupMarginField req;
     REQ_WITH_REQID(req);
@@ -802,7 +804,7 @@ void WrapTd::ReqQryInvestorProductGroupMargin(const v8::FunctionCallbackInfo<v8:
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryExchangeMarginRate(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryExchangeMarginRate(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryExchangeMarginRateField req;
     REQ_WITH_REQID(req);
@@ -810,7 +812,7 @@ void WrapTd::ReqQryExchangeMarginRate(const v8::FunctionCallbackInfo<v8::Value>&
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryExchangeMarginRateAdjust(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryExchangeMarginRateAdjust(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryExchangeMarginRateAdjustField req;
     REQ_WITH_REQID(req);
@@ -818,7 +820,7 @@ void WrapTd::ReqQryExchangeMarginRateAdjust(const v8::FunctionCallbackInfo<v8::V
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryExchangeRate(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryExchangeRate(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryExchangeRateField req;
     REQ_WITH_REQID(req);
@@ -826,7 +828,7 @@ void WrapTd::ReqQryExchangeRate(const v8::FunctionCallbackInfo<v8::Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQrySecAgentACIDMap(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQrySecAgentACIDMap(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQrySecAgentACIDMapField req;
     REQ_WITH_REQID(req);
@@ -834,7 +836,7 @@ void WrapTd::ReqQrySecAgentACIDMap(const v8::FunctionCallbackInfo<v8::Value>& ar
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryProductExchRate(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryProductExchRate(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryProductExchRateField req;
     REQ_WITH_REQID(req);
@@ -842,7 +844,7 @@ void WrapTd::ReqQryProductExchRate(const v8::FunctionCallbackInfo<v8::Value>& ar
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryProductGroup(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryProductGroup(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryProductGroupField req;
     REQ_WITH_REQID(req);
@@ -850,7 +852,7 @@ void WrapTd::ReqQryProductGroup(const v8::FunctionCallbackInfo<v8::Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryMMInstrumentCommissionRate(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryMMInstrumentCommissionRate(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryMMInstrumentCommissionRateField req;
     REQ_WITH_REQID(req);
@@ -858,7 +860,7 @@ void WrapTd::ReqQryMMInstrumentCommissionRate(const v8::FunctionCallbackInfo<v8:
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryMMOptionInstrCommRate(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryMMOptionInstrCommRate(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryMMOptionInstrCommRateField req;
     REQ_WITH_REQID(req);
@@ -866,7 +868,7 @@ void WrapTd::ReqQryMMOptionInstrCommRate(const v8::FunctionCallbackInfo<v8::Valu
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryInstrumentOrderCommRate(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryInstrumentOrderCommRate(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryInstrumentOrderCommRateField req;
     REQ_WITH_REQID(req);
@@ -874,7 +876,7 @@ void WrapTd::ReqQryInstrumentOrderCommRate(const v8::FunctionCallbackInfo<v8::Va
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryOptionInstrTradeCost(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryOptionInstrTradeCost(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryOptionInstrTradeCostField req;
     REQ_WITH_REQID(req);
@@ -882,7 +884,7 @@ void WrapTd::ReqQryOptionInstrTradeCost(const v8::FunctionCallbackInfo<v8::Value
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryOptionInstrCommRate(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryOptionInstrCommRate(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryOptionInstrCommRateField req;
     REQ_WITH_REQID(req);
@@ -890,7 +892,7 @@ void WrapTd::ReqQryOptionInstrCommRate(const v8::FunctionCallbackInfo<v8::Value>
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryExecOrder(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryExecOrder(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryExecOrderField req;
     REQ_WITH_REQID(req);
@@ -898,7 +900,7 @@ void WrapTd::ReqQryExecOrder(const v8::FunctionCallbackInfo<v8::Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryForQuote(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryForQuote(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryForQuoteField req;
     REQ_WITH_REQID(req);
@@ -906,7 +908,7 @@ void WrapTd::ReqQryForQuote(const v8::FunctionCallbackInfo<v8::Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryQuote(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryQuote(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryQuoteField req;
     REQ_WITH_REQID(req);
@@ -914,7 +916,7 @@ void WrapTd::ReqQryQuote(const v8::FunctionCallbackInfo<v8::Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryCombInstrumentGuard(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryCombInstrumentGuard(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryCombInstrumentGuardField req;
     REQ_WITH_REQID(req);
@@ -922,7 +924,7 @@ void WrapTd::ReqQryCombInstrumentGuard(const v8::FunctionCallbackInfo<v8::Value>
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryCombAction(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryCombAction(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryCombActionField req;
     REQ_WITH_REQID(req);
@@ -930,7 +932,7 @@ void WrapTd::ReqQryCombAction(const v8::FunctionCallbackInfo<v8::Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryTransferSerial(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryTransferSerial(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryTransferSerialField req;
     REQ_WITH_REQID(req);
@@ -938,7 +940,7 @@ void WrapTd::ReqQryTransferSerial(const v8::FunctionCallbackInfo<v8::Value>& arg
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryAccountregister(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryAccountregister(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryAccountregisterField req;
     REQ_WITH_REQID(req);
@@ -946,7 +948,7 @@ void WrapTd::ReqQryAccountregister(const v8::FunctionCallbackInfo<v8::Value>& ar
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryContractBank(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryContractBank(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryContractBankField req;
     REQ_WITH_REQID(req);
@@ -954,7 +956,7 @@ void WrapTd::ReqQryContractBank(const v8::FunctionCallbackInfo<v8::Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryParkedOrder(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryParkedOrder(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryParkedOrderField req;
     REQ_WITH_REQID(req);
@@ -962,7 +964,7 @@ void WrapTd::ReqQryParkedOrder(const v8::FunctionCallbackInfo<v8::Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryParkedOrderAction(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryParkedOrderAction(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryParkedOrderActionField req;
     REQ_WITH_REQID(req);
@@ -970,7 +972,7 @@ void WrapTd::ReqQryParkedOrderAction(const v8::FunctionCallbackInfo<v8::Value>& 
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryTradingNotice(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryTradingNotice(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryTradingNoticeField req;
     REQ_WITH_REQID(req);
@@ -978,7 +980,7 @@ void WrapTd::ReqQryTradingNotice(const v8::FunctionCallbackInfo<v8::Value>& args
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryBrokerTradingParams(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryBrokerTradingParams(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryBrokerTradingParamsField req;
     REQ_WITH_REQID(req);
@@ -986,7 +988,7 @@ void WrapTd::ReqQryBrokerTradingParams(const v8::FunctionCallbackInfo<v8::Value>
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQryBrokerTradingAlgos(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQryBrokerTradingAlgos(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryBrokerTradingAlgosField req;
     REQ_WITH_REQID(req);
@@ -994,7 +996,7 @@ void WrapTd::ReqQryBrokerTradingAlgos(const v8::FunctionCallbackInfo<v8::Value>&
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQueryCFMMCTradingAccountToken(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQueryCFMMCTradingAccountToken(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQueryCFMMCTradingAccountTokenField req;
     REQ_WITH_REQID(req);
@@ -1002,7 +1004,7 @@ void WrapTd::ReqQueryCFMMCTradingAccountToken(const v8::FunctionCallbackInfo<v8:
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqFromBankToFutureByFuture(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqFromBankToFutureByFuture(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcReqTransferField req;
     REQ_WITH_REQID(req);
@@ -1010,7 +1012,7 @@ void WrapTd::ReqFromBankToFutureByFuture(const v8::FunctionCallbackInfo<v8::Valu
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqFromFutureToBankByFuture(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqFromFutureToBankByFuture(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcReqTransferField req;
     REQ_WITH_REQID(req);
@@ -1018,7 +1020,7 @@ void WrapTd::ReqFromFutureToBankByFuture(const v8::FunctionCallbackInfo<v8::Valu
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQueryBankAccountMoneyByFuture(const v8::FunctionCallbackInfo<v8::Value>& args)
+void WrapTd::ReqQueryBankAccountMoneyByFuture(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcReqQueryAccountField req;
     REQ_WITH_REQID(req);
@@ -1027,9 +1029,9 @@ void WrapTd::ReqQueryBankAccountMoneyByFuture(const v8::FunctionCallbackInfo<v8:
 }
 
 // TODO 穿透式监管新增主动请求接口
-void WrapTd::RegisterUserSystemInfo(const FunctionCallbackInfo<Value>& args)
+void WrapTd::RegisterUserSystemInfo(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
-    WrapTd* obj = node::ObjectWrap::Unwrap<WrapTd>(args.Holder());
+    WrapTd* obj = Nan::ObjectWrap::Unwrap<WrapTd>(args.Holder());
     Isolate* isolate = args.GetIsolate();
     if (args[0]->IsUndefined() || !args[0]->IsObject())
     {
@@ -1043,9 +1045,9 @@ void WrapTd::RegisterUserSystemInfo(const FunctionCallbackInfo<Value>& args)
     args.GetReturnValue().Set(Undefined(isolate));
 }
 
-void WrapTd::SubmitUserSystemInfo(const FunctionCallbackInfo<Value>& args)
+void WrapTd::SubmitUserSystemInfo(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
-    WrapTd* obj = node::ObjectWrap::Unwrap<WrapTd>(args.Holder());
+    WrapTd* obj = Nan::ObjectWrap::Unwrap<WrapTd>(args.Holder());
     Isolate* isolate = args.GetIsolate();
     if (args[0]->IsUndefined() || !args[0]->IsObject())
     {
@@ -1059,7 +1061,7 @@ void WrapTd::SubmitUserSystemInfo(const FunctionCallbackInfo<Value>& args)
     args.GetReturnValue().Set(Undefined(isolate));
 }
 
-void WrapTd::ReqUserAuthMethod(const FunctionCallbackInfo<Value>& args)
+void WrapTd::ReqUserAuthMethod(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcReqUserAuthMethodField req;
     REQ_WITH_REQID(req);
@@ -1067,7 +1069,7 @@ void WrapTd::ReqUserAuthMethod(const FunctionCallbackInfo<Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqGenUserCaptcha(const FunctionCallbackInfo<Value>& args)
+void WrapTd::ReqGenUserCaptcha(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcReqGenUserCaptchaField req;
     REQ_WITH_REQID(req);
@@ -1075,7 +1077,7 @@ void WrapTd::ReqGenUserCaptcha(const FunctionCallbackInfo<Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqGenUserText(const FunctionCallbackInfo<Value>& args)
+void WrapTd::ReqGenUserText(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcReqGenUserTextField req;
     REQ_WITH_REQID(req);
@@ -1083,7 +1085,7 @@ void WrapTd::ReqGenUserText(const FunctionCallbackInfo<Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqUserLoginWithCaptcha(const FunctionCallbackInfo<Value>& args)
+void WrapTd::ReqUserLoginWithCaptcha(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcReqUserLoginWithCaptchaField req;
     REQ_WITH_REQID(req);
@@ -1091,7 +1093,7 @@ void WrapTd::ReqUserLoginWithCaptcha(const FunctionCallbackInfo<Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqUserLoginWithText(const FunctionCallbackInfo<Value>& args)
+void WrapTd::ReqUserLoginWithText(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcReqUserLoginWithTextField req;
     REQ_WITH_REQID(req);
@@ -1099,7 +1101,7 @@ void WrapTd::ReqUserLoginWithText(const FunctionCallbackInfo<Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqUserLoginWithOTP(const FunctionCallbackInfo<Value>& args)
+void WrapTd::ReqUserLoginWithOTP(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcReqUserLoginWithOTPField req;
     REQ_WITH_REQID(req);
@@ -1107,7 +1109,7 @@ void WrapTd::ReqUserLoginWithOTP(const FunctionCallbackInfo<Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQrySecAgentTradeInfo(const FunctionCallbackInfo<Value>& args)
+void WrapTd::ReqQrySecAgentTradeInfo(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQrySecAgentTradeInfoField req;
     REQ_WITH_REQID(req);
@@ -1115,7 +1117,7 @@ void WrapTd::ReqQrySecAgentTradeInfo(const FunctionCallbackInfo<Value>& args)
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQrySecAgentTradingAccount(const FunctionCallbackInfo<Value>& args)
+void WrapTd::ReqQrySecAgentTradingAccount(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQryTradingAccountField req;
     REQ_WITH_REQID(req);
@@ -1123,7 +1125,7 @@ void WrapTd::ReqQrySecAgentTradingAccount(const FunctionCallbackInfo<Value>& arg
     args.GetReturnValue().Set(Int32::New(isolate, r));
 }
 
-void WrapTd::ReqQrySecAgentCheckMode(const FunctionCallbackInfo<Value>& args)
+void WrapTd::ReqQrySecAgentCheckMode(const Nan::FunctionCallbackInfo<v8::Value>& args)
 {
     CThostFtdcQrySecAgentCheckModeField req;
     REQ_WITH_REQID(req);
@@ -1134,7 +1136,7 @@ void WrapTd::ReqQrySecAgentCheckMode(const FunctionCallbackInfo<Value>& args)
 ////////////////////////////////ctp on 回调////////////////////////////////////////////////
 #define CONTEXT() \
 Isolate* isolate = Isolate::GetCurrent();\
-HandleScope scope(isolate);\
+Nan::HandleScope scope;\
 string k = string(_FUNCTION_).substr(6);\
 __callback_iter_type it = callback_map.find(k);\
 if(it == callback_map.end()) return;
@@ -1164,7 +1166,7 @@ void WrapTd::MainOnHeartBeatWarning(int nTimeLapse)
 
 #define CONTEXT_WITH_1(rsp) \
 Isolate* isolate = Isolate::GetCurrent();\
-HandleScope scope(isolate);\
+Nan::HandleScope scope;\
 string k = string(_FUNCTION_).substr(6);\
 __callback_iter_type it = callback_map.find(k);\
 if(it == callback_map.end()) return;\
@@ -1184,7 +1186,7 @@ cb->Call(Null(isolate), 1, argv);
 
 #define CONTEXT_WITH_2(rsp) \
 Isolate* isolate = Isolate::GetCurrent();\
-HandleScope scope(isolate);\
+Nan::HandleScope scope;\
 string k = string(_FUNCTION_).substr(6);\
 __callback_iter_type it = callback_map.find(k);\
 if(it == callback_map.end()) return;\
@@ -1206,7 +1208,7 @@ cb->Call(Null(isolate), 2, argv);
 
 #define CONTEXT_WITH_4(rsp) do{\
 Isolate* isolate = Isolate::GetCurrent();\
-HandleScope scope(isolate);\
+Nan::HandleScope scope;\
 string k = string(_FUNCTION_).substr(6);\
 __callback_iter_type it = callback_map.find(k);\
 if(it == callback_map.end()) return;\
@@ -1230,7 +1232,7 @@ cb->Call(Null(isolate), 4, argv);\
 
 #define CONTEXT_WITH_LAST_3() \
 Isolate* isolate = Isolate::GetCurrent();\
-HandleScope scope(isolate);\
+Nan::HandleScope scope;\
 string k = string(_FUNCTION_).substr(6);\
 __callback_iter_type it = callback_map.find(k);\
 if(it == callback_map.end()) return;\

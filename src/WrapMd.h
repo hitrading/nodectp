@@ -18,7 +18,8 @@
 #include <map>
 #include <string>
 #include <node.h>
-#include <node_object_wrap.h>
+// #include <node_object_wrap.h>
+#include <nan.h>
 
 #include "comm.h"
 
@@ -29,33 +30,33 @@ using namespace std;
 
 namespace md
 {
-class WrapMd : public CThostFtdcMdSpiI, public node::ObjectWrap
+class WrapMd : public CThostFtdcMdSpiI, public Nan::ObjectWrap
 {
     public:
         WrapMd();
         ~WrapMd();
 
         //wrap主动请求函数
-        static void On(const v8::FunctionCallbackInfo<v8::Value>& args);
-        static void NewInstance(const v8::FunctionCallbackInfo<v8::Value>& args);
-        static void Init(v8::Isolate* isolate);
+        static void On(const Nan::FunctionCallbackInfo<v8::Value>& args);
+        static v8::Local<v8::Object> NewInstance(const Nan::FunctionCallbackInfo<v8::Value>& args);
+        static void Init();
 
-        static void Init(const v8::FunctionCallbackInfo<v8::Value>& args);
-        static void Release(const v8::FunctionCallbackInfo<v8::Value>& args);
-        static void Dispose(const v8::FunctionCallbackInfo<v8::Value>& args);
-        static void CreateFtdcMdApi(const v8::FunctionCallbackInfo<v8::Value>& args);
-        static void GetApiVersion(const v8::FunctionCallbackInfo<v8::Value>& args);
-        static void GetTradingDay(const v8::FunctionCallbackInfo<v8::Value>& args);
-        static void RegisterFront(const v8::FunctionCallbackInfo<v8::Value>& args);
-        static void RegisterNameServer(const v8::FunctionCallbackInfo<v8::Value>& args);
-        static void RegisterFensUserInfo(const v8::FunctionCallbackInfo<v8::Value>& args);
-        static void ReqUserLogin(const v8::FunctionCallbackInfo<v8::Value>& args);
-        static void ReqUserLogout(const v8::FunctionCallbackInfo<v8::Value>& args);
-        static void SubscribeMarketData(const v8::FunctionCallbackInfo<v8::Value>& args);
-        static void UnSubscribeMarketData(const v8::FunctionCallbackInfo<v8::Value>& args);
-        static void SubscribeForQuoteRsp(const v8::FunctionCallbackInfo<v8::Value>& args);
-        static void UnSubscribeForQuoteRsp(const v8::FunctionCallbackInfo<v8::Value>& args);
-        static void ReqQryMulticastInstrument(const v8::FunctionCallbackInfo<v8::Value>& args);
+        static void Init(const Nan::FunctionCallbackInfo<v8::Value>& args);
+        static void Release(const Nan::FunctionCallbackInfo<v8::Value>& args);
+        static void Dispose(const Nan::FunctionCallbackInfo<v8::Value>& args);
+        static void CreateFtdcMdApi(const Nan::FunctionCallbackInfo<v8::Value>& args);
+        static void GetApiVersion(const Nan::FunctionCallbackInfo<v8::Value>& args);
+        static void GetTradingDay(const Nan::FunctionCallbackInfo<v8::Value>& args);
+        static void RegisterFront(const Nan::FunctionCallbackInfo<v8::Value>& args);
+        static void RegisterNameServer(const Nan::FunctionCallbackInfo<v8::Value>& args);
+        static void RegisterFensUserInfo(const Nan::FunctionCallbackInfo<v8::Value>& args);
+        static void ReqUserLogin(const Nan::FunctionCallbackInfo<v8::Value>& args);
+        static void ReqUserLogout(const Nan::FunctionCallbackInfo<v8::Value>& args);
+        static void SubscribeMarketData(const Nan::FunctionCallbackInfo<v8::Value>& args);
+        static void UnSubscribeMarketData(const Nan::FunctionCallbackInfo<v8::Value>& args);
+        static void SubscribeForQuoteRsp(const Nan::FunctionCallbackInfo<v8::Value>& args);
+        static void UnSubscribeForQuoteRsp(const Nan::FunctionCallbackInfo<v8::Value>& args);
+        static void ReqQryMulticastInstrument(const Nan::FunctionCallbackInfo<v8::Value>& args);
 
         //回调js部分
         virtual void MainOnFrontConnected();
@@ -87,9 +88,9 @@ class WrapMd : public CThostFtdcMdSpiI, public node::ObjectWrap
         __callback_type callback_map; //回调js name映射回调处理函数
 
         static set<string>         m_event;                //可以注册的回调事件
-        static v8::Persistent<v8::Function> constructor;           //主动请求函数映射js name
+        static Nan::Persistent<v8::Function> constructor;           //主动请求函数映射js name
 
-        static void New(const v8::FunctionCallbackInfo<v8::Value>& args);
+        static void New(const Nan::FunctionCallbackInfo<v8::Value>& args);
         v8::Local<v8::Value> PkgRspInfo(CThostFtdcRspInfoField *pRspInfo)
         {
             v8::Isolate* isolate = v8::Isolate::GetCurrent();
