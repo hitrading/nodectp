@@ -4,29 +4,26 @@ const Trade = require('./mytrade');
 
 
 
-let ctp = new CTP(
-    {
-        frontend: {
-           	BrokerID: '4040',// 银河期货
-           	MdURL: 'tcp://180.166.103.21:55213',
-           	TdURL: 'tcp://180.166.103.21:55205'
-        }
-    },
-    {
-        InvestorID: '369868',
-        Password: 'iguzhi'
-    }
-);
+const ctp = new CTP({
+  broker: {
+    brokerId: '4040',// 银河期货
+    mdUrl: 'tcp://180.166.103.21:55213',
+    tdUrl: 'tcp://180.166.103.21:55205'
+  },
+  user: {
+    userId: '369868',
+    password: 'iguzhi'
+  }
+});
 
-ctp.injectLogger();
 
 new Market(ctp);
 new Trade(
-    ctp,
-    {
-        privateTopicMode: 0,
-        publicTopicModel: 0
-    }
+  ctp,
+  {
+    privateTopicMode: 0,
+    publicTopicModel: 0
+  }
 );
 
 

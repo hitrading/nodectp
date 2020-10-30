@@ -1,119 +1,118 @@
-const logger = require('../index').logger.getLogger('trade');
 const { Trade } = require('../index');
 
 class MyTrade extends Trade {
 
-	OnFrontConnected() {
-		super.OnFrontConnected(...arguments);
-		let { investor, td, setting } = this.ctp;
+	onFrontConnected() {
+		super.onFrontConnected(...arguments);
+		let { user, td, conf } = this.ctp;
 		// 登录失败达到maxTryLoginTimes次, 则释放该账户的ctp对象
-		if (!investor.tryLoginTimes || investor.tryLoginTimes < setting.maxTryLoginTimes) {
-			investor.tryLoginTimes = investor.tryLoginTimes || 0;
-			investor.tryLoginTimes++;
-			
-			logger.info('ReqUserLogin : %s', td.ReqUserLogin(investor, this.ctp.nRequestID()));
+		if (!user.loginTimes || user.loginTimes < conf.maxLoginTimes) {
+			user.loginTimes = user.loginTimes || 0;
+			user.loginTimes++;
+
+			this.logger && this.logger.info('ReqUserLogin : %s', td.reqUserLogin(user, this.ctp.nReqId()));
 		}
 		else {
-			td.Release();
-			logger.info('Try ReqUserLogin %s times by Investor: %j, but failed!', setting.maxTryLoginTimes, investor);
+			td.release();
+			this.logger && this.logger.info('Try ReqUserLogin %s times by User: %j, but failed!', conf.maxLoginTimes, user);
 		}
 	}
 
-	OnRspUserLogin(data, rsp, nRequestID, bIsLast) {
-	  super.OnRspUserLogin(...arguments);
+	onRspUserLogin(data, rsp, nReqId, bIsLast) {
+	  super.onRspUserLogin(...arguments);
 
-	  let investor = this.ctp.investor;
+	  let user = this.ctp.user;
 	  // 投资者结算结果确认, 做完这一步才可以进行正常的交易
-	  this.ctp.td.ReqSettlementInfoConfirm({
-	  	BrokerID: investor.BrokerID,
-	  	InvestorID: investor.UserID,
-	  	ConfirmDate: data.TradingDay,
-	  	ConfirmTime: data.SHFETime
-	  }, this.ctp.nRequestID());
-	  // ctp.td.ReqQryTradingAccount(investor, ctp.nRequestID());
-	  //logger.info('ReqQryTradingAccount=', ctp.td.ReqQryTradingAccount(q, (new Date()).valueOf()/1000));
+	  this.ctp.td.reqSettlementInfoConfirm({
+	  	brokerId: user.brokerId,
+	  	investorId: user.userId,
+	  	confirmDate: data.tradingDay,
+	  	confirmTime: data.shfeTime
+	  }, this.ctp.nReqId());
+	  // ctp.td.reqQryTradingAccount(user, ctp.nReqId());
+	  //this.logger && this.logger.info('ReqQryTradingAccount=', ctp.td.reqQryTradingAccount(q, (new Date()).valueOf()/1000));
 	  //sleep(2000);
-	  //logger.info('ReqQryInvestorPosition=', ctp.td.ReqQryInvestorPosition(q, (new Date()).valueOf()/1000));
-	  //logger.info('ReqQryTrade=', ctp.td.ReqQryTrade(q, (new Date()).valueOf()/1000));
-	  //logger.info('ReqQryOrder=', ctp.td.ReqQryOrder(q, (new Date()).valueOf()/1000));
-	  //logger.info('ReqQryProduct=', ctp.td.ReqQryProduct(q, (new Date()).valueOf()/1000));
-	  //logger.info('ReqQryInstrument=', ctp.td.ReqQryInstrument(q, (new Date()).valueOf()/1000));
-	  //logger.info('-----before ReqQryContractBank-----')
-	  // ctp.td.ReqQryContractBank({
-	  // 	BankID: '5',
-			// BankBranchID: '0000',
-			// BrokerID: '4040',
-	  // }, ctp.nRequestID());
-	  // logger.info('-----after ReqQryContractBank-----')
+	  //this.logger && this.logger.info('ReqQryInvestorPosition=', ctp.td.reqQryInvestorPosition(q, (new Date()).valueOf()/1000));
+	  //this.logger && this.logger.info('ReqQryTrade=', ctp.td.reqQryTrade(q, (new Date()).valueOf()/1000));
+	  //this.logger && this.logger.info('ReqQryOrder=', ctp.td.reqQryOrder(q, (new Date()).valueOf()/1000));
+	  //this.logger && this.logger.info('ReqQryProduct=', ctp.td.reqQryProduct(q, (new Date()).valueOf()/1000));
+	  //this.logger && this.logger.info('ReqQryInstrument=', ctp.td.reqQryInstrument(q, (new Date()).valueOf()/1000));
+	  //this.logger && this.logger.info('-----before ReqQryContractBank-----')
+	  // ctp.td.reqQryContractBank({
+	  // 	bankId: '5',
+			// bankBranchId: '0000',
+			// brokerId: '4040',
+	  // }, ctp.nReqId());
+	  // this.logger && this.logger.info('-----after ReqQryContractBank-----')
 
 	  //ReqFromBankToFutureByFuture
-		// ctp.td.ReqFromFutureToBankByFuture({
-		// 	TradeCode: '202002',
-		// 	BankID: '5',
-		// 	BankBranchID: '0000',
-		// 	BrokerID: '4040',
-		// 	BankAccount: '', // 是否必填, 不确定
-		// 	BankPassWord: '',
-		// 	AccountID: investor.UserID,
-		// 	Password: investor.FundPassword,
-		// 	SecuPwdFlag: '1',// 明文核对
-		// 	CurrencyID: 'CNY',
-		// 	TradeAmount: 2000
-		// }, ctp.nRequestID());
+		// ctp.td.reqFromFutureToBankByFuture({
+		// 	tradeCode: '202002',
+		// 	bankId: '5',
+		// 	BankBranchId: '0000',
+		// 	brokerId: '4040',
+		// 	bankAccount: '', // 是否必填, 不确定
+		// 	bankPassWord: '',
+		// 	accountId: user.userId,
+		// 	password: user.fundPassword,
+		// 	secuPwdFlag: '1',// 明文核对
+		// 	currencyId: 'CNY',
+		// 	tradeAmount: 2000
+		// }, ctp.nReqId());
 
-		// ctp.td.ReqFromBankToFutureByFuture({
-		// 	TradeCode: '202001',
-		// 	BankID: '5',
-		// 	BankBranchID: '0000',
-		// 	BrokerID: '4040',
-		// 	BankAccount: '', // 是否必填, 不确定
-		// 	BankPassWord: '',
-		// 	AccountID: investor.UserID,
-		// 	Password: investor.FundPassword,
-		// 	SecuPwdFlag: '1',// 明文核对
-		// 	CurrencyID: 'CNY',
-		// 	TradeAmount: 2000
-		// }, ctp.nRequestID());
+		// ctp.td.reqFromBankToFutureByFuture({
+		// 	tradeCode: '202001',
+		// 	bankId: '5',
+		// 	bankBranchId: '0000',
+		// 	brokerId: '4040',
+		// 	bankAccount: '', // 是否必填, 不确定
+		// 	bankPassWord: '',
+		// 	accountId: user.userId,
+		// 	password: user.fundPassword,
+		// 	secuPwdFlag: '1',// 明文核对
+		// 	currencyId: 'CNY',
+		// 	tradeAmount: 2000
+		// }, ctp.nReqId());
 	}
 
-	OnRspUserLogout(data, rsp, nRequestID, bIsLast) {
-		super.OnRspUserLogout(...arguments);
+	onRspUserLogout(data, rsp, nReqId, bIsLast) {
+		super.onRspUserLogout(...arguments);
 	}
 	// 报单通知
-	OnRtnOrder(data) {
-		super.OnRtnOrder(...arguments);
-	  // logger.info('OnRtnOrder: %j',  data)
+	onRtnOrder(data) {
+		super.onRtnOrder(...arguments);
+	  // this.logger && this.logger.info('onRtnOrder: %j',  data)
 	}
 	// 成交通知
-	OnRtnTrade(data) {
-		super.OnRtnTrade(...arguments);
+	onRtnTrade(data) {
+		super.onRtnTrade(...arguments);
 		// 在这里查资金状况, 根据判断发出通知和出金改密操作
 		// 平仓: OffsetFlag==3, 开仓: OffsetFlag==0
-		data.OffsetFlag != 0 && this.ctp.td.ReqQryTradingAccount(this.ctp.investor, this.ctp.nRequestID());
-	  
+		data.OffsetFlag != 0 && this.ctp.td.reqQryTradingAccount(this.ctp.user, this.ctp.nReqId());
+
 	}
 
-	OnRspQryTradingAccount(data, rsp, nRequestID, bIsLast) {
-		super.OnRspQryTradingAccount(...arguments);
+	onRspQryTradingAccount(data, rsp, nReqId, bIsLast) {
+		super.onRspQryTradingAccount(...arguments);
 	}
 
-	OnRspFromFutureToBankByFuture(data, rsp, nRequestID, bIsLast) {
-		super.OnRspFromFutureToBankByFuture(...arguments);
+	onRspFromFutureToBankByFuture(data, rsp, nReqId, bIsLast) {
+		super.onRspFromFutureToBankByFuture(...arguments);
 	}
 
-	OnRspFromBankToFutureByFuture(data, rsp, nRequestID, bIsLast) {
-		super.OnRspFromBankToFutureByFuture(...arguments);
+	onRspFromBankToFutureByFuture(data, rsp, nReqId, bIsLast) {
+		super.onRspFromBankToFutureByFuture(...arguments);
 		// ctp.td.ReqTradingAccountPasswordUpdate({
 		// 	BrokerID: '4040',
 		// 	AccountID: '',
 		// 	OldPassword: '',
 		// 	NewPassword: '',
 		// 	CurrencyID: ''
-		// }, ctp.nRequestID());
+		// }, ctp.nReqId());
 	}
 
-	OnRspTradingAccountPasswordUpdate(data, rsp, nRequestID, bIsLast) {
-		super.OnRspTradingAccountPasswordUpdate(...arguments);
+	onRspTradingAccountPasswordUpdate(data, rsp, nReqId, bIsLast) {
+		super.onRspTradingAccountPasswordUpdate(...arguments);
 	}
 
 }

@@ -1,29 +1,28 @@
-const logger = require('../index').logger.getLogger('market');
 const { Market } = require('../index');
 
 class MyMarket extends Market {
 
-  OnFrontConnected() {
-    super.OnFrontConnected(...arguments);
-    let { md, investor } = this.ctp;
-    logger.info('ReqUserLogin : %s', md.ReqUserLogin(investor, this.ctp.nRequestID()));
-  }
-  
-  OnRspUserLogin(data, rsp, nRequestID, bIsLast) {
-    super.OnRspUserLogin(...arguments);
-    console.log("SubscribeMarketData:", this.ctp.md.SubscribeMarketData(['sc1911']));
+  onFrontConnected() {
+    super.onFrontConnected(...arguments);
+    let { md, user } = this.ctp;
+    this.logger && this.logger.info('ReqUserLogin : %s', md.reqUserLogin(user, this.ctp.nReqId()));
   }
 
-  OnRspSubMarketData(data, rsp, nRequestID, bIsLast) {
-    super.OnRspSubMarketData(...arguments);
+  onRspUserLogin(data, rsp, nReqId, bIsLast) {
+    super.onRspUserLogin(...arguments);
+    console.log("SubscribeMarketData:", this.ctp.md.subscribeMarketData(['sc1911']));
   }
 
-  OnRspUnSubMarketData(data, rsp, nRequestID, bIsLast) {
-    super.OnRspUnSubMarketData(...arguments);
+  onRspSubMarketData(data, rsp, nReqId, bIsLast) {
+    super.onRspSubMarketData(...arguments);
   }
 
-  OnRtnDepthMarketData(data) {
-    super.OnRtnDepthMarketData(...arguments);
+  onRspUnSubMarketData(data, rsp, nReqId, bIsLast) {
+    super.onRspUnSubMarketData(...arguments);
+  }
+
+  onRtnDepthMarketData(data) {
+    super.onRtnDepthMarketData(...arguments);
   }
 
 }

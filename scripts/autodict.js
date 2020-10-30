@@ -1,2 +1,2 @@
-const { createDictFile } = require('../index').helper;
+const { createDictFile } = require('../lib/helper');
 createDictFile();
