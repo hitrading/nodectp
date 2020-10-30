@@ -1,10 +1,10 @@
-const CTP = require('../lib/ctp');
+const FutureCTP = require('../lib/ctp');
 const Market = require('./mymarket');
 const Trade = require('./mytrade');
 
 
 
-const ctp = new CTP({
+const ctp = new FutureCTP({
   broker: {
     brokerId: '4040',// 银河期货
     mdUrl: 'tcp://180.166.103.21:55213',

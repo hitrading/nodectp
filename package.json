@@ -1,5 +1,5 @@
 {
-  "name": "edonctp",
+  "name": "futurectp",
   "version": "1.0.0",
   "description": "ctp lib based on nodejs",
   "author": "weilee",
@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iamweilee/nodectp.git"
+    "url": "git+https://github.com/iamweilee/nodectp/tree/develop"
   },
   "keywords": [
     "ctp",
@@ -30,7 +30,7 @@
     "edonctp"
   ],
   "bugs": {
-    "url": "https://github.com/iamweilee/nodectp/issues"
+    "url": "https://github.com/iamweilee/nodectp/tree/develop/issues"
   },
-  "homepage": "https://github.com/iamweilee/nodectp#readme"
+  "homepage": "https://github.com/iamweilee/nodectp/tree/develop#readme"
 }
