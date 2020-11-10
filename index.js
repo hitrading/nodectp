@@ -1,4 +1,4 @@
-exports.FutureCTP = require('./lib/ctp');
+exports.XYCTP = require('./lib/ctp');
 exports.Trade = require('./lib/trade');
 exports.Market = require('./lib/market');
 // exports.helper = require('./lib/helper');

@@ -1,6 +1,6 @@
-const FutureCTP = require('../lib/ctp');
+const XYCTP = require('../lib/ctp');
 
-const ctp = new FutureCTP({
+const ctp = new XYCTP({
   broker: {
     brokerId: '4040',
     brokerName: '银河期货',
