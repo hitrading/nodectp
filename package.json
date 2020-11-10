@@ -1,6 +1,6 @@
 {
-  "name": "futurectp",
-  "version": "1.0.0",
+  "name": "xyctp",
+  "version": "1.1.0",
   "description": "ctp lib based on nodejs",
   "author": "weilee",
   "license": "MIT",
@@ -9,7 +9,6 @@
   "dependencies": {
     "bindings": "^1.5.0",
     "lodash": "^4.17.15",
-    "log4js": "^6.1.2",
     "microenum": "^0.0.2",
     "node-gyp": "^6.1.0"
   },
@@ -27,7 +26,7 @@
   "keywords": [
     "ctp",
     "nodectp",
-    "edonctp"
+    "xyctp"
   ],
   "bugs": {
     "url": "https://github.com/iamweilee/nodectp/tree/develop/issues"

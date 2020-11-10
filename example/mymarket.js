@@ -3,26 +3,26 @@ const { Market } = require('../index');
 class MyMarket extends Market {
 
   onFrontConnected() {
-    super.onFrontConnected(...arguments);
+    // super.onFrontConnected(...arguments);
     let { md, user } = this.ctp;
-    this.logger && this.logger.info('ReqUserLogin : %s', md.reqUserLogin(user, this.ctp.nReqId()));
+    console.log('ReqUserLogin : %s', md.reqUserLogin(user, this.ctp.nReqId()));
   }
 
   onRspUserLogin(data, rsp, nReqId, bIsLast) {
-    super.onRspUserLogin(...arguments);
+    // super.onRspUserLogin(...arguments);
     console.log("SubscribeMarketData:", this.ctp.md.subscribeMarketData(['sc1911']));
   }
 
   onRspSubMarketData(data, rsp, nReqId, bIsLast) {
-    super.onRspSubMarketData(...arguments);
+    // super.onRspSubMarketData(...arguments);
   }
 
   onRspUnSubMarketData(data, rsp, nReqId, bIsLast) {
-    super.onRspUnSubMarketData(...arguments);
+    // super.onRspUnSubMarketData(...arguments);
   }
 
   onRtnDepthMarketData(data) {
-    super.onRtnDepthMarketData(...arguments);
+    // super.onRtnDepthMarketData(...arguments);
   }
 
 }
