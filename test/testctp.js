@@ -8,12 +8,12 @@ const ctp = new XYCTP({
     tdUrl: 'tcp://106.39.36.105:32205'
   },
   user: {
-    userId: '10000010 abc',
-    password: '123456'
+    userId: '10000010',
+    password: 'abc@123456'
   }
 });
 
-ctp.md.on('FrontConnected', function() {
+ctp.td.on('FrontConnected', function() {
   console.log('td onFrontConnected')
   const { td, user, broker } = ctp;
   td.ReqAuthenticate({ authCode: 'YHQHYHQHYHQHYHQH', appId: 'client_ng_2.0.0', brokerId: broker.brokerId, userId: user.userId }, ctp.nReqId());
