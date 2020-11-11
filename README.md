@@ -1,3 +1,7 @@
+# xyctp_test
+此分支为了做穿透式API测试而存在
+向期货公司递交程序化软件认证申请表之后，需使用该分支代码进行穿透式API测试，测试通过后期货公司会下发生产系统的认证码，然后方可用于实盘
+
 # warning
 目前仅支持linux64和win64平台(win32平台未测试，理论上支持)
 
@@ -25,7 +29,6 @@ node ./example/ctpapp.js
 
 ### 可能遇到的报错问题
 执行 `yarn build` 命令时可能会遇到node.lib文件损坏的情况, 此时可去官网下载node.lib文件替换, 下载地址：[https://nodejs.org/dist/latest-v8.x/win-x64/node.lib]
-
 
 ### API
 

@@ -2,34 +2,44 @@ const XYCTP = require('../lib/ctp');
 
 const ctp = new XYCTP({
   broker: {
-    brokerId: '4040',
-    brokerName: '银河期货',
-    mdUrl: 'tcp://180.166.103.21:55213',
-    tdUrl: 'tcp://180.166.103.21:55205'
+    brokerId: '1010',
+    brokerName: '认证测试',
+    mdUrl: 'tcp://106.39.36.105:32213',
+    tdUrl: 'tcp://106.39.36.105:32205'
   },
   user: {
-    userId: '369868',
-    password: 'iguzhi'
+    userId: '10000010 abc',
+    password: '123456'
   }
 });
 
-ctp.td.on('FrontConnected', function() {
+ctp.md.on('FrontConnected', function() {
   console.log('td onFrontConnected')
-  const { td, user } = ctp;
-  console.log('td ReqUserLogin : %s', td.reqUserLogin(user, ctp.nReqId()));
+  const { td, user, broker } = ctp;
+  td.ReqAuthenticate({ authCode: 'YHQHYHQHYHQHYHQH', appId: 'client_ng_2.0.0', brokerId: broker.brokerId, userId: user.userId }, ctp.nReqId());
+
   console.log('td OnFrontConnected');
 });
 
-ctp.md.on('FrontConnected', function() {
-  console.log('md onFrontConnected')
-  const { md, user } = ctp;
-  console.log('md ReqUserLogin : %s', md.reqUserLogin(user, ctp.nReqId()));
-  console.log('md OnFrontConnected');
-  console.log(ctp.md.subscribeMarketData(['T2012'], 1));
+ctp.td.on('RspAuthenticate', function(data, rsp, nReqId, bIsLast) {
+  console.log('td RspAuthenticate', data, rsp, nReqId, bIsLast);
+  console.log('td reqUserLogin', td.reqUserLogin(user, ctp.nReqId()));
 });
 
-ctp.md.on('RtnDepthMarketData', function(data) {
-  // console.clear();
-  console.log(data);
+ctp.td.on('RspUserLogin', function(data, rsp, nReqId, bIsLast) {
+  console.log('td RspUserLogin', data, rsp, nReqId, bIsLast);
 });
+
+// ctp.md.on('FrontConnected', function() {
+//   console.log('md onFrontConnected')
+//   const { md, user } = ctp;
+//   console.log('md ReqUserLogin : %s', md.reqUserLogin(user, ctp.nReqId()));
+//   console.log('md OnFrontConnected');
+//   console.log(ctp.md.subscribeMarketData(['T2012'], 1));
+// });
+
+// ctp.md.on('RtnDepthMarketData', function(data) {
+//   // console.clear();
+//   console.log(data);
+// });
 
