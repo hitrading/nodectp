@@ -27,6 +27,10 @@ node ./example/ctpapp.js
 执行 `yarn build` 命令时可能会遇到node.lib文件损坏的情况, 此时可去官网下载node.lib文件替换, 下载地址：[https://nodejs.org/dist/latest-v8.x/win-x64/node.lib]
 
 
+### 穿透式API测试认证
+
+穿透式API测试可`npm install xyctp_test --save` 或 `yarn add xyctp_test`, 其他和使用`xyctp`一样; `xyctp_test`依赖的ctp api是测试认证用的api文件，只能用于穿透式测试认证
+
 ### API
 
 ```
