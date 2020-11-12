@@ -16,14 +16,15 @@ const ctp = new XYCTP({
 ctp.td.on('FrontConnected', function() {
   console.log('td onFrontConnected')
   const { td, user, broker } = ctp;
-  td.ReqAuthenticate({ authCode: 'YHQHYHQHYHQHYHQH', appId: 'client_ng_2.0.0', brokerId: broker.brokerId, userId: user.userId }, ctp.nReqId());
+  td.reqAuthenticate({ authCode: 'YHQHYHQHYHQHYHQH', appId: 'client_ng_2.0.0', brokerId: broker.brokerId, userId: user.userId }, ctp.nReqId());
 
   console.log('td OnFrontConnected');
 });
 
 ctp.td.on('RspAuthenticate', function(data, rsp, nReqId, bIsLast) {
   console.log('td RspAuthenticate', data, rsp, nReqId, bIsLast);
-  console.log('td reqUserLogin', td.reqUserLogin(user, ctp.nReqId()));
+  const { td, user, broker } = ctp;
+  console.log('td reqUserLogin', td.reqUserLogin({ ...user, brokerId: broker.brokerId }, ctp.nReqId()));
 });
 
 ctp.td.on('RspUserLogin', function(data, rsp, nReqId, bIsLast) {
