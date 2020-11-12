@@ -18,13 +18,7 @@ const ctp = new XYCTP({
 
 
 new Market(ctp);
-new Trade(
-  ctp,
-  {
-    privateTopicMode: 0,
-    publicTopicModel: 0
-  }
-);
+new Trade(ctp);
 
 
 // let { md, td } = ctp;

@@ -5,21 +5,11 @@ class MyTrade extends Trade {
 	onFrontConnected() {
 		// super.onFrontConnected(...arguments);
 		let { user, td, conf } = this.ctp;
-		// 登录失败达到maxTryLoginTimes次, 则释放该账户的ctp对象
-		if (!user.loginTimes || user.loginTimes < conf.maxLoginTimes) {
-			user.loginTimes = user.loginTimes || 0;
-			user.loginTimes++;
-
-			console.log('ReqUserLogin : %s', td.reqUserLogin(user, this.ctp.nReqId()));
-		}
-		else {
-			td.release();
-			console.log('Try ReqUserLogin %s times by User: %j, but failed!', conf.maxLoginTimes, user);
-		}
+		console.log('td ReqUserLogin : %s', td.reqUserLogin(user, this.ctp.nReqId()));
 	}
 
 	onRspUserLogin(data, rsp, nReqId, bIsLast) {
-	  // super.onRspUserLogin(...arguments);
+	  console.log('td onRspUserLogin : %s', data, rsp, nReqId, bIsLast);
 
 	  let user = this.ctp.user;
 	  // 投资者结算结果确认, 做完这一步才可以进行正常的交易

@@ -25,7 +25,7 @@ node ./example/ctpapp.js
 请参看[example](https://github.com/iamweilee/nodectp/tree/develop/example)
 
 # version
-适配看穿式监管库, 适配的库版本: 6.3.15_20190220、v6.3.15_P2_mdapi_se_20190403 (实现了ctp所有的接口, 其中包含客户端认证及组播接口)
+适配看穿式监管库, 适配的库版本: 6.3.19_T1 (实现了ctp所有的接口, 其中包含客户端认证及组播接口)
 
 ### 可能遇到的报错问题
 执行 `yarn build` 命令时可能会遇到node.lib文件损坏的情况, 此时可去官网下载node.lib文件替换, 下载地址：[https://nodejs.org/dist/latest-v8.x/win-x64/node.lib]

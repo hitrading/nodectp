@@ -16,7 +16,7 @@ const ctp = new XYCTP({
 ctp.td.on('FrontConnected', function() {
   console.log('td onFrontConnected')
   const { td, user, broker } = ctp;
-  td.reqAuthenticate({ authCode: 'YHQHYHQHYHQHYHQH', appId: 'client_ng_2.0.0', brokerId: broker.brokerId, userId: user.userId }, ctp.nReqId());
+  td.reqAuthenticate({ authCode: 'YHQHYHQHYHQHYHQH', appId: 'client_xxx_xxx', brokerId: broker.brokerId, userId: user.userId }, ctp.nReqId());
 
   console.log('td OnFrontConnected');
 });
